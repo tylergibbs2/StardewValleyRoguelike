@@ -1,0 +1,37 @@
+﻿using Microsoft.Xna.Framework;
+using Netcode;
+using StardewRoguelike.Extensions;
+using StardewRoguelike.Netcode;
+using StardewValley;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using static StardewRoguelike.RoguelikeUtility;
+
+namespace StardewRoguelike.VirtualProperties
+{
+    public static class GameLocationSpeechBubbles
+    {
+        internal class Holder { public Dictionary<Vector2, SpeechBubble> Value { get; set; } = new(); }
+
+        internal static ConditionalWeakTable<GameLocation, Holder> values = new();
+
+        internal static Dictionary<Vector2, SpeechBubble> get_SpeechBubbles(this GameLocation location)
+        {
+            return values.GetOrCreateValue(location).Value;
+        }
+    }
+
+    public static class GameLocationDebuffPlayersEvent
+    {
+        internal class Holder { public readonly NetEvent2Field<Rectangle, NetRectangle, int, NetInt> Value = new(); }
+
+        internal static ConditionalWeakTable<GameLocation, Holder> values = new();
+
+        public static NetEvent2Field<Rectangle, NetRectangle, int, NetInt> get_DebuffPlayerEvent(this GameLocation location)
+        {
+            var holder = values.GetOrCreateValue(location);
+            holder.Value.onEvent += location.performDebuffPlayers;
+            return holder.Value;
+        }
+    }
+}

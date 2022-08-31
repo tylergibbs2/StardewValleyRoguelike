@@ -1,0 +1,81 @@
+﻿using StardewValley;
+using StardewValley.Menus;
+using System.Collections.Generic;
+using System;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+
+namespace StardewRoguelike.UI
+{
+    internal class RefreshableShopMenu : ShopMenu
+    {
+        private bool HasRefreshed = false;
+
+        private Rectangle refreshSourceRect = new(0, 608, 16, 16);
+
+        private ClickableTextureComponent refreshButton;
+
+        public RefreshableShopMenu(Dictionary<ISalable, int[]> itemPriceAndStock, bool hasRefreshed, int currency = 0, string who = null, Func<ISalable, Farmer, int, bool> on_purchase = null, Func<ISalable, bool> on_sell = null, string context = null) : base(itemPriceAndStock, currency, who, on_purchase, on_sell, context)
+        {
+            HasRefreshed = hasRefreshed;
+            SetUpPositions();
+        }
+
+        public void Refresh(Dictionary<ISalable, int[]> newStock)
+        {
+            itemPriceAndStock = newStock;
+        }
+
+        public override void gameWindowSizeChanged(Rectangle oldBounds, Rectangle newBounds)
+        {
+            base.gameWindowSizeChanged(oldBounds, newBounds);
+            SetUpPositions();
+        }
+
+        public void SetUpPositions()
+        {
+            refreshButton = new(new(xPositionOnScreen + 174, yPositionOnScreen + height - 150, 64, 64), Game1.mouseCursors, refreshSourceRect, 4f);
+        }
+
+        public override void receiveLeftClick(int x, int y, bool playSound = true)
+        {
+            base.receiveLeftClick(x, y, playSound);
+
+            if (HasRefreshed)
+                return;
+
+            if (refreshButton.containsPoint(x, y))
+            {
+                Merchant.CurrentShop = new RefreshableShopMenu(Merchant.GetMerchantStock(), true, context: "Blacksmith");
+                Game1.activeClickableMenu = Merchant.CurrentShop;
+                Game1.playSound("sell");
+            }
+        }
+
+        public override void performHoverAction(int x, int y)
+        {
+            base.performHoverAction(x, y);
+
+            if (HasRefreshed)
+                return;
+
+            refreshButton.tryHover(x, y);
+        }
+
+        public override void draw(SpriteBatch b)
+        {
+            if (HasRefreshed)
+            {
+                refreshButton.draw(b);
+                base.draw(b);
+            }
+            else
+            {
+                base.draw(b);
+                refreshButton.draw(b);
+            }
+
+            drawMouse(b);
+        }
+    }
+}

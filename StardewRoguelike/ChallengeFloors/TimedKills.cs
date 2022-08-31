@@ -1,0 +1,178 @@
+﻿using Microsoft.Xna.Framework;
+using Netcode;
+using StardewModdingAPI;
+using StardewModdingAPI.Events;
+using StardewRoguelike.Extensions;
+using StardewValley;
+using StardewValley.Locations;
+using StardewValley.Menus;
+using StardewValley.Monsters;
+using StardewValley.Objects;
+using System;
+using System.Collections.Generic;
+
+namespace StardewRoguelike.ChallengeFloors
+{
+    public class TimedKills : ChallengeBase
+    {
+        private readonly int monstersToSpawn = 15;
+
+        private bool spawnedMonsters = false;
+
+        private bool gameOver = false;
+
+        private int tickCounter = 0;
+
+        private readonly NetInt floorSecondsLeft = new(60);
+
+        public TimedKills() : base() { }
+
+        protected override void initNetFields()
+        {
+            base.initNetFields();
+
+            NetFields.AddFields(floorSecondsLeft);
+        }
+
+        public void SpawnMonsters(MineShaft mine)
+        {
+            // spawn monsters
+
+            int toSpawn = monstersToSpawn;
+            if (Curse.AnyFarmerHasCurse(CurseType.MoreEnemiesLessHealth))
+                toSpawn += Game1.random.Next(3, 5);
+
+            mine.SpawnMonsters(toSpawn);
+
+            spawnedMonsters = true;
+        }
+
+        public void DespawnMonsters(MineShaft mine)
+        {
+            mine.characters.Filter(c => c is not Monster);
+        }
+
+        public int CountMonstersLeft(MineShaft mine)
+        {
+            int count = 0;
+
+            foreach (Character character in mine.characters)
+            {
+                if (character is Monster)
+                    count++;
+            }
+
+            return count;
+        }
+
+        public void Win(MineShaft mine)
+        {
+            mine.playSound("Cowboy_Secret");
+            mine.createLadderAt(ChallengeFloor.GetSpawnLocation(mine));
+
+            MerchantFloor merchantFloor = Merchant.GetNextMerchantFloor(mine);
+
+            // find adjacent free tile to spawn the chest
+            Vector2 spawnLocation = ChallengeFloor.GetSpawnLocation(mine);
+            Vector2 chestSpot = Vector2.Zero;
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    if (i == 0 && j == 0)
+                        continue;
+
+                    if (mine.isTileLocationTotallyClearAndPlaceable((int)spawnLocation.X + i, (int)spawnLocation.Y + j))
+                    {
+                        chestSpot = new((int)spawnLocation.X + i, (int)spawnLocation.Y + j);
+                        break;
+                    }
+                }
+            }
+
+            mine.SpawnLocalChest(chestSpot, merchantFloor.PickAnyRandom());
+        }
+
+        public void Lose(MineShaft mine)
+        {
+            mine.playSound("cowboy_dead");
+            DespawnMonsters(mine);
+            mine.createLadderAt(ChallengeFloor.GetSpawnLocation(mine));
+        }
+
+        public override bool ShouldSpawnLadder(MineShaft mine)
+        {
+            return gameOver;
+        }
+
+        public void RenderTimer(object sender, RenderedHudEventArgs e)
+        {
+            string timeText = $"Time Left: {floorSecondsLeft.Value}";
+            Vector2 textSize = Game1.smallFont.MeasureString(timeText);
+
+            Point timerDrawPos = new(100, 16);
+
+            IClickableMenu.drawTextureBox(
+                e.SpriteBatch,
+                timerDrawPos.X - 15,
+                timerDrawPos.Y - 12,
+                (int)textSize.X + 33,
+                (int)textSize.Y + 20,
+                Color.White
+            );
+
+            Utility.drawTextWithShadow(
+                e.SpriteBatch,
+                timeText,
+                Game1.smallFont,
+                new Vector2(timerDrawPos.X, timerDrawPos.Y),
+                Color.Black
+            );
+        }
+
+        public override void PlayerEntered(MineShaft mine)
+        {
+            Game1.chatBox.addMessage("Kill all the monsters within the time limit!", Color.Gold);
+
+            ModEntry.Events.Display.RenderedHud += RenderTimer;
+        }
+
+        public override void PlayerLeft(MineShaft mine)
+        {
+            Dispose();
+        }
+
+        public override void Update(MineShaft mine, GameTime time)
+        {
+            if (!Context.IsMainPlayer || gameOver)
+                return;
+
+            if (!spawnedMonsters)
+                SpawnMonsters(mine);
+
+            tickCounter++;
+            if (tickCounter >= 60)
+            {
+                if (CountMonstersLeft(mine) == 0)
+                {
+                    gameOver = true;
+                    Win(mine);
+                }
+                else if (floorSecondsLeft.Value == 0)
+                {
+                    gameOver = true;
+                    Lose(mine);
+                }
+                else
+                    floorSecondsLeft.Value--;
+
+                tickCounter = 0;
+            }
+        }
+
+        public override void Dispose()
+        {
+            ModEntry.Events.Display.RenderedHud -= RenderTimer;
+        }
+    }
+}
