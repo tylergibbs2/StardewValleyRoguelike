@@ -1,4 +1,4 @@
-using StardewRoguelike.VirtualProperties;
+﻿using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
@@ -42,7 +42,7 @@ namespace StardewRoguelike
         public static readonly List<int> ScalingOrder = new() { 6, 12, 18, 24, 30, 36, 42, 48 };
         public static readonly int DangerousThreshold = 24;
 
-        public static readonly List<int> FloorsIncreaseGoldMax = new() { 6, 18 };
+        public static readonly List<int> FloorsIncreaseGoldMax = new() { 6  };
         public static readonly List<int> FloorsIncreaseGoldMin = new() { 24 };
 
         public static readonly int StartingGold = 100;
