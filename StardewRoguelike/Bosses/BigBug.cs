@@ -26,7 +26,7 @@ namespace StardewRoguelike.Bosses
 
         public Vector2 SpawnLocation
         {
-            get { return new(34, 37); }
+            get { return new(17, 23); }
         }
 
         public List<string> MusicTracks
