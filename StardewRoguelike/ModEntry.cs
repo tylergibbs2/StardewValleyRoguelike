@@ -16,6 +16,8 @@ namespace StardewRoguelike
 {
     public class ModEntry : Mod
     {
+        public static readonly string WebsiteBaseUrl = "https://roguelike.tyler.solutions";
+
         public static IModEvents Events;
 
         public static IMultiplayerHelper MultiplayerHelper;
@@ -118,9 +120,6 @@ namespace StardewRoguelike
             "tylergibbs2.DefaultFarmer",
             "spacechase0.GenericModConfigMenu",
             "jltaylor-us.GMCMOptions",
-            "Taiyo.VanillaTweaks",
-            "Pathoschild.ContentPatcher",
-            "DigitalCarbide.SpriteMaster"
         };
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
