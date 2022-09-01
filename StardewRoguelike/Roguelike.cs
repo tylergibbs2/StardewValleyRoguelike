@@ -386,7 +386,7 @@ namespace StardewRoguelike
         {
             CurrentLevel = 0;
             GoldDropMax = 2;
-            GoldDropMin = 0;
+            GoldDropMin = 1;
 
             if (Context.IsMainPlayer)
             {
