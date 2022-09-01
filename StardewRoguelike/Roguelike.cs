@@ -1,4 +1,4 @@
-﻿using StardewRoguelike.VirtualProperties;
+using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
@@ -504,7 +504,7 @@ namespace StardewRoguelike
             double roll = Game1.random.NextDouble();
 
             if (Perks.HasPerk(Perks.PerkType.BarrelEnthusiast))
-                roll -= 0.2;
+                roll = Math.Min(Game1.random.NextDouble(), roll);
 
             if (roll <= 0.0001)
                 itemId = 74;
