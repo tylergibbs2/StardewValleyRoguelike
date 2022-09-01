@@ -71,6 +71,7 @@ namespace StardewRoguelike.Bosses
         private bool magesAreDead = false;
 
         private int ticksToAttack = 60 * 5;
+        private int previousAttack = 2;
 
         private int bonesToThrow = 0;
         private int nextBoneThrow = 0;
@@ -82,7 +83,7 @@ namespace StardewRoguelike.Bosses
         private int ticksToDespawnBoneCircle = 0;
 
         private int chargingTicksLeft = 0;
-        private int ticksToFreezeAOE = 20 * 60;
+        private int ticksToFreezeAOE = 12 * 60;
 
         public Skelly() { }
 
@@ -183,7 +184,7 @@ namespace StardewRoguelike.Bosses
                         FreezeAOE(spawnedMages ? 5 : 3);
                         currentLocation.playSound("coldSpell");
                         charging.Value = false;
-                        ticksToFreezeAOE = 20 * 60;
+                        ticksToFreezeAOE = spawnedMages ? 7 * 60 : 12 * 60;
                     }
                 }
 
@@ -270,21 +271,29 @@ namespace StardewRoguelike.Bosses
 
                 if (ticksToAttack == 0)
                 {
-                    double roll = Game1.random.NextDouble();
-                    if (roll <= 0.33)
-                        ticksToSpawnBoneCircles = 61;
-                    else if (roll <= 0.66)
+                    int attack = previousAttack switch
+                    {
+                        0 => 1,
+                        1 => 2,
+                        2 => 0,
+                        _ => throw new NotImplementedException()
+                    };
+                    previousAttack = attack;
+
+                    if (attack == 0)
                     {
                         throwingAnim.Value = true;
                         bonesToThrow = spawnedMages ? 5 : 3;
                         nextBoneThrow = 20;
                     }
-                    else
+                    else if (attack == 1)
                     {
                         throwingAnim.Value = true;
                         frostBoltsToThrow = spawnedMages ? 5 : 3;
                         nextFrostBolt = 20;
                     }
+                    else
+                        ticksToSpawnBoneCircles = 61;
                 }
             }
 
