@@ -8,7 +8,7 @@ namespace StardewRoguelike.UI
 {
     internal class BossKillAnnounceMenu : IClickableMenu
     {
-        private static readonly float DisplayDuration = 5000;
+        private static readonly float DisplayDuration = 7500;
 
         private static readonly string DefeatedText = "Defeated";
 
