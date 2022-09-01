@@ -146,7 +146,7 @@ namespace StardewRoguelike
 
             HttpRequestMessage request = new(
                 HttpMethod.Post,
-                "http://localhost:5000/api/runs"
+                $"{ModEntry.WebsiteBaseUrl}/api/runs"
             )
             {
                 Content = new StringContent(
@@ -195,7 +195,7 @@ namespace StardewRoguelike
             {
                 string runId = runIdResponse.result;
                 ModEntry.ModMonitor.Log($"Run successfully uploaded, ID is '{runId}'", StardewModdingAPI.LogLevel.Debug);
-                var ps = new ProcessStartInfo($"http://localhost:5000/claim?id={runId}")
+                var ps = new ProcessStartInfo($"{ModEntry.WebsiteBaseUrl}/claim?id={runId}")
                 {
                     UseShellExecute = true,
                     Verb = "open"
