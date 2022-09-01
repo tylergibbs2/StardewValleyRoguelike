@@ -68,7 +68,7 @@ namespace StardewRoguelike
         public static void AdjustMonster(ref Monster monster)
         {
             if (HardMode)
-                monster.DamageToFarmer += (int)Math.Round(monster.DamageToFarmer * 0.1f);
+                monster.DamageToFarmer += (int)Math.Round(monster.DamageToFarmer * 0.25f);
 
             Curse.AdjustMonster(ref monster);
         }

@@ -168,6 +168,9 @@ namespace StardewRoguelike.Bosses
                     nextChargeTime = 4000 - this.AdjustRangeForHealth(0, 3000);
                     currentChargeDuration = 0;
                     currentState.Value = State.ChargingUp;
+
+                    if (Roguelike.HardMode)
+                        nextChargeTime -= 900;
                 }
 
                 timeUntilNextAttack = 4000 - this.AdjustRangeForHealth(0, 2500);
@@ -216,6 +219,8 @@ namespace StardewRoguelike.Bosses
                                 projectile.ignoreLocationCollision.Value = true;
                                 projectile.ignoreMeleeAttacks.Value = true;
                                 projectile.maxTravelDistance.Value = 800;
+                                if (Roguelike.HardMode)
+                                    projectile.maxTravelDistance.Value += 200;
 
                                 currentLocation.projectiles.Add(projectile);
 
@@ -232,6 +237,8 @@ namespace StardewRoguelike.Bosses
                                 currentLocation.projectiles.Add(projectile);
 
                                 nextFireTime = 100;
+                                if (Roguelike.HardMode)
+                                    nextFireTime -= 30;
                             }
                         }
                     }

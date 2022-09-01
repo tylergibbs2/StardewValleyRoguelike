@@ -158,6 +158,8 @@ namespace StardewRoguelike.Bosses
                 if (ticksUntilLavaLurk == 0)
                 {
                     DoLavaLurkAttack();
+                    if (Roguelike.HardMode)
+                        DoLavaLurkAttack();
 
                     ticksToAttack = 90 - this.AdjustRangeForHealth(0, 60);
                 }
@@ -290,6 +292,8 @@ namespace StardewRoguelike.Bosses
                 currentLocation.playSound("croak");
 
                 DoLavaLurkAttack();
+                if (Roguelike.HardMode)
+                    DoLavaLurkAttack();
 
                 ticksToAttack = 3 * 60;
             }
@@ -364,8 +368,12 @@ namespace StardewRoguelike.Bosses
             foreach (Vector2 randomTile in randomTiles)
             {
                 int delay = Game1.random.Next(500, 3100);
+                if (Roguelike.HardMode)
+                    delay -= 200;
+
                 if (delay > maxDelay)
                     maxDelay = delay;
+
                 meteorStrikeWarningEvent.Fire(randomTile, delay);
             }
 
@@ -439,7 +447,7 @@ namespace StardewRoguelike.Bosses
             projectile.ignoreTravelGracePeriod.Value = true;
             projectile.ignoreMeleeAttacks.Value = true;
             projectile.IgnoreLocationCollision = true;
-            projectile.maxTravelDistance.Value = 512;
+            projectile.maxTravelDistance.Value = Roguelike.HardMode ? 800 : 512;
             currentLocation.projectiles.Add(projectile);
         }
 
@@ -451,9 +459,7 @@ namespace StardewRoguelike.Bosses
                 Halt();
             }
             else if (withinPlayerThreshold())
-            {
                 IsWalkingTowardPlayer = true;
-            }
             else
             {
                 IsWalkingTowardPlayer = false;
@@ -468,13 +474,10 @@ namespace StardewRoguelike.Bosses
                 if (nextWanderTime < 0)
                 {
                     if (wanderState)
-                    {
                         nextWanderTime = Game1.random.Next(1000, 2000);
-                    }
                     else
-                    {
                         nextWanderTime = Game1.random.Next(1000, 3000);
-                    }
+
                     wanderState = !wanderState;
                 }
                 if (wanderState)

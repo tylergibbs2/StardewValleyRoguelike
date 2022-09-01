@@ -21,6 +21,12 @@ namespace StardewRoguelike.Bosses
 
         public override void behaviorAtGameTick(GameTime time)
         {
+            if (Roguelike.HardMode)
+            {
+                base.behaviorAtGameTick(time);
+                return;
+            }
+
             controller = null;
 
             bool spottedPlayer = (bool)typeof(Skeleton).GetField("spottedPlayer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(this);

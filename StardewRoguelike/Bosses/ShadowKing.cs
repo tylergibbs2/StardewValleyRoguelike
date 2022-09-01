@@ -301,7 +301,12 @@ namespace StardewRoguelike.Bosses
                     ticksToSpawnBadMinions--;
 
                     if (ticksToSpawnBadMinions == 0)
-                        SpawnBadMinions();
+                    {
+                        if (Roguelike.HardMode)
+                            SpawnGoodMinions(7);
+                        else
+                            SpawnBadMinions(20);
+                    }
                 }
 
                 if (ticksToJinxCircle > 0)
@@ -361,7 +366,13 @@ namespace StardewRoguelike.Bosses
 
                     if (ticksToSpawnGoodMinions == 0)
                     {
-                        SpawnGoodMinions();
+                        if (Roguelike.HardMode)
+                        {
+                            SpawnGoodMinions(7);
+                            SpawnBadMinions(10);
+                        }
+                        else
+                            SpawnGoodMinions(3);
                         speed = 7;
                     }
                 }
@@ -388,22 +399,18 @@ namespace StardewRoguelike.Bosses
             currentLocation.netAudio.StartPlaying("fuse");
         }
 
-        private void SpawnBadMinions()
+        private void SpawnBadMinions(int amount)
         {
-            foreach (Vector2 pos in phase2_SpawnRect.GetRandomPositions(20))
+            foreach (Vector2 pos in phase2_SpawnRect.GetRandomPositions(amount))
             {
                 ShadowKingMinion minion = new(pos, Difficulty);
                 currentLocation.characters.Add(minion);
             }
         }
 
-        private void SpawnGoodMinions()
+        private void SpawnGoodMinions(int amount)
         {
-            int toSpawn = 1 + (2 * currentLocation.farmers.Count);
-            if (Curse.AnyFarmerHasCurse(CurseType.MoreEnemiesLessHealth))
-                toSpawn += 2;
-
-            foreach (Vector2 pos in phase2_SpawnRect.GetRandomPositions(toSpawn))
+            foreach (Vector2 pos in phase2_SpawnRect.GetRandomPositions(amount))
             {
                 ShadowKingMinion minion = new(pos, Difficulty, true);
                 currentLocation.characters.Add(minion);
@@ -417,23 +424,28 @@ namespace StardewRoguelike.Bosses
 
             Vector2 shot_origin = new(GetBoundingBox().X, GetBoundingBox().Y);
             float fire_angle = 0f;
-            switch (facingDirection.Value)
+            if (Roguelike.HardMode)
+                fire_angle = BossManager.VectorToDegrees(Player.Position - Position);
+            else
             {
-                case 0:
-                    shot_origin.Y -= 64f;
-                    fire_angle = 90f;
-                    break;
-                case 1:
-                    shot_origin.X += 64f;
-                    fire_angle = 0f;
-                    break;
-                case 2:
-                    fire_angle = 270f;
-                    break;
-                case 3:
-                    shot_origin.X -= 64f;
-                    fire_angle = 180f;
-                    break;
+                switch (facingDirection.Value)
+                {
+                    case 0:
+                        shot_origin.Y -= 64f;
+                        fire_angle = 90f;
+                        break;
+                    case 1:
+                        shot_origin.X += 64f;
+                        fire_angle = 0f;
+                        break;
+                    case 2:
+                        fire_angle = 270f;
+                        break;
+                    case 3:
+                        shot_origin.X -= 64f;
+                        fire_angle = 180f;
+                        break;
+                }
             }
 
             currentLocation.playSound("Cowboy_gunshot");

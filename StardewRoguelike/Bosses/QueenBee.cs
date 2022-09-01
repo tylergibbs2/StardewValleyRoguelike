@@ -138,7 +138,10 @@ namespace StardewRoguelike.Bosses
             else if (attack == 1)
             {
                 // swarm
-                SummonBees(this.AdjustRangeForHealth(4, 8));
+                int beesToSpawn = this.AdjustRangeForHealth(4, 8);
+                if (Roguelike.HardMode)
+                    beesToSpawn += 2;
+                SummonBees(beesToSpawn);
                 ticksToAttack = 60 * 5;
                 previousAttack = 1;
             }
@@ -191,7 +194,7 @@ namespace StardewRoguelike.Bosses
             else if (chargingWarmup && ticksToChargeWarmup == 0)
             {
                 currentLocation.playSound("croak");
-                chargeDurationTicks = 60;
+                chargeDurationTicks = Roguelike.HardMode ? 30 : 60;
 
                 chargingWarmup = false;
                 midCharge = true;
@@ -212,7 +215,7 @@ namespace StardewRoguelike.Bosses
             if (Player is null)
                 return;
 
-            float projectileSpeed = 10f;
+            float projectileSpeed = Roguelike.HardMode ? 12f : 10f;
             Vector2 v = Player.Position - new Vector2(GetBoundingBox().Center.X, GetBoundingBox().Center.Y);
             v.Normalize();
             v *= projectileSpeed;

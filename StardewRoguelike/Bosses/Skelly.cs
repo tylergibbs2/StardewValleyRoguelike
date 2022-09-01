@@ -341,7 +341,9 @@ namespace StardewRoguelike.Bosses
             if (count == 0)
             {
                 magesAreDead = true;
-                Speed--;
+                if (!Roguelike.HardMode)
+                    Speed--;
+
                 return true;
             }
 

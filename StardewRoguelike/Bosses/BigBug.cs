@@ -90,19 +90,16 @@ namespace StardewRoguelike.Bosses
 
         private List<Vector2> EggSpawnLocations = new()
         {
-            new(27, 30),
-            new(31, 23),
-            new(41, 29),
-            new(47, 24),
-            new(49, 31),
-            new(48, 39),
-            new(36, 38),
-            new(31, 35),
-            new(26, 38),
-            new(26, 44),
-            new(39, 48),
-            new(28, 47)
-    };
+            new(14, 10),
+            new(25, 11),
+            new(33, 14),
+            new(10, 16),
+            new(16, 21),
+            new(30, 27),
+            new(10, 26),
+            new(13, 34),
+            new(23, 25)
+        };
 
         public BigBug() { }
 
@@ -171,6 +168,8 @@ namespace StardewRoguelike.Bosses
                     SpawnOffScreenBugs(toSpawn);
 
                     ticksToOffscreenBugs = Game1.random.Next(4 * 60, 8 * 60);
+                    if (Roguelike.HardMode)
+                        ticksToOffscreenBugs -= Game1.random.Next(60, 3 * 60);
                 }
             }
 
@@ -193,7 +192,7 @@ namespace StardewRoguelike.Bosses
 
                         currentMinionState.Value = validStates[Game1.random.Next(validStates.Count)];
 
-                        ticksToChangeMinions = 600;
+                        ticksToChangeMinions = Roguelike.HardMode ? 480 : 600;
                     }
 
                     SetAllMinionStates(currentMinionState);
@@ -233,7 +232,7 @@ namespace StardewRoguelike.Bosses
                 }
 
                 moveVector.Normalize();
-                moveVector *= 9f;
+                moveVector *= Roguelike.HardMode ? 11f : 9f;
 
                 Position += moveVector;
                 rotation = BossManager.VectorToRadians(moveVector) + BossManager.DegreesToRadians(90);

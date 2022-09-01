@@ -50,6 +50,8 @@ namespace StardewRoguelike.Bosses
             set { _difficulty = value; }
         }
 
+        private int totalSlimes;
+
         private int nextBreakHP;
 
         public LoopedSlime() { }
@@ -71,7 +73,24 @@ namespace StardewRoguelike.Bosses
             moveTowardPlayerThreshold.Value = 20;
 
             nextBreakHP = (int)Math.Round(MaxHealth * (2f / 3f));
-            stackedSlimes.Value = 2;
+            stackedSlimes.Value = Roguelike.HardMode ? 4 : 2;
+            totalSlimes = stackedSlimes.Value + 1;
+
+            CalculateNextBreak();
+        }
+
+        private void CalculateNextBreak()
+        {
+            int slimesLeft = stackedSlimes.Value;
+            if (slimesLeft == 0)
+            {
+                nextBreakHP = -1;
+                return;
+            }
+
+            float breakEvery = 1f / totalSlimes;
+            float nextBreakPercentage = Math.Max(breakEvery * slimesLeft, breakEvery);
+            nextBreakHP = (int)(MaxHealth * nextBreakPercentage);
         }
 
         public override void OnAttacked(Vector2 trajectory)
@@ -126,7 +145,7 @@ namespace StardewRoguelike.Bosses
 
             currentLocation.projectiles.Add(projectile);
 
-            nextBreakHP = (int)Math.Round(Health * (1f / 3f));
+            CalculateNextBreak();
         }
 
         public override Rectangle GetBoundingBox()

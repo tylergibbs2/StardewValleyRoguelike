@@ -266,6 +266,8 @@ namespace StardewRoguelike.Bosses
                     startedLightning = false;
                     lightningStrikeEvent.Fire(positionToStrike);
                     lastLightning = Game1.random.Next(2000, 4000) * (Health < MaxHealth / 2 ? 1 : 2);
+                    if (Roguelike.HardMode)
+                        lastLightning -= 600;
                 }
 
                 if (lastIceBall == 0f)
@@ -282,6 +284,8 @@ namespace StardewRoguelike.Bosses
                     {
                         projectileCount = 0;
                         lastIceBall = Game1.random.Next(1400, 3600);
+                        if (Roguelike.HardMode)
+                            lastIceBall -= 400;
                     }
                     else
                         lastIceBall = 150;

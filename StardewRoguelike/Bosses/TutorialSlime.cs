@@ -43,7 +43,7 @@ namespace StardewRoguelike.Bosses
             set { _difficulty = value; }
         }
 
-        private readonly double splitChance = 0.25;
+        private double splitChance = 0.25;
 
         private readonly int width;
         private readonly int height;
@@ -52,6 +52,9 @@ namespace StardewRoguelike.Bosses
 
         public TutorialSlime(float difficulty) : base(Vector2.Zero, 40)
         {
+            if (Roguelike.HardMode)
+                splitChance += 0.10;
+
             setTileLocation(SpawnLocation);
             Difficulty = difficulty;
 
@@ -114,14 +117,16 @@ namespace StardewRoguelike.Bosses
                 BossManager.Death(who.currentLocation, who, DisplayName, SpawnLocation);
             else
             {
-                if (Game1.random.NextDouble() < splitChance && Scale > 0.8f)
+                if (Game1.random.NextDouble() < splitChance && (Scale > 0.8f || Roguelike.HardMode))
                 {
                     shedChunks(4, 1f);
                     Game1.playSound("slime");
-                    who.currentLocation.characters.Add(new GreenSlime(Position)
+                    Monster splitSlime = new GreenSlime(Position)
                     {
                         focusedOnFarmers = true
-                    });
+                    };
+                    Roguelike.AdjustMonster(ref splitSlime);
+                    who.currentLocation.characters.Add(splitSlime);
                     Scale = Math.Max(0.8f, Scale - 0.15f);
                 }
             }

@@ -65,7 +65,7 @@ namespace StardewRoguelike
             if (DebugCommands.ForcedDifficulty != 0f)
                 return DebugCommands.ForcedDifficulty;
 
-            float modifier = 1f + (Roguelike.HardMode ? 0.5f : 0f);
+            float modifier = 1f + (Roguelike.HardMode ? 0.25f : 0f);
             return (float)Math.Round(level / (float)Roguelike.ScalingOrder[^1], 2) + modifier;
         }
 
