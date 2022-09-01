@@ -173,7 +173,7 @@ namespace StardewRoguelike.Bosses
             Sprite.LoadTexture(TextureName);
             Scale = 2f;
 
-            Health = (int)Math.Round(5250 * Difficulty);
+            Health = (int)Math.Round(5000 * Difficulty);
             MaxHealth = Health;
             DamageToFarmer = (int)Math.Round(35 * Difficulty);
             moveTowardPlayerThreshold.Value = 16;
@@ -456,6 +456,7 @@ namespace StardewRoguelike.Bosses
                 BasicProjectile projectile = new((int)Math.Round(35 * Difficulty), 12, 0, 1, 0f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", false, false, currentLocation, this, false, null);
                 projectile.startingRotation.Value = BossManager.VectorToRadians(shot_velocity) + (float)BossManager.DegreesToRadians(90);
                 projectile.ignoreTravelGracePeriod.Value = true;
+                projectile.ignoreMeleeAttacks.Value = true;
                 currentLocation.projectiles.Add(projectile);
             }
         }
