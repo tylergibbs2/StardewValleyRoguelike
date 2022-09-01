@@ -433,7 +433,7 @@ namespace StardewRoguelike
                     floor.AddSword(57, 1350, 1475, 1);          // Dragontooth Cutlass
                     floor.AddSword(59, 1000, 1175, 1);           // Dragontooth Shiv
                     floor.AddSword(61, 1100, 1225, 1);          // Iridium Needle
-                    floor.AddSword(29, 1475, 1600, 1);          // Galaxy Hammer
+                    floor.AddSword(29, 1975, 2100, 1);          // Galaxy Hammer
 
                     floor.AddRing(529, 300, 400, 1);            // Amethyst Ring
                     floor.AddRing(532, 500, 600, 1);            // Jade Ring
@@ -471,8 +471,8 @@ namespace StardewRoguelike
                     floor.AddSword(57, 1350, 1475, 1);          // Dragontooth Cutlass
                     floor.AddSword(59, 1000, 1175, 1);           // Dragontooth Shiv
                     floor.AddSword(61, 1100, 1225, 1);          // Iridium Needle
-                    floor.AddSword(29, 1475, 1600, 1);          // Galaxy Hammer
-                    floor.AddSword(58, 1550, 1700, 1);          // Dragontooth Club
+                    floor.AddSword(29, 1975, 2100, 1);          // Galaxy Hammer
+                    floor.AddSword(58, 2050, 2200, 1);          // Dragontooth Club
 
                     floor.AddRing(529, 300, 400, 1);            // Amethyst Ring
                     floor.AddRing(532, 500, 600, 1);            // Jade Ring
