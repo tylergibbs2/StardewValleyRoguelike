@@ -191,6 +191,12 @@ namespace StardewRoguelike
                     else
                         ForcedDifficulty = float.Parse(args[1]);
                     break;
+                case "level":
+                    if (args.Length == 1)
+                        ModEntry.ModMonitor.Log($"Level is currently: {Roguelike.CurrentLevel}", LogLevel.Info);
+                    else
+                        Roguelike.CurrentLevel = int.Parse(args[1]);
+                    break;
                 default:
                     ModEntry.ModMonitor.Log("Invalid command.", LogLevel.Error);
                     break;
@@ -225,6 +231,7 @@ namespace StardewRoguelike
             help.AppendLine("forcefortune [bool:status] : force the fortune teller to spawn");
             help.AppendLine("forcegil [bool:status] : force gil to spawn");
             help.AppendLine("difficulty <float:new> : forces the difficulty to be at a certain value");
+            help.AppendLine("level <int:new> : sets the current level");
 
             ModEntry.ModMonitor.Log(help.ToString(), LogLevel.Info);
         }
