@@ -87,8 +87,6 @@ namespace StardewRoguelike.Bosses
         private int width;
         private int height;
 
-        private int ticksToTeleport = 0;
-
         private int ticksToBurn = 0;
 
         private int burnCooldown = 0;
@@ -101,9 +99,7 @@ namespace StardewRoguelike.Bosses
 
         private readonly NetEvent1Field<Vector2, NetVector2> lightningStrikeEvent = new();
 
-        public ThunderKid()
-        {
-        }
+        public ThunderKid() { }
 
         public ThunderKid(float difficulty) : base(Vector2.Zero)
         {
@@ -116,7 +112,7 @@ namespace StardewRoguelike.Bosses
             Sprite.SpriteHeight = height;
             Sprite.LoadTexture(TextureName);
 
-            Health = (int)Math.Round(1300 * Difficulty);
+            Health = (int)Math.Round(1150 * Difficulty);
             MaxHealth = Health;
             DamageToFarmer = (int)Math.Round(14 * Difficulty);
 
