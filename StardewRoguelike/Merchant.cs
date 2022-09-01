@@ -238,10 +238,9 @@ namespace StardewRoguelike
                 {
                     floor = new(3, 0, 0, 0, 0);
 
-                    floor.AddSword(12, 50, 75, 1);              // Wooden Blade
-                    floor.AddSword(18, 50, 75, 1);              // Burglar's Shank
-                    floor.AddSword(11, 50, 75, 1);              // Steel Smallsword
-                    floor.AddSword(21, 50, 75, 1);              // Crystal Dagger
+                    floor.AddSword(12, 50, 50, 1);              // Wooden Blade
+                    floor.AddSword(11, 50, 50, 1);              // Steel Smallsword
+                    floor.AddSword(21, 50, 50, 1);              // Crystal Dagger
                 }
                 else if (currentIndex == 1)                     // Floor 10 Shop
                 {
