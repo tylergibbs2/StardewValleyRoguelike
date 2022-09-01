@@ -57,7 +57,7 @@ namespace StardewRoguelike.Patches
             else
                 darkChance = 0.2;
 
-            if (Roguelike.HardMode && Game1.random.NextDouble() < darkChance && (newMine.IsNormalFloor() || Merchant.IsMerchantFloor(newMine)))
+            if (Roguelike.HardMode && Game1.random.NextDouble() < darkChance && newMine.IsNormalFloor())
                 newMine.set_MineShaftIsDarkArea(true);
 
             int depth = Roguelike.GetFloorDepth(newMine, requestedFloor);
