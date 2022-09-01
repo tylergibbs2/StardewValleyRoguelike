@@ -43,11 +43,19 @@ namespace StardewRoguelike.Bosses
 
         private AttackType currentAttack;
 
-        private int previousFireAngle = 0;
+        private int fireWallAngle = 0;
 
         private float fireballTimer;
 
         private bool waitingToDive = false;
+
+        // max health percent, shot angle
+        private List<(float, int)> whenToFireWall = new()
+        {
+            (0.145f * 6, 135),
+            (0.145f * 4, 45),
+            (0.145f * 2, 90)
+        };
 
         public HiddenLurker() : base() { }
 
@@ -128,12 +136,20 @@ namespace StardewRoguelike.Bosses
                         AttackHistory.RemoveAt(0);
 
                     var validAttacks = new List<AttackType>((IEnumerable<AttackType>)Enum.GetValues(typeof(AttackType)));
+                    validAttacks.Remove(AttackType.FireWall);
                     validAttacks.RemoveAll(attackType => AttackHistory.Contains(attackType));
 
                     currentState.Value = State.Firing;
                     stateTimer = 1.5f;
 
                     currentAttack = validAttacks[Game1.random.Next(validAttacks.Count)];
+
+                    if (whenToFireWall.Count > 0 && Health <= (int)Math.Round(MaxHealth * whenToFireWall[0].Item1))
+                    {
+                        fireWallAngle = whenToFireWall[0].Item2;
+                        whenToFireWall.RemoveAt(0);
+                        currentAttack = AttackType.FireWall;
+                    }
 
                     if (currentAttack == AttackType.ExplodingRock || currentAttack == AttackType.Barrage)
                         stateTimer += this.AdjustRangeForHealth(0f, 2f);
@@ -213,35 +229,18 @@ namespace StardewRoguelike.Bosses
                                 Vector2 shot_origin = Position + new Vector2(0f, -32f);
 
                                 Vector2 shot_velocity;
-                                if (previousFireAngle == 0)
-                                {
-                                    shot_velocity = targettedFarmer.Position - shot_origin;
-                                    shot_velocity.Normalize();
-
-                                    previousFireAngle = BossManager.VectorToDegrees(shot_velocity);
-                                }
-                                else
-                                {
-                                    if (previousFireAngle >= 90)
-                                        shot_velocity = BossManager.VectorFromDegree(previousFireAngle - 45);
-                                    else
-                                        shot_velocity = BossManager.VectorFromDegree(previousFireAngle + 45);
-
-                                    previousFireAngle = 0;
-                                }
-
+                                shot_velocity = BossManager.VectorFromDegree(fireWallAngle);
                                 shot_velocity *= 7f;
+
                                 currentLocation.playSound("furnace");
 
                                 for (int i = 64; i <= 64 * 18; i += 32)
                                 {
-                                    FireWallProjectile projectile = new(i, 20f, DamageToFarmer * 2, 10, 0, 0, (float)Math.PI / 16f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", explode: false, damagesMonsters: false, currentLocation, this);
+                                    FireWallProjectile projectile = new(i, 120f, DamageToFarmer * 2, 10, 0, 0, (float)Math.PI / 16f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", explode: false, damagesMonsters: false, currentLocation, this);
                                     projectile.ignoreMeleeAttacks.Value = true;
                                     projectile.ignoreTravelGracePeriod.Value = true;
                                     currentLocation.projectiles.Add(projectile);
                                 }
-
-                                fireballTimer = 1f;
                             }
 
                             if (Health < (int)(MaxHealth * 0.33f) && stateTimer > 0f)
