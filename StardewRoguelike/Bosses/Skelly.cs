@@ -83,7 +83,7 @@ namespace StardewRoguelike.Bosses
         private int ticksToDespawnBoneCircle = 0;
 
         private int chargingTicksLeft = 0;
-        private int ticksToFreezeAOE = 12 * 60;
+        private int ticksToFreezeAOE = 11 * 60;
 
         public Skelly() { }
 
@@ -184,7 +184,7 @@ namespace StardewRoguelike.Bosses
                         FreezeAOE(spawnedMages ? 5 : 3);
                         currentLocation.playSound("coldSpell");
                         charging.Value = false;
-                        ticksToFreezeAOE = spawnedMages ? 7 * 60 : 12 * 60;
+                        ticksToFreezeAOE = spawnedMages ? 8 * 60 : 14 * 60;
                     }
                 }
 
