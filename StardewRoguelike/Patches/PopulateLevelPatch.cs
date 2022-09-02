@@ -152,36 +152,36 @@ namespace StardewRoguelike.Patches
                             if (monsterToAdd is Leaper)
                             {
                                 float partner_chance = (__instance.GetAdditionalDifficulty() + 1) * 0.3f;
-                                if (mineRandom.NextDouble() < (double)partner_chance)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new Leaper(Vector2.Zero)), j - 1, l);
-                                if (mineRandom.NextDouble() < (double)partner_chance)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new Leaper(Vector2.Zero)), j + 1, l);
-                                if (mineRandom.NextDouble() < (double)partner_chance)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new Leaper(Vector2.Zero)), j, l - 1);
-                                if (mineRandom.NextDouble() < (double)partner_chance)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new Leaper(Vector2.Zero)), j, l + 1);
+                                if (mineRandom.NextDouble() < (double)partner_chance && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new Leaper(Vector2.Zero)), j - 1, l) ? 1 : 0;
+                                if (mineRandom.NextDouble() < (double)partner_chance && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new Leaper(Vector2.Zero)), j + 1, l) ? 1 : 0;
+                                if (mineRandom.NextDouble() < (double)partner_chance && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new Leaper(Vector2.Zero)), j, l - 1) ? 1 : 0;
+                                if (mineRandom.NextDouble() < (double)partner_chance && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new Leaper(Vector2.Zero)), j, l + 1) ? 1 : 0;
                             }
                             if (monsterToAdd is Grub)
                             {
-                                if (mineRandom.NextDouble() < 0.4)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new Grub(Vector2.Zero)), j - 1, l);
-                                if (mineRandom.NextDouble() < 0.4)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new Grub(Vector2.Zero)), j + 1, l);
-                                if (mineRandom.NextDouble() < 0.4)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new Grub(Vector2.Zero)), j, l - 1);
-                                if (mineRandom.NextDouble() < 0.4)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new Grub(Vector2.Zero)), j, l + 1);
+                                if (mineRandom.NextDouble() < 0.4 && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new Grub(Vector2.Zero)), j - 1, l) ? 1 : 0;
+                                if (mineRandom.NextDouble() < 0.4 && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new Grub(Vector2.Zero)), j + 1, l) ? 1 : 0;
+                                if (mineRandom.NextDouble() < 0.4 && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new Grub(Vector2.Zero)), j, l - 1) ? 1 : 0;
+                                if (mineRandom.NextDouble() < 0.4 && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new Grub(Vector2.Zero)), j, l + 1) ? 1 : 0;
                             }
                             else if (monsterToAdd is DustSpirit)
                             {
-                                if (mineRandom.NextDouble() < 0.6)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new DustSpirit(Vector2.Zero)), j - 1, l);
-                                if (mineRandom.NextDouble() < 0.6)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new DustSpirit(Vector2.Zero)), j + 1, l);
-                                if (mineRandom.NextDouble() < 0.6)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new DustSpirit(Vector2.Zero)), j, l - 1);
-                                if (mineRandom.NextDouble() < 0.6)
-                                    __instance.tryToAddMonster(__instance.BuffMonsterIfNecessary(new DustSpirit(Vector2.Zero)), j, l + 1);
+                                if (mineRandom.NextDouble() < 0.6 && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new DustSpirit(Vector2.Zero)), j - 1, l) ? 1 : 0;
+                                if (mineRandom.NextDouble() < 0.6 && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new DustSpirit(Vector2.Zero)), j + 1, l) ? 1 : 0;
+                                if (mineRandom.NextDouble() < 0.6 && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new DustSpirit(Vector2.Zero)), j, l - 1) ? 1 : 0;
+                                if (mineRandom.NextDouble() < 0.6 && monstersSpawned < maxMonsters)
+                                    monstersSpawned += __instance.TryToAddMonster(__instance.BuffMonsterIfNecessary(new DustSpirit(Vector2.Zero)), j, l + 1) ? 1 : 0;
                             }
                             if (monsterToAdd.GetBoundingBox().Width > 64 && !__instance.isTileClearForMineObjects(j + 1, l))
                                 continue;

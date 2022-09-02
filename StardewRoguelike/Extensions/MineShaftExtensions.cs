@@ -75,6 +75,18 @@ namespace StardewRoguelike.Extensions
             chests.Add(new(tileLocation, items));
         }
 
+        public static bool TryToAddMonster(this MineShaft mine, Monster m, int tileX, int tileY)
+        {
+            if (mine.isTileClearForMineObjects(tileX, tileY) && !mine.isTileOccupied(new Vector2(tileX, tileY)))
+            {
+                m.setTilePosition(tileX, tileY);
+                mine.characters.Add(m);
+                return true;
+            }
+
+            return false;
+        }
+
         public static bool IsAreaClearForObjects(this MineShaft mine, Vector2 topLeftTile, int width, int height)
         {
             int topLeftX = (int)topLeftTile.X;
