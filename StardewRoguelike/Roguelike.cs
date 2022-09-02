@@ -1,4 +1,4 @@
-using StardewRoguelike.VirtualProperties;
+﻿using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
@@ -15,6 +15,7 @@ using StardewValley.Monsters;
 using xTile.Tiles;
 using StardewRoguelike.Netcode;
 using Force.DeepCloner;
+using StardewRoguelike.Enchantments;
 
 namespace StardewRoguelike
 {
@@ -262,26 +263,26 @@ namespace StardewRoguelike
 
             int result;
             if (level < ScalingOrder[0])
-                result = floor;
+                result = 20;
             else if (level < ScalingOrder[1])
-                result = floor + 40;
+                result = 60;
             else if (level < ScalingOrder[2])
-                result = floor + 80;
+                result = 100;
             else if (level < ScalingOrder[3])
-                result = floor + 120;
+                result = 121;
             else if (level < ScalingOrder[4])
-                result = floor;
+                result = 20;
             else if (level < ScalingOrder[5])
-                result = floor + 40;
+                result = 60;
             else if (level < ScalingOrder[6])
-                result = floor + 80;
+                result = 100;
             else if (level < ScalingOrder[7])
-                result = floor + 120;
+                result = 179;
             else
-                result = floor + 120;
+                result = 179;
 
             if (mine.get_MineShaftIsDarkArea())
-                result += 31;
+                result += 10;
 
             return result;
         }

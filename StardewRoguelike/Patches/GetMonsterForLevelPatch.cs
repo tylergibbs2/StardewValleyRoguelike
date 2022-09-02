@@ -12,6 +12,8 @@ namespace StardewRoguelike.Patches
 
         public static bool Prefix(ref Monster __result, MineShaft __instance, int level, int xTile, int yTile)
         {
+			return true;  // we might not need this patch anymore. needs more testing to confirm
+
 			Vector2 position = new Vector2(xTile, yTile) * 64f;
 			float distanceFromLadder = __instance.getDistanceFromStart(xTile, yTile);
 			Random mineRandom = (Random)__instance.GetType().GetField("mineRandom", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(__instance);
