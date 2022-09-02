@@ -280,8 +280,8 @@ namespace StardewRoguelike
 
                     floor.AddSword(43, 400, 525, 1);            // Pirate's Sword
                     floor.AddSword(1, 400, 525, 1);             // Silver Saber
-                    floor.AddSword(15, 850, 1000, 1);            // Forest Sword
-                    floor.AddSword(6, 550, 600, 1);             // Iron Edge
+                    floor.AddSword(15, 650, 800, 1);            // Forest Sword
+                    floor.AddSword(6, 700, 750, 1);             // Iron Edge
                     floor.AddSword(19, 325, 450, 1);            // Shadow Dagger
                     floor.AddSword(51, 325, 500, 1);            // Broken Trident
 
