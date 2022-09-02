@@ -175,8 +175,12 @@ namespace StardewRoguelike
             {
                 if (FloorsUntilNextBoss(level) > 1)
                     values.Remove(ChallengeType.HotSpring);
+
                 if (level < 6)
+                {
                     values.Remove(ChallengeType.PickAPath);
+                    values.Remove(ChallengeType.HotSpring);
+                }
 
                 do
                 {
