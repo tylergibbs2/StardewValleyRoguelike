@@ -1,7 +1,7 @@
 ﻿using StardewValley;
 using StardewValley.Monsters;
 
-namespace StardewRoguelike
+namespace StardewRoguelike.Enchantments
 {
     public class WeaponStatTrack : BaseEnchantment
     {

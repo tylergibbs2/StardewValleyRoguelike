@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewRoguelike.Enchantments;
 using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
