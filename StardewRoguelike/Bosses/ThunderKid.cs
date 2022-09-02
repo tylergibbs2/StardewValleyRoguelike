@@ -221,6 +221,17 @@ namespace StardewRoguelike.Bosses
             Position = randomPosition * 64f;
         }
 
+        protected override void updateMonsterSlaveAnimation(GameTime time)
+        {
+            base.updateMonsterSlaveAnimation(time);
+
+            if (charging.Value)
+            {
+                Sprite.currentFrame = 1;
+                faceDirection(2);
+            }
+        }
+
         public override void behaviorAtGameTick(GameTime time)
         {
             if (burnCooldown > 0)
