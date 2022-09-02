@@ -182,7 +182,7 @@ namespace StardewRoguelike
                     values.Remove(ChallengeType.HotSpring);
                 }
 
-                if (values.Count >= History.Count)
+                if (values.Count >= History.Count && History.Count > 0)
                     History.RemoveAt(0);
 
                 do
