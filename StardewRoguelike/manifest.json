@@ -6,5 +6,5 @@
   "UniqueID": "tylergibbs2.StardewRoguelike",
   "EntryDll": "StardewRoguelike.dll",
   "MinimumApiVersion": "3.15.0",
-  "UpdateKeys": []
+  "UpdateKeys": [ "GitHub:tylergibbs2/StardewValleyRoguelike" ]
 }
