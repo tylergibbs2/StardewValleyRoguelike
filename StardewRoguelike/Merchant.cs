@@ -1,3 +1,4 @@
+using Force.DeepCloner;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewRoguelike.Extensions;
@@ -55,7 +56,7 @@ namespace StardewRoguelike
                     dialogueLocation = new Vector2(14, 9) * 64f;
                     dialogueLocation.X += 32;
                     dialogueLocation.Y -= 16;
-                    mine.DrawSpeechBubble(dialogueLocation, "Welcome to the mines.", 400);
+                    mine.DrawSpeechBubble(dialogueLocation, "Welcome to The Abyss", 400);
                 }
                 else if (level == Roguelike.ScalingOrder[0])
                 {
@@ -72,6 +73,11 @@ namespace StardewRoguelike
                     dialogueLocation.Y -= 16;
                     mine.DrawSpeechBubble(dialogueLocation, "Care for a little boost?", 400);
                 }
+                else if (level == Roguelike.ScalingOrder[^1])
+                {
+                    SpawnQi(mine);
+                    PopulateQiDialogue(mine);
+                }
             }
         }
 
@@ -80,10 +86,36 @@ namespace StardewRoguelike
             return new() { "Saloon1", "MarlonsTheme" };
         }
 
+        public static void PopulateQiDialogue(GameLocation mine)
+        {
+            NPC qi = mine.getCharacterFromName("Mister Qi");
+            if (qi is null)
+                return;
+
+            qi.CurrentDialogue.Clear();
+
+            qi.setNewDialogue(
+                "Congratulations on beating Nadith! With this accomplishment, I feel that you're finally ready to see the summit.#$b#" +
+                "Interested in seeing how far down you can go? Continue on into the unknown, only a ladder away."
+            );
+        }
+
+        public static void SpawnQi(MineShaft mine)
+        {
+            NPC qi = mine.getCharacterFromName("Mister Qi");
+            if (qi is null)
+            {
+                qi = Game1.getCharacterFromName("Mister Qi");
+                qi = qi.ShallowClone();
+                qi.setTileLocation(new(9, 11));
+                mine.addCharacter(qi);
+            }
+        }
+
         public static void SpawnMarlon(MineShaft mine)
         {
             NPC marlon = Game1.getCharacterFromName("Marlon");
-            marlon.setTileLocation(new Vector2(14, 11));
+            marlon.setTileLocation(new(14, 11));
             mine.addCharacter(marlon);
         }
 

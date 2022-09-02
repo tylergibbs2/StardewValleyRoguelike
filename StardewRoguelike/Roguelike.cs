@@ -1,4 +1,4 @@
-﻿using StardewRoguelike.VirtualProperties;
+using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
@@ -14,6 +14,7 @@ using xTile.Dimensions;
 using StardewValley.Monsters;
 using xTile.Tiles;
 using StardewRoguelike.Netcode;
+using Force.DeepCloner;
 
 namespace StardewRoguelike
 {
@@ -42,7 +43,7 @@ namespace StardewRoguelike
         public static readonly List<int> ScalingOrder = new() { 6, 12, 18, 24, 30, 36, 42, 48 };
         public static readonly int DangerousThreshold = 24;
 
-        public static readonly List<int> FloorsIncreaseGoldMax = new() { 6  };
+        public static readonly List<int> FloorsIncreaseGoldMax = new() { 6 };
         public static readonly List<int> FloorsIncreaseGoldMin = new() { 24 };
 
         public static readonly int StartingGold = 100;
@@ -152,7 +153,10 @@ namespace StardewRoguelike
                 return;
 
             if (e.NewLocation is Mine)
+            {
                 Game1.player.get_FarmerCurrentLevel().Value = 0;
+                PopulateQiDialogue(e.NewLocation);
+            }
             else if (e.NewLocation is MineShaft mine)
             {
                 int level = GetLevelFromMineshaft(mine);
@@ -178,8 +182,22 @@ namespace StardewRoguelike
             WarpLocalPlayerToStart();
             Game1.player.team.useSeparateWallets.Value = true;
 
+            GameLocation mine = Game1.getLocationFromName("Mine");
+            NPC qi = mine.getCharacterFromName("Mister Qi");
+            if (qi is null)
+            {
+                qi = Game1.getCharacterFromName("Mister Qi");
+                qi = qi.ShallowClone();
+            }
+
+            qi.showTextAboveHead("Hey there!", duration: 15000);
+
             if (Context.IsMainPlayer)
             {
+                qi.setTileLocation(new(17, 6));
+                qi.faceDirection(2);
+                mine.addCharacter(qi);
+
                 Game1.player.Name = "";
                 Game1.player.favoriteThing.Value = "";
             }
@@ -456,15 +474,47 @@ namespace StardewRoguelike
             Game1.warpFarmer("Mine", 17, 15, 2);
         }
 
+        public static void MenuChanged(object sender, MenuChangedEventArgs e)
+        {
+            if (e.OldMenu is not DialogueBox dialogue || (dialogue.characterDialogue is not null && dialogue.characterDialogue.speaker is null))
+                return;
+
+            if (Game1.currentLocation is MineShaft mine && Merchant.IsMerchantFloor(mine))
+                Merchant.PopulateQiDialogue(mine);
+            else
+                PopulateQiDialogue(Game1.currentLocation);
+        }
+
+        public static void PopulateQiDialogue(GameLocation lobby)
+        {
+            NPC qi = lobby.getCharacterFromName("Mister Qi");
+            if (qi is null)
+                return;
+
+            qi.CurrentDialogue.Clear();
+
+            string perkKey = string.Join('+', Game1.options.journalButton);
+            qi.setNewDialogue(
+                "Welcome to The Abyss! This will be your final challenge before you're " +
+                "ready to reach the summit.#$b#You must defeat all the bosses that lie beneath. Killing enemies will " +
+                "reward you with gold that you can use as currency at the shops.#$b#" +
+                $"Below, you will also find vendors for perks and curses. View your active perks by pressing {perkKey}.#$b#" +
+                "Your tracking chip will keep note of all your statistics. You can view them by typing /stats. " +
+                "You can reset your journey at any time with the /reset command.#$b#" +
+                "Best of luck on the way down!"
+            );
+        }
+
         public static bool PerformAction(GameLocation location, string action, Farmer who, Location tileLocation)
         {
-            if (action != "HardMode" || !Context.IsMainPlayer || HardMode)
-                return false;
+            if (action == "HardMode" && !HardMode && Context.IsMainPlayer)
+            {
+                var responses = location.createYesNoResponses();
+                location.createQuestionDialogue("Enter hard mode?", responses, "hardMode");
+                return true;
+            }
 
-            var responses = location.createYesNoResponses();
-            location.createQuestionDialogue("Enter hard mode?", responses, "hardMode");
-
-            return true;
+            return false;
         }
 
         public static bool AnswerDialogueAction(GameLocation mine, string questionAndAnswer, string[] questionParams)

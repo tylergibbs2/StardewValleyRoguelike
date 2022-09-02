@@ -157,6 +157,7 @@ namespace StardewRoguelike
             helper.Events.Multiplayer.PeerConnected += PeerConnected;
 
             helper.Events.Display.MenuChanged += MenuChanged;
+            helper.Events.Display.MenuChanged += Roguelike.MenuChanged;
 
             helper.Events.Player.Warped += Roguelike.PlayerWarped;
             helper.Events.Player.Warped += Merchant.PlayerWarped;
