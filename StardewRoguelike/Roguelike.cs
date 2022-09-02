@@ -58,7 +58,9 @@ namespace StardewRoguelike
             set => Game1.player.team.get_FarmerTeamHardMode().Value = value;
         }
 
-        public static readonly int GuaranteedMonstersPerFloor = 5;
+        public static readonly int MinimumMonstersPerFloor = 5;
+        public static readonly int MaximumMonstersPerFloorPreLoop = 15;
+        public static readonly int MaximumMonstersPerFloorPostLoop = 30;
 
         public static int GoldDropMax = 2;
         public static int GoldDropMin = 1;

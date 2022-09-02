@@ -34,6 +34,8 @@ namespace StardewRoguelike.Patches
 
             int level = Roguelike.GetLevelFromMineshaft(__instance);
 
+            int maxMonsters = level > Roguelike.ScalingOrder[^1] ? Roguelike.MaximumMonstersPerFloorPostLoop : Roguelike.MaximumMonstersPerFloorPreLoop;
+
             double stoneChance;
             if (DebugCommands.ForcedStoneChance > 0f)
                 stoneChance = DebugCommands.ForcedStoneChance;
@@ -137,7 +139,7 @@ namespace StardewRoguelike.Patches
 
                         // MONSTER SPAWNING 1
 
-                        else if (mineRandom.NextDouble() <= monsterChance && __instance.getDistanceFromStart(j, l) > 5f)
+                        else if (mineRandom.NextDouble() <= monsterChance && __instance.getDistanceFromStart(j, l) > 5f && monstersSpawned < maxMonsters)
                         {
                             Monster monsterToAdd = __instance.BuffMonsterIfNecessary(__instance.getMonsterForThisLevel(__instance.mineLevel, j, l));
                             if (monsterToAdd is GreenSlime && __instance.GetAdditionalDifficulty() > 0 && mineRandom.NextDouble() < Math.Min(__instance.GetAdditionalDifficulty() * 0.1f, 0.5f))
@@ -248,9 +250,9 @@ namespace StardewRoguelike.Patches
                 }
             }
 
-            if (monstersSpawned < Roguelike.GuaranteedMonstersPerFloor)
+            if (monstersSpawned < Roguelike.MinimumMonstersPerFloor)
             {
-                int monstersToSpawn = Roguelike.GuaranteedMonstersPerFloor - monstersSpawned;
+                int monstersToSpawn = Roguelike.MinimumMonstersPerFloor - monstersSpawned;
                 __instance.SpawnMonsters(monstersToSpawn);
             }
 
