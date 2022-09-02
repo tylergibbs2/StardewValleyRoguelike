@@ -286,7 +286,6 @@ namespace StardewRoguelike
                     floor.AddSword(51, 325, 500, 1);            // Broken Trident
 
                     floor.AddRing(522, 700, 800, 1);            // Vampire Ring
-                    floor.AddRing(529, 300, 400, 1);            // Amethyst Ring
                     floor.AddRing(532, 500, 600, 1);            // Jade Ring
                     floor.AddRing(531, 500, 600, 1);            // Aquamarine Ring
 
@@ -305,7 +304,6 @@ namespace StardewRoguelike
                     floor.AddSword(45, 600, 775, 1);            // Wicked Kris
                     floor.AddSword(24, 750, 900, 1);            // Wood Club
 
-                    floor.AddRing(529, 300, 400, 1);            // Amethyst Ring
                     floor.AddRing(532, 500, 600, 1);            // Jade Ring
                     floor.AddRing(531, 500, 600, 1);            // Aquamarine Ring
                     floor.AddRing(534, 700, 800, 1);            // Ruby Ring
@@ -332,7 +330,6 @@ namespace StardewRoguelike
                     floor.AddSword(56, 700, 800, 1);            // Dwarf Dagger
                     floor.AddSword(27, 825, 1000, 1);            // Wood Mallet
 
-                    floor.AddRing(529, 300, 400, 1);            // Amethyst Ring
                     floor.AddRing(532, 500, 600, 1);            // Jade Ring
                     floor.AddRing(531, 500, 600, 1);            // Aquamarine Ring
                     floor.AddRing(534, 700, 800, 1);            // Ruby Ring
@@ -362,7 +359,6 @@ namespace StardewRoguelike
                     floor.AddSword(61, 925, 1075, 1);            // Iridium Needle
                     floor.AddSword(46, 825, 1100, 1);           // Kudgel
 
-                    floor.AddRing(529, 300, 400, 1);            // Amethyst Ring
                     floor.AddRing(532, 500, 600, 1);            // Jade Ring
                     floor.AddRing(531, 500, 600, 1);            // Aquamarine Ring
                     floor.AddRing(534, 700, 800, 1);            // Ruby Ring
@@ -391,7 +387,6 @@ namespace StardewRoguelike
                     floor.AddSword(59, 1000, 1175, 1);           // Dragontooth Shiv
                     floor.AddSword(28, 1275, 1350, 1);          // Slammer
 
-                    floor.AddRing(529, 300, 400, 1);            // Amethyst Ring
                     floor.AddRing(532, 500, 600, 1);            // Jade Ring
                     floor.AddRing(531, 500, 600, 1);            // Aquamarine Ring
                     floor.AddRing(534, 700, 800, 1);            // Ruby Ring
@@ -429,7 +424,6 @@ namespace StardewRoguelike
                     floor.AddSword(61, 1100, 1225, 1);          // Iridium Needle
                     floor.AddSword(28, 1275, 1350, 1);          // Slammer
 
-                    floor.AddRing(529, 300, 400, 1);            // Amethyst Ring
                     floor.AddRing(532, 500, 600, 1);            // Jade Ring
                     floor.AddRing(531, 500, 600, 1);            // Aquamarine Ring
                     floor.AddRing(534, 700, 800, 1);            // Ruby Ring
@@ -467,7 +461,6 @@ namespace StardewRoguelike
                     floor.AddSword(61, 1100, 1225, 1);          // Iridium Needle
                     floor.AddSword(29, 1975, 2100, 1);          // Galaxy Hammer
 
-                    floor.AddRing(529, 300, 400, 1);            // Amethyst Ring
                     floor.AddRing(532, 500, 600, 1);            // Jade Ring
                     floor.AddRing(531, 500, 600, 1);            // Aquamarine Ring
                     floor.AddRing(534, 700, 800, 1);            // Ruby Ring
@@ -506,7 +499,6 @@ namespace StardewRoguelike
                     floor.AddSword(29, 1975, 2100, 1);          // Galaxy Hammer
                     floor.AddSword(58, 2050, 2200, 1);          // Dragontooth Club
 
-                    floor.AddRing(529, 300, 400, 1);            // Amethyst Ring
                     floor.AddRing(532, 500, 600, 1);            // Jade Ring
                     floor.AddRing(531, 500, 600, 1);            // Aquamarine Ring
                     floor.AddRing(534, 700, 800, 1);            // Ruby Ring
