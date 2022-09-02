@@ -26,7 +26,7 @@ namespace StardewRoguelike
             if (reader.TotalSamples > int.MaxValue)
                 throw new Exception("TotalSample overflow");
 
-            int totalSamples = (int)reader.TotalSamples;
+            int totalSamples = (int)reader.TotalSamples * 2;
             int sampleRate = reader.SampleRate;
 
             // SoundEffect.SampleSizeInBytes has a fault within it. In conjunction with a small amount of percision loss,
