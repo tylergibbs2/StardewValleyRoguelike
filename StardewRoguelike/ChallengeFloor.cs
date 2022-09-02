@@ -182,6 +182,9 @@ namespace StardewRoguelike
                     values.Remove(ChallengeType.HotSpring);
                 }
 
+                if (values.Count >= History.Count)
+                    History.RemoveAt(0);
+
                 do
                 {
                     type = values[Roguelike.FloorRng.Next(values.Count)];
@@ -189,7 +192,7 @@ namespace StardewRoguelike
 
                 History.Add(type);
 
-                if (History.Count > MaxHistorySize)
+                if (History.Count >= MaxHistorySize)
                     History.RemoveAt(0);
             }
 
