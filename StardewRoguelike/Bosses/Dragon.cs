@@ -102,7 +102,7 @@ namespace StardewRoguelike.Bosses
 
             Health = (int)Math.Round(900 * Difficulty);
             MaxHealth = Health;
-            DamageToFarmer = (int)Math.Round(30 * Difficulty);
+            DamageToFarmer = (int)Math.Round(25 * Difficulty);
             originalDamageToFarmer = DamageToFarmer;
             timeUntilNextAttack = 6000;
             moveTowardPlayerThreshold.Value = 20;
