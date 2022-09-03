@@ -197,6 +197,12 @@ namespace StardewRoguelike
                     else
                         Roguelike.CurrentLevel = int.Parse(args[1]);
                     break;
+                case "stamina":
+                    if (args.Length == 1)
+                        ModEntry.ModMonitor.Log($"Stamina is currently: {Game1.player.Stamina}", LogLevel.Info);
+                    else
+                        Game1.player.Stamina = int.Parse(args[1]);
+                    break;
                 default:
                     ModEntry.ModMonitor.Log("Invalid command.", LogLevel.Error);
                     break;
