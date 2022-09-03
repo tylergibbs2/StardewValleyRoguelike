@@ -32,7 +32,7 @@ namespace StardewRoguelike
             Brute            = 11,
             Defender         = 12,
             BarrelEnthusiast = 13,
-            Leach            = 14,
+            Leech            = 14,
             FoodEnjoyer      = 15,
             Acrobat          = 16,
             Desperado        = 17,
@@ -64,7 +64,7 @@ namespace StardewRoguelike
         public static readonly List<PerkType> RarePerks = new()
         {
             PerkType.Acrobat, PerkType.Desperado, PerkType.RabbitsFoot,
-            PerkType.TurtleShell, PerkType.Leach
+            PerkType.TurtleShell, PerkType.Leech
         };
 
         public static PerkMenu CurrentMenu = null;
@@ -97,7 +97,7 @@ namespace StardewRoguelike
                 PerkType.Brute => "Brute",
                 PerkType.Defender => "Defender",
                 PerkType.BarrelEnthusiast => "Barrel Enthusiast",
-                PerkType.Leach => "Leach",
+                PerkType.Leech => "Leech",
                 PerkType.FoodEnjoyer => "Food Enjoyer",
                 PerkType.Acrobat => "Acrobat",
                 PerkType.Desperado => "Desperado",
@@ -129,7 +129,7 @@ namespace StardewRoguelike
                 PerkType.Brute => "Gain 15% extra damage",
                 PerkType.Defender => "Gain +25 maximum HP",
                 PerkType.BarrelEnthusiast => "Barrels are more likely to drop better loot",
-                PerkType.Leach => "Attacks have a chance to heal you a small amount",
+                PerkType.Leech => "Attacks have a chance to heal you a small amount",
                 PerkType.FoodEnjoyer => "Food heals for 20% more",
                 PerkType.Acrobat => "Cooldown on special moves cut in half",
                 PerkType.Desperado => "Critical hits are deadlier",

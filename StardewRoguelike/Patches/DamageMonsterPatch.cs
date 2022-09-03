@@ -41,7 +41,7 @@ namespace StardewRoguelike.Patches
                         Game1.playSound("coin");
                 }
 
-                if (Perks.HasPerk(Perks.PerkType.Leach) && Game1.random.NextDouble() < 0.5)
+                if (Perks.HasPerk(Perks.PerkType.Leech) && Game1.random.NextDouble() < 0.5)
                     Game1.player.health = Math.Min(Game1.player.health + 1, Game1.player.maxHealth);
             }
         }
