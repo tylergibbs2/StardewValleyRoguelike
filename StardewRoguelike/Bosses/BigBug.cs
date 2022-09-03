@@ -214,7 +214,7 @@ namespace StardewRoguelike.Bosses
                             targetEggSpot = EggSpawnLocations[Game1.random.Next(EggSpawnLocations.Count)];
                         } while (eggs.ContainsKey(targetEggSpot));
 
-                        ticksToLayEgg = 60;
+                        ticksToLayEgg = 120;
                         currentState.Value = State.MovingToEgg;
                         stateTickCount = 0;
                     }
@@ -232,7 +232,7 @@ namespace StardewRoguelike.Bosses
                 }
 
                 moveVector.Normalize();
-                moveVector *= Roguelike.HardMode ? 11f : 9f;
+                moveVector *= Roguelike.HardMode ? 11f : 8f;
 
                 Position += moveVector;
                 rotation = BossManager.VectorToRadians(moveVector) + BossManager.DegreesToRadians(90);
