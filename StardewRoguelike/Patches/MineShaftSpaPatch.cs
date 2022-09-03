@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewRoguelike.Extensions;
 using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
-using System;
 using System.Reflection;
 
 namespace StardewRoguelike.Patches

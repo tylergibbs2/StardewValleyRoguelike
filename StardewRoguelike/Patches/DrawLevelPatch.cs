@@ -36,7 +36,7 @@ namespace StardewRoguelike.Patches
 				Rectangle tsarea = Game1.game1.GraphicsDevice.Viewport.GetTitleSafeArea();
 				SpriteText.drawString(b, txt, tsarea.Left + 16, tsarea.Top + 16, 999999, -1, 999999, 1f, 1f, junimoText: false, 2, "", col);
 				int text_width = SpriteText.getWidthOfString(txt);
-				if (__instance.mustKillAllMonstersToAdvance())
+				if (Roguelike.HardMode)
 					b.Draw(Game1.mouseCursors, new Vector2(tsarea.Left + 16 + text_width + 16, tsarea.Top + 16) + new Vector2(4f, 6f) * 4f, new Rectangle(192, 324, 7, 10), Color.White, 0f, new Vector2(3f, 5f), 4f + Game1.dialogueButtonScale / 25f, SpriteEffects.None, 1f);
 			}
 
