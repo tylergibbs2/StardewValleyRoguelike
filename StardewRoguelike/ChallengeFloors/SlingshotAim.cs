@@ -171,22 +171,22 @@ namespace StardewRoguelike.ChallengeFloors
 
             int gemReward = wavesKilled.Value switch
             {
-                4 => 70,
-                5 => 64,
+                3 => 70,
+                4 => 64,
                 _ => 72,
             };
 
             int goldAmount = wavesKilled.Value switch
             {
-                4 => 30,
-                5 => 35,
+                3 => 30,
+                4 => 35,
                 _ => 40
             };
 
             List<Item> chestItems = new()
             {
-                new StardewValley.Object(gemReward, 1),
-                new StardewValley.Object(384, goldAmount)
+                new Object(gemReward, 1),
+                new Object(384, goldAmount)
             };
 
             mine.SpawnLocalChest(new(28, 24), chestItems);
