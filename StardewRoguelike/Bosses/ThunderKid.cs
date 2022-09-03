@@ -299,7 +299,12 @@ namespace StardewRoguelike.Bosses
                             lastIceBall -= 400;
                     }
                     else
-                        lastIceBall = 150;
+                    {
+                        if (Roguelike.HardMode)
+                            lastIceBall = 150;
+                        else
+                            lastIceBall = 250;
+                    }
 
                     if (lastIceBall != 0f && Game1.random.NextDouble() < 0.05)
                         Halt();
