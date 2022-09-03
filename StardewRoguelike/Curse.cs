@@ -26,7 +26,7 @@ namespace StardewRoguelike
         PlayerKnockback       = 89002,
         BrittleCrown          = 89003,
         MoreEnemiesLessHealth = 89004,
-        GestureOfTheDrowned   = 89005,
+        //GestureOfTheDrowned   = 89005,
         BombsAroundPlayer     = 89006,
         DoubleSpeedEveryone   = 89007,
         HealOverTime          = 89008,
@@ -51,7 +51,7 @@ namespace StardewRoguelike
             { CurseType.PlayerKnockback, ("More Knockback", "Your knockback is doubled but you also take knockback.") },
             { CurseType.BrittleCrown, ("Brittle Crown", "You gain money on hit but also lose money when taking damage.") },
             { CurseType.MoreEnemiesLessHealth, ("More Enemies", "More enemies spawn but they have less health.") },
-            { CurseType.GestureOfTheDrowned, ("Gesture of the Drowned", "Your weapon specials automatically activate but have a lower cooldown.") },
+            //{ CurseType.GestureOfTheDrowned, ("Gesture of the Drowned", "Your weapon specials automatically activate but have a lower cooldown.") },
             { CurseType.BombsAroundPlayer, ("Player Bombing", "Cherry bombs occasionally spawn around you.") },
             { CurseType.DoubleSpeedEveryone, ("Double Speed", "You move twice as fast but so do enemies.") },
             { CurseType.HealOverTime, ("Heal Over Time", "You heal over time and heal 1.5x more.") },
@@ -173,11 +173,11 @@ namespace StardewRoguelike
                 }
             }
 
-            if (HasCurse(CurseType.GestureOfTheDrowned))
-            {
-                if (Game1.player.CurrentTool != null && Game1.player.CurrentTool is MeleeWeapon weapon && Game1.player.CanMove && !Game1.player.canOnlyWalk && !Game1.eventUp && !Game1.player.onBridge.Value)
-                    weapon.animateSpecialMove(Game1.player);
-            }
+            //if (HasCurse(CurseType.GestureOfTheDrowned))
+            //{
+            //    if (Game1.player.CurrentTool != null && Game1.player.CurrentTool is MeleeWeapon weapon && Game1.player.CanMove && !Game1.player.canOnlyWalk && !Game1.eventUp && !Game1.player.onBridge.Value)
+            //        weapon.animateSpecialMove(Game1.player);
+            //}
 
             if (!e.IsOneSecond)
                 return;
