@@ -189,7 +189,7 @@ namespace StardewRoguelike
                 DOTDamageToTick -= toRemove;
             }
 
-            if (HasCurse(CurseType.HealOverTime) && HOTHealToTick > 0)
+            if (HasCurse(CurseType.HealOverTime) && HOTHealToTick > 0 && Game1.shouldTimePass())
             {
                 int toAdd = Math.Min(3, HOTHealToTick);
                 if (Game1.player.health + toAdd >= Game1.player.maxHealth)
