@@ -238,14 +238,12 @@ namespace StardewRoguelike
             else                                                            // Floor 80+ Shop
                 MerchantFloors[8].AddToStock(stock, priceAdjustment);
 
-            if (Curse.HasCurse(CurseType.CheaperMerchant))
-                Utility.AddStock(stock, new StardewValley.Object(194, 2), buyPrice: (int)(100 * priceAdjustment), limitedQuantity: 2);  // Fried Egg
-            else
-            {
-                Utility.AddStock(stock, new StardewValley.Object(194, 3), buyPrice: (int)(200 * priceAdjustment), limitedQuantity: 3);  // Fried Egg
-                Utility.AddStock(stock, new StardewValley.Object(196, 3), buyPrice: (int)(250 * priceAdjustment), limitedQuantity: 3);  // Salad
-                Utility.AddStock(stock, new StardewValley.Object(773, 3), buyPrice: (int)(300 * priceAdjustment), limitedQuantity: 3);  // Life Elixir
-            }
+            int foodQuantity = Curse.HasCurse(CurseType.CheaperMerchant) ? 1 : 3;
+            int foodPriceOffset = Curse.HasCurse(CurseType.CheaperMerchant) ? -100 : 0;
+
+            Utility.AddStock(stock, new StardewValley.Object(194, foodQuantity), buyPrice: (int)((200 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Fried Egg
+            Utility.AddStock(stock, new StardewValley.Object(196, foodQuantity), buyPrice: (int)((250 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Salad
+            Utility.AddStock(stock, new StardewValley.Object(773, foodQuantity), buyPrice: (int)((300 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Life Elixir
 
             // Subtract 25 from calculation because of Defender perk
             if (Game1.player.maxHealth - (Perks.HasPerk(Perks.PerkType.Defender) ? 25 : 0) < Roguelike.MaxHP)
