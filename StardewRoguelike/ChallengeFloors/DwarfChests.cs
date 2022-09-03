@@ -65,13 +65,14 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override bool AnswerDialogueAction(MineShaft mine, string questionAndAnswer, string[] questionParams)
         {
-            int hpNeeded = (int)Math.Round(Game1.player.maxHealth * 0.5f);
+            int hpNeeded = Game1.player.maxHealth / 2;
 
             if (questionAndAnswer == "dwarfPurchase_Yes")
             {
                 if (Game1.player.health > hpNeeded)
                 {
-                    Game1.player.takeDamage(hpNeeded, true, null);
+                    Game1.player.health -= hpNeeded;
+                    Game1.playSound("ow");
                     SpawnLocalChests(mine);
                     alreadyUsed.Add(Game1.player.uniqueMultiplayerID);
                 }
@@ -126,7 +127,7 @@ namespace StardewRoguelike.ChallengeFloors
             if (GetUsedFarmers().Contains(who.uniqueMultiplayerID))
                 return false;
 
-            int hpNeeded = (int)Math.Round(who.maxHealth * 0.5f);
+            int hpNeeded = who.maxHealth / 2;
             location.createQuestionDialogue(StardewValley.Dialogue.convertToDwarvish("I have some items for sale. Do you want to buy one for ") + $"{hpNeeded} HP?", location.createYesNoResponses(), "dwarfPurchase");
 
             return true;
