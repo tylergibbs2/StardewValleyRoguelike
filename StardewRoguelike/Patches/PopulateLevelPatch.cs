@@ -35,6 +35,8 @@ namespace StardewRoguelike.Patches
             int level = Roguelike.GetLevelFromMineshaft(__instance);
 
             int maxMonsters = level > Roguelike.ScalingOrder[^1] ? Roguelike.MaximumMonstersPerFloorPostLoop : Roguelike.MaximumMonstersPerFloorPreLoop;
+            if (Curse.AnyFarmerHasCurse(CurseType.MoreEnemiesLessHealth))
+                maxMonsters *= 2;
 
             double stoneChance;
             if (DebugCommands.ForcedStoneChance > 0f)
