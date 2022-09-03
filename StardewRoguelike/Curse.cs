@@ -182,7 +182,7 @@ namespace StardewRoguelike
             if (!e.IsOneSecond)
                 return;
 
-            if (HasCurse(CurseType.DamageOverTime) && DOTDamageToTick > 0)
+            if (HasCurse(CurseType.DamageOverTime) && DOTDamageToTick > 0 && Game1.shouldTimePass())
             {
                 int toRemove = Math.Min(3, DOTDamageToTick);
                 Game1.player.health -= toRemove;
