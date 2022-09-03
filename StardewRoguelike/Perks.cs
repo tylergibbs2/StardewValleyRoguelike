@@ -233,9 +233,6 @@ namespace StardewRoguelike
                 case PerkType.Acrobat:
                     Game1.player.professions.Add(28);
                     break;
-                case PerkType.Desperado:
-                    Game1.player.professions.Add(29);
-                    break;
                 case PerkType.Geologist:
                     Game1.player.professions.Add(19);
                     break;
@@ -284,9 +281,6 @@ namespace StardewRoguelike
                     break;
                 case PerkType.Acrobat:
                     Game1.player.professions.Remove(28);
-                    break;
-                case PerkType.Desperado:
-                    Game1.player.professions.Remove(29);
                     break;
                 case PerkType.Geologist:
                     Game1.player.professions.Remove(19);

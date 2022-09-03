@@ -17,6 +17,9 @@ namespace StardewRoguelike.Patches
             if (Perks.HasPerk(Perks.PerkType.Precision))
                 critMultiplier *= 1.2f;
 
+            if (Perks.HasPerk(Perks.PerkType.Desperado))
+                critMultiplier += 1.5f;
+
             if (Curse.HasCurse(CurseType.PlayerKnockback))
                 knockBackModifier *= 2;
 
