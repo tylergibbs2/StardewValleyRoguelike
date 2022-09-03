@@ -17,8 +17,6 @@ namespace StardewRoguelike
     {
         public static readonly List<ChallengeType> History = new();
 
-        private static readonly int MaxHistorySize = 9;
-
         #pragma warning disable format
         public enum ChallengeType
         {
@@ -182,18 +180,13 @@ namespace StardewRoguelike
                     values.Remove(ChallengeType.HotSpring);
                 }
 
-                if (values.Count >= History.Count && History.Count > 0)
+                while (values.Count >= History.Count && History.Count > 0)
                     History.RemoveAt(0);
 
-                do
-                {
-                    type = values[Roguelike.FloorRng.Next(values.Count)];
-                } while (History.Contains(type));
+                values.RemoveAll(value => History.Contains(value));
 
+                type = values[Roguelike.FloorRng.Next(values.Count)];
                 History.Add(type);
-
-                if (History.Count >= MaxHistorySize)
-                    History.RemoveAt(0);
             }
 
             return type switch
