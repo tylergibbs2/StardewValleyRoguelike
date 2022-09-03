@@ -1,8 +1,6 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewRoguelike.VirtualProperties;
 using StardewValley;
-using StardewValley.Locations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -69,7 +67,6 @@ namespace StardewRoguelike
         /// </summary>
         public void Reset()
         {
-            HardMode = false;
             Multiplayer = false;
             PlayerCount = 0;
             StartTime = null;

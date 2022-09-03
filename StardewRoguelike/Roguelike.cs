@@ -85,8 +85,14 @@ namespace StardewRoguelike
             if (HardMode && !DidHardModeDowngrade)
             {
                 Game1.player.removeFirstOfThisItemFromInventory(194);
-                DelayedAction.playSoundAfterDelay("clank", 500);
+                DelayedAction.playSoundAfterDelay("clank", 250);
                 DidHardModeDowngrade = true;
+            }
+            else if (!HardMode && DidHardModeDowngrade)
+            {
+                Game1.player.addItemToInventory(new StardewValley.Object(194, 1));
+                DelayedAction.playSoundAfterDelay("clank", 250);
+                DidHardModeDowngrade = false;
             }
 
             if (Game1.player.currentLocation is MineShaft)
@@ -241,10 +247,7 @@ namespace StardewRoguelike
         public static void NextFloor()
         {
             if (CurrentLevel == 0)
-            {
                 ModEntry.Stats.Reset();
-                ModEntry.Stats.HardMode = HardMode;
-            }
 
             CurrentLevel++;
             ModEntry.Stats.FloorsDescended++;
@@ -335,7 +338,8 @@ namespace StardewRoguelike
             Game1.player.addItemToInventory(pick);                // Copper Pickaxe
             Game1.player.addItemToInventory(new MeleeWeapon(0));  // Rusty Sword
 
-            Game1.player.addItemToInventory(new StardewValley.Object(194, 3));  // Fried Egg
+            int eggStack = HardMode ? 2 : 3;
+            Game1.player.addItemToInventory(new StardewValley.Object(194, eggStack));  // Fried Egg
         }
 
         public static void HandleDeath()
@@ -419,7 +423,6 @@ namespace StardewRoguelike
 
             if (Context.IsMainPlayer)
             {
-                HardMode = false;
                 SeenMineMaps.Clear();
                 MineShaft.clearActiveMines();
             }
@@ -431,7 +434,6 @@ namespace StardewRoguelike
             Perks.RemoveAllPerks();
 
             ModEntry.Invincible = false;
-            DidHardModeDowngrade = false;
 
             Game1.player.get_FarmerIsSpectating().Value = false;
 
@@ -518,10 +520,13 @@ namespace StardewRoguelike
 
         public static bool PerformAction(GameLocation location, string action, Farmer who, Location tileLocation)
         {
-            if (action == "HardMode" && !HardMode && Context.IsMainPlayer)
+            if (action == "HardMode" && Context.IsMainPlayer)
             {
                 var responses = location.createYesNoResponses();
-                location.createQuestionDialogue("Enter hard mode?", responses, "hardMode");
+                if (HardMode)
+                    location.createQuestionDialogue("Exit hard mode?", responses, "hardMode");
+                else
+                    location.createQuestionDialogue("Enter hard mode?", responses, "hardMode");
                 return true;
             }
 
@@ -533,8 +538,19 @@ namespace StardewRoguelike
             if (questionAndAnswer != "hardMode_Yes")
                 return false;
 
-            HardMode = true;
-            Game1.drawObjectDialogue("Your journey has begun.");
+            if (HardMode)
+            {
+                HardMode = false;
+                Game1.drawObjectDialogue("Couldn't handle the heat?");
+            }
+            else
+            {
+                HardMode = true;
+                Game1.drawObjectDialogue("Your journey has begun.");
+            }
+
+            ModEntry.Stats.Reset();
+            ModEntry.Stats.HardMode = HardMode;
 
             return true;
         }
