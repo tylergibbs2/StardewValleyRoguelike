@@ -94,7 +94,7 @@ namespace StardewRoguelike.Patches
 
                 if (Curse.HasCurse(CurseType.BrittleCrown) && Game1.random.NextDouble() < 0.9)
                 {
-                    int toLose = Game1.random.Next(10, 17);
+                    int toLose = Game1.random.Next(10, 17) * damage;
                     __instance.currentLocation.playSound("sell");
                     __instance.currentLocation.debris.Add(new Debris(toLose, new Vector2(__instance.getStandingX(), __instance.getStandingY()), Color.Gold, 1f, __instance));
                     Game1.player.Money = Math.Max(0, Game1.player.Money - toLose);
