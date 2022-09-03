@@ -69,6 +69,7 @@ namespace StardewRoguelike.Patches
 					if (distanceFromLadder > 9f)
 					{
 						__result = new BlueSquid(position);
+						__result.moveTowardPlayerThreshold.Value *= 2;
 						return false;
 					}
 					if (mineRandom.NextDouble() < 0.01)
