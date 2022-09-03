@@ -83,7 +83,8 @@ namespace StardewRoguelike
                     }
                     else
                     {
-                        CurseType curse = (CurseType)int.Parse(args[1]);
+                        var values = Enum.GetValues<CurseType>();
+                        CurseType curse = values[int.Parse(args[1])];
                         Curse.AddCurse(curse);
                     }
                     break;
