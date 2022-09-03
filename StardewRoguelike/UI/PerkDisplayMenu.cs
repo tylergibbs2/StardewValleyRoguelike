@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using StardewModdingAPI;
 using StardewRoguelike.Extensions;
 using StardewValley;
 using StardewValley.Menus;
@@ -68,6 +69,22 @@ namespace StardewRoguelike.UI
                 Game1.playSound("shiny4");
             }
             else if (direction < 0 && CanScrollDown())
+            {
+                scrollOffset -= 100;
+                Game1.playSound("shiny4");
+            }
+        }
+
+        public override void receiveGamePadButton(Buttons b)
+        {
+            base.receiveGamePadButton(b);
+
+            if (b == Buttons.RightThumbstickUp && CanScrollUp())
+            {
+                scrollOffset += 100;
+                Game1.playSound("shiny4");
+            }
+            else if (b == Buttons.RightThumbstickDown && CanScrollDown())
             {
                 scrollOffset -= 100;
                 Game1.playSound("shiny4");
