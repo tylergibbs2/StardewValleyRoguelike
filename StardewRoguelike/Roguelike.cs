@@ -107,6 +107,12 @@ namespace StardewRoguelike
             }
             buff.millisecondsDuration = 50;
 
+            if (Game1.player.Stamina < 0 && Game1.player.health > 0)
+            {
+                Game1.player.health = 0;
+                Game1.playSound("ow");
+            }
+
             if (Game1.killScreen)
                 HandleDeath();
 
@@ -335,6 +341,7 @@ namespace StardewRoguelike
         public static void HandleDeath()
         {
             Game1.killScreen = false;
+            Game1.player.exhausted.Value = false;
 
             if (Context.IsMultiplayer)
                 HandleMultiplayerDeath();
@@ -349,6 +356,7 @@ namespace StardewRoguelike
             Game1.player.temporarilyInvincible = true;
             Game1.player.maxHealth = StartingHP;
             Game1.player.health = StartingHP;
+            Game1.player.Stamina = Game1.player.MaxStamina;
 
             DelayedAction.functionAfterDelay(GameOver, 7000);
         }
