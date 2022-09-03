@@ -1,4 +1,4 @@
-﻿using StardewValley;
+using StardewValley;
 using StardewValley.Locations;
 using StardewRoguelike.VirtualProperties;
 using System;
@@ -180,7 +180,7 @@ namespace StardewRoguelike
                     values.Remove(ChallengeType.HotSpring);
                 }
 
-                while (values.Count >= History.Count && History.Count > 0)
+                while (History.Count >= values.Count && History.Count > 0)
                     History.RemoveAt(0);
 
                 values.RemoveAll(value => History.Contains(value));
