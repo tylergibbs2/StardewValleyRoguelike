@@ -54,7 +54,7 @@ namespace StardewRoguelike
             //{ CurseType.GestureOfTheDrowned, ("Gesture of the Drowned", "Your weapon specials automatically activate but have a lower cooldown.") },
             { CurseType.BombsAroundPlayer, ("Player Bombing", "Cherry bombs occasionally spawn around you.") },
             { CurseType.DoubleSpeedEveryone, ("Double Speed", "You move twice as fast but so do enemies.") },
-            { CurseType.HealOverTime, ("Heal Over Time", "You heal over time and heal 1.5x more.") },
+            { CurseType.HealOverTime, ("Heal Over Time", "Food now heals over time but heals 1.5x more.") },
             { CurseType.BuffsMorePotent, ("Potent Buffs", "Food buffs are more potent but have limited duration.") },
             { CurseType.BootsBetterImmunity, ("Boot Immunity", "All boots have +10 immunity and -10 defense.") },
             { CurseType.BootsBetterDefense, ("Boot Defense", "All boots have +10 defense and -10 immunity.") },
