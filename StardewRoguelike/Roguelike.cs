@@ -413,6 +413,7 @@ namespace StardewRoguelike
             {
                 HardMode = false;
                 SeenMineMaps.Clear();
+                ChallengeFloor.History.Clear();
                 MineShaft.clearActiveMines();
             }
         }
