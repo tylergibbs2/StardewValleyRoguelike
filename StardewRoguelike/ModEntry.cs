@@ -1,16 +1,20 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using StardewHitboxes;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Toolkit.Framework.Clients.WebApi;
 using StardewRoguelike.Bosses;
 using StardewRoguelike.UI;
 using StardewValley;
+using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 
 namespace StardewRoguelike
 {
@@ -52,6 +56,8 @@ namespace StardewRoguelike
         /// Whether or not being able to upload a run online is disabled.
         /// </summary>
         public static bool DisableUpload = false;
+
+        public static string NewUpdateVersion = null;
 
         /// <summary>
         /// All assets that have been modified.
@@ -143,6 +149,7 @@ namespace StardewRoguelike
 
             // Initialize all event handlers
             helper.Events.GameLoop.GameLaunched += SetupGMCM;
+            helper.Events.GameLoop.GameLaunched += CheckForUpdate;
             helper.Events.GameLoop.SaveLoaded += Roguelike.SaveLoaded;
             helper.Events.GameLoop.ReturnedToTitle += Roguelike.ReturnedToTitle;
             helper.Events.GameLoop.TimeChanged += Roguelike.TimeChanged;
@@ -166,6 +173,46 @@ namespace StardewRoguelike
             helper.Events.Player.Warped += SpectatorMode.RespawnPlayers;
 
             helper.ConsoleCommands.Add("rdebug", "Debugging command suite for the Roguelike.", DebugCommands.Parse);
+        }
+
+        public void CheckForUpdate(object sender, GameLaunchedEventArgs e)
+        {
+            object metadata = Helper.ModRegistry.Get(Helper.ModRegistry.ModID);
+            ModEntryModel updateResult = (ModEntryModel)metadata.GetType().GetProperty("UpdateCheckData", BindingFlags.Instance | BindingFlags.Public).GetValue(metadata);
+
+            if (updateResult is null || updateResult.SuggestedUpdate is null)
+                return;
+
+            NewUpdateVersion = updateResult.SuggestedUpdate.Version.ToString();
+            Helper.Events.Display.RenderedHud += RenderHud;
+        }
+
+        public void RenderHud(object sender, RenderedHudEventArgs e)
+        {
+            if (!Context.IsWorldReady)
+                return;
+
+            string newVersionText = $"New Update: {NewUpdateVersion}";
+            Vector2 newVersionTextSize = Game1.smallFont.MeasureString(newVersionText);
+
+            Point drawPos = new((int)(Game1.uiViewport.Width - newVersionTextSize.X - 40), 140);
+
+            IClickableMenu.drawTextureBox(
+                e.SpriteBatch,
+                drawPos.X - 15,
+                drawPos.Y - 12,
+                (int)newVersionTextSize.X + 33,
+                (int)newVersionTextSize.Y + 25,
+                Color.White
+            );
+
+            Utility.drawTextWithShadow(
+                e.SpriteBatch,
+                newVersionText,
+                Game1.smallFont,
+                new Vector2(drawPos.X, drawPos.Y + 3),
+                Color.Black
+            );
         }
 
         /// <summary>
