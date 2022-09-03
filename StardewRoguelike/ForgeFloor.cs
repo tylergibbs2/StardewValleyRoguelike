@@ -17,6 +17,9 @@ namespace StardewRoguelike
 
         public static bool ShouldDoForgeFloor(int level)
         {
+            if (DebugCommands.ForcedForgeFloor)
+                return true;
+
             int lastForgeFloor = 0;
             int highestFloor = Roguelike.GetHighestMineShaftLevel();
             foreach (MineShaft mine in MineShaft.activeMines)

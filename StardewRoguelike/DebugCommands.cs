@@ -26,6 +26,8 @@ namespace StardewRoguelike
 
         public static int ForcedChallengeIndex = -1;
 
+        public static bool ForcedForgeFloor = false;
+
         public static float ForcedDifficulty = 0f;
 
         public static bool ForcedFortuneTeller = false;
@@ -173,6 +175,12 @@ namespace StardewRoguelike
                     else
                         ForcedChallengeIndex = int.Parse(args[1]);
                     break;
+                case "forceforge":
+                    if (args.Length == 1)
+                        ModEntry.ModMonitor.Log($"Forge is currently: {ForcedForgeFloor}", LogLevel.Info);
+                    else
+                        ForcedForgeFloor = bool.Parse(args[1]);
+                    break;
                 case "forcefortune":
                     if (args.Length == 1)
                         ModEntry.ModMonitor.Log($"Forced fortune is currently: {ForcedFortuneTeller}", LogLevel.Info);
@@ -234,10 +242,12 @@ namespace StardewRoguelike
             help.AppendLine("uploadstats : forces a stats upload");
             help.AppendLine("forceboss [int:which] : forces boss floors to appear when possible");
             help.AppendLine("forcechallenge [int:which] : forces challenge floors to appear when possible");
+            help.AppendLine("forceforge [bool:status] : forces a forge floor to appear when possible");
             help.AppendLine("forcefortune [bool:status] : force the fortune teller to spawn");
             help.AppendLine("forcegil [bool:status] : force gil to spawn");
             help.AppendLine("difficulty <float:new> : forces the difficulty to be at a certain value");
             help.AppendLine("level <int:new> : sets the current level");
+            help.AppendLine("stamina [int:new] : sets the player's stamina");
 
             ModEntry.ModMonitor.Log(help.ToString(), LogLevel.Info);
         }
