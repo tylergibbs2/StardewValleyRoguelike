@@ -23,6 +23,8 @@ namespace StardewRoguelike.Patches
             if (Curse.HasCurse(CurseType.PlayerKnockback))
                 knockBackModifier *= 2;
 
+            knockBackModifier = Math.Min(knockBackModifier, 2f);
+
             if (Curse.HasCurse(CurseType.MoreCritsLessDamage))
             {
                 critChance = 0.25f;
