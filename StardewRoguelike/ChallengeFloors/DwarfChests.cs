@@ -39,9 +39,10 @@ namespace StardewRoguelike.ChallengeFloors
         {
             MerchantFloor merchantFloor = Merchant.GetNextMerchantFloor(mine);
 
-            Vector2 chestSpot = new(7f, 12f);
+            Vector2 leftMostChest = new(7f, 12f);
             for (int i = 0; i < 3; i++)
             {
+                Vector2 chestSpot = new(leftMostChest.X + (i * 3), leftMostChest.Y);
                 List<Item> chestItems = new() { merchantFloor.PickAnyRandom() };
 
                 Chest chest = new(0, chestItems, chestSpot)
@@ -49,8 +50,9 @@ namespace StardewRoguelike.ChallengeFloors
                     Tint = Color.White
                 };
                 mine.overlayObjects.Add(chestSpot, chest);
-                chestSpot.X += 3f;
             }
+
+            Game1.playSound("axchop");
         }
 
         public void RemoveLocalChests(MineShaft mine)
