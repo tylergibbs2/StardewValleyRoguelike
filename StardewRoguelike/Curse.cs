@@ -47,14 +47,14 @@ namespace StardewRoguelike
         private static readonly Dictionary<CurseType, (string, string)> CurseData = new()
         {
             { CurseType.GlassCannon, ("Glass Cannon", "You deal double damage but have half health.") },
-            { CurseType.DamageOverTime, ("Damage Over Time", "You take damage over time and you take 1.5x more.") },
+            { CurseType.DamageOverTime, ("Damage Over Time", "Damage you take is applied over time but you take 1.5x more.") },
             { CurseType.PlayerKnockback, ("More Knockback", "Your knockback is doubled but you also take knockback.") },
             { CurseType.BrittleCrown, ("Brittle Crown", "You gain money on hit but also lose money when taking damage.") },
             { CurseType.MoreEnemiesLessHealth, ("More Enemies", "More enemies spawn but they have less health.") },
             //{ CurseType.GestureOfTheDrowned, ("Gesture of the Drowned", "Your weapon specials automatically activate but have a lower cooldown.") },
             { CurseType.BombsAroundPlayer, ("Player Bombing", "Cherry bombs occasionally spawn around you.") },
             { CurseType.DoubleSpeedEveryone, ("Double Speed", "You move twice as fast but so do enemies.") },
-            { CurseType.HealOverTime, ("Heal Over Time", "Food now heals over time but heals 1.5x more.") },
+            { CurseType.HealOverTime, ("Heal Over Time", "Healing you receive is applied over time but heals you 1.5x more.") },
             { CurseType.BuffsMorePotent, ("Potent Buffs", "Food buffs are more potent but have limited duration.") },
             { CurseType.BootsBetterImmunity, ("Boot Immunity", "All boots have +10 immunity and -10 defense.") },
             { CurseType.BootsBetterDefense, ("Boot Defense", "All boots have +10 defense and -10 immunity.") },
