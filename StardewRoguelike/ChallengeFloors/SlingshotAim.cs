@@ -159,7 +159,7 @@ namespace StardewRoguelike.ChallengeFloors
             gameOver = true;
             mine.characters.Filter(c => c is not Monster);
 
-            if (wavesKilled < 4)
+            if (wavesKilled < 3)
                 return;
 
             mine.playSound("discoverMineral");
