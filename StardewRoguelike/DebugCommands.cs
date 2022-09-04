@@ -219,6 +219,23 @@ namespace StardewRoguelike
                     else
                         Game1.player.Stamina = int.Parse(args[1]);
                     break;
+                case "genmines":
+                    if (args.Length == 1)
+                        ModEntry.ModMonitor.Log($"Mines in memory: active={MineShaft.activeMines.Count}", LogLevel.Info);
+                    else
+                    {
+                        int highestLevel = Roguelike.GetHighestMineShaftLevel();
+                        if (highestLevel == 0)
+                        {
+                            ModEntry.ModMonitor.Log($"Enter the first level before using this command.", LogLevel.Error);
+                            return;
+                        }
+
+                        int toGen = int.Parse(args[1]);
+                        for (int i = highestLevel + 1; i <= highestLevel + toGen; i++)
+                            MineShaft.GetMine($"UndergroundMine1/{i}");
+                    }
+                    break;
                 default:
                     ModEntry.ModMonitor.Log("Invalid command.", LogLevel.Error);
                     break;
