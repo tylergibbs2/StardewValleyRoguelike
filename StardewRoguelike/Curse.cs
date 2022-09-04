@@ -216,6 +216,11 @@ namespace StardewRoguelike
             return Game1.player.get_FarmerCurses().Count > 0;
         }
 
+        public static bool HasAllCurses()
+        {
+            return Game1.player.get_FarmerCurses().Count == Enum.GetValues<CurseType>().Length;
+        }
+
         public static bool AnyFarmerHasCurse(CurseType curseType)
         {
             foreach (Farmer farmer in Game1.getOnlineFarmers())

@@ -195,6 +195,12 @@ namespace StardewRoguelike
         {
             if (action == "Curses" && !mine.get_MineShaftUsedFortune())
             {
+                if (Curse.HasAllCurses())
+                {
+                    Game1.drawObjectDialogue("You have every otherworldly power known to mankind.");
+                    return true;
+                }
+
                 int hpNeeded = 15;
                 int goldNeeded = 500;
 
