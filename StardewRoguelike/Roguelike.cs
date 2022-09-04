@@ -476,6 +476,8 @@ namespace StardewRoguelike
             Game1.player.enchantments.Clear();
             Game1.player.enchantments.Add(new WeaponStatTrack());
 
+            Game1.player.hasUsedDailyRevive.Value = false;
+
             for (int i = 0; i < Game1.player.Items.Count; i++)
                 Game1.player.Items[i] = null;
 
