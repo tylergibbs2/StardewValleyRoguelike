@@ -251,12 +251,17 @@ namespace StardewRoguelike
             Utility.AddStock(stock, new StardewValley.Object(196, foodQuantity), buyPrice: (int)((250 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Salad
             Utility.AddStock(stock, new StardewValley.Object(773, foodQuantity), buyPrice: (int)((300 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Life Elixir
 
-            // Subtract 25 from calculation because of Defender perk
-            if (Game1.player.maxHealth - (Perks.HasPerk(Perks.PerkType.Defender) ? 25 : 0) < Roguelike.MaxHP)
+            int milkQuantity = (Roguelike.MaxHP - Roguelike.TrueMaxHP) / 25;
+            int milkInInventory = 0;
+
+            foreach (Item item in Game1.player.Items)
             {
-                int milkQuantity = (Roguelike.MaxHP - Game1.player.maxHealth) / 25;
-                Utility.AddStock(stock, new StardewValley.Object(803, milkQuantity), buyPrice: (int)(500 * priceAdjustment), limitedQuantity: milkQuantity);  // Iridium Milk
+                if (item is not null && item.ParentSheetIndex == 803)
+                    milkInInventory += item.Stack;
             }
+
+            if (milkQuantity - milkInInventory > 0)
+                Utility.AddStock(stock, new StardewValley.Object(803, milkQuantity), buyPrice: (int)(500 * priceAdjustment), limitedQuantity: milkQuantity);  // Iridium Milk
 
             return stock;
         }

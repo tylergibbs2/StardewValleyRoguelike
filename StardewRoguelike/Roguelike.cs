@@ -52,6 +52,8 @@ namespace StardewRoguelike
         public static readonly int StartingHP = 50;
         public static readonly int MaxHP = 150;
 
+        public static int TrueMaxHP = Game1.player.maxHealth;
+
         public static bool HardMode
         {
             get => Game1.player.team.get_FarmerTeamHardMode().Value;
@@ -81,6 +83,14 @@ namespace StardewRoguelike
         {
             if (!Context.IsWorldReady)
                 return;
+
+            if (Curse.HasCurse(CurseType.GlassCannon))
+                Game1.player.maxHealth = TrueMaxHP / 2;
+            else
+                Game1.player.maxHealth = TrueMaxHP;
+
+            if (Game1.player.health > Game1.player.maxHealth)
+                Game1.player.health = Game1.player.maxHealth;
 
             if (HardMode && !DidHardModeDowngrade)
             {
@@ -439,6 +449,7 @@ namespace StardewRoguelike
 
             Game1.player.health = StartingHP;
             Game1.player.maxHealth = StartingHP;
+            TrueMaxHP = StartingHP;
 
             Game1.player.Stamina = Game1.player.MaxStamina;
             Game1.player.Money = StartingGold;

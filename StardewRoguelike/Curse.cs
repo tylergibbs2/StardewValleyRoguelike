@@ -280,8 +280,6 @@ namespace StardewRoguelike
             switch (curseType)
             {
                 case CurseType.GlassCannon:
-                    Game1.player.maxHealth /= 2;
-                    Game1.player.health = Math.Min(Game1.player.maxHealth, Game1.player.health);
                     Game1.player.enchantments.Add(new GlassCannonEnchantment());
                     break;
                 case CurseType.DamageOverTime:
@@ -334,7 +332,6 @@ namespace StardewRoguelike
             switch (curseType)
             {
                 case CurseType.GlassCannon:
-                    Game1.player.maxHealth = Math.Min(Game1.player.maxHealth * 2, Roguelike.MaxHP);
                     GlassCannonEnchantment toRemove = null;
                     foreach (BaseEnchantment enchantment in Game1.player.enchantments)
                     {

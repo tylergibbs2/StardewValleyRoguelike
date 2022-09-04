@@ -228,7 +228,8 @@ namespace StardewRoguelike
                     Game1.player.professions.Add(26);
                     break;
                 case PerkType.Defender:
-                    Game1.player.maxHealth += 25;
+                    Roguelike.TrueMaxHP += 25;
+                    Game1.player.health = Roguelike.TrueMaxHP;
                     break;
                 case PerkType.Acrobat:
                     Game1.player.professions.Add(28);
@@ -276,8 +277,11 @@ namespace StardewRoguelike
                     Game1.player.professions.Remove(26);
                     break;
                 case PerkType.Defender:
-                    Game1.player.maxHealth = Math.Max(0, Game1.player.maxHealth - 25);
-                    Game1.player.health = Math.Min(Game1.player.maxHealth, Game1.player.health);
+                    Roguelike.TrueMaxHP = Math.Max(0, Roguelike.TrueMaxHP - 25);
+                    if (Curse.HasCurse(CurseType.GlassCannon))
+                        Game1.player.health = Math.Min(Roguelike.TrueMaxHP / 2, Game1.player.health);
+                    else
+                        Game1.player.health = Math.Min(Roguelike.TrueMaxHP, Game1.player.health);
                     break;
                 case PerkType.Acrobat:
                     Game1.player.professions.Remove(28);
