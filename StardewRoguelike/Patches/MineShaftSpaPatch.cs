@@ -66,12 +66,14 @@ namespace StardewRoguelike.Patches
         {
             protected override PatchDescriptor GetPatchDescriptor() => new(typeof(MineShaft), "cleanupBeforePlayerExit");
 
-            public static void Postfix()
+            public static void Postfix(MineShaft __instance)
             {
                 if (Game1.player.swimming.Value)
                     Game1.player.swimming.Value = false;
                 if (Game1.locationRequest is not null)
                     Game1.player.bathingClothes.Value = false;
+
+                __instance.unhook_getDebuffPlayerEvent();
             }
         }
 

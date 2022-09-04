@@ -29,9 +29,22 @@ namespace StardewRoguelike.VirtualProperties
 
         public static NetEvent2Field<Rectangle, NetRectangle, int, NetInt> get_DebuffPlayerEvent(this GameLocation location)
         {
-            var holder = values.GetOrCreateValue(location);
+            bool got = values.TryGetValue(location, out Holder holder);
+            if (got)
+                return holder.Value;
+
+            holder = values.GetOrCreateValue(location);
             holder.Value.onEvent += location.performDebuffPlayers;
             return holder.Value;
+        }
+
+        public static void unhook_getDebuffPlayerEvent(this GameLocation location)
+        {
+            bool got = values.TryGetValue(location, out Holder holder);
+            if (!got)
+                return;
+
+            holder.Value.onEvent -= location.performDebuffPlayers;
         }
     }
 }
