@@ -125,7 +125,8 @@ namespace StardewRoguelike.Bosses
                     Monster slime = mine.BuffMonsterIfNecessary(new GreenSlime(getTileLocation() * 64f, 80));
                     slime.isHardModeMonster.Value = true;
                     slime.moveTowardPlayerThreshold.Value = 25;
-                    slime.Sprite.LoadTexture(slime.Sprite.textureName.Value + "_dangerous");
+                    if (!slime.Sprite.textureName.Value.EndsWith("_dangerous"))
+                        slime.Sprite.LoadTexture(slime.Sprite.textureName.Value + "_dangerous");
                     Roguelike.AdjustMonster(ref slime);
                     mine.characters.Add(slime);
                 }
