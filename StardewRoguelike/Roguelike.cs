@@ -431,6 +431,8 @@ namespace StardewRoguelike
             GoldDropMax = 2;
             GoldDropMin = 1;
 
+            Game1.flushLocationLookup();
+
             if (Context.IsMainPlayer)
             {
                 SeenMineMaps.Clear();
