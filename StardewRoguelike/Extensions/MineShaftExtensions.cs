@@ -54,6 +54,10 @@ namespace StardewRoguelike.Extensions
             fake.mapPath.Value = mine.mapPath.Value;
             DwarfGate gate = new(fake, index, gatePosition.X, gatePosition.Y, 0);
             gate.locationRef.Value = mine;
+
+            // fixes memory leak, do not remove
+            fake = null;
+
             gate.ApplyTiles();
             mine.get_MineShaftDwarfGates().Add(gate);
 
