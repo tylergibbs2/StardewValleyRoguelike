@@ -55,7 +55,10 @@ namespace StardewRoguelike.Patches
             }
             else if (b.source.Equals("Life Elixir"))
             {
-                Game1.player.health = Game1.player.maxHealth;
+                if (Curse.HasCurse(CurseType.HealOverTime))
+                    Curse.HOTHealToTick += (int)(Game1.player.maxHealth * 1.5);
+                else
+                    Game1.player.health = Game1.player.maxHealth;
             }
             if (b.total > 0 && __instance.quenchedLeft <= 0)
             {
