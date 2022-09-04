@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using StardewHitboxes;
@@ -57,6 +57,7 @@ namespace StardewRoguelike
         /// </summary>
         public static bool DisableUpload = false;
 
+        public static string CurrentVersion = null;
         public static string NewUpdateVersion = null;
 
         /// <summary>
@@ -165,6 +166,7 @@ namespace StardewRoguelike
 
             helper.Events.Display.MenuChanged += MenuChanged;
             helper.Events.Display.MenuChanged += Roguelike.MenuChanged;
+            helper.Events.Display.RenderedHud += RenderHud;
 
             helper.Events.Player.Warped += Roguelike.PlayerWarped;
             helper.Events.Player.Warped += Merchant.PlayerWarped;
@@ -180,11 +182,12 @@ namespace StardewRoguelike
             object metadata = Helper.ModRegistry.Get(Helper.ModRegistry.ModID);
             ModEntryModel updateResult = (ModEntryModel)metadata.GetType().GetProperty("UpdateCheckData", BindingFlags.Instance | BindingFlags.Public).GetValue(metadata);
 
+            CurrentVersion = (metadata as IModInfo).Manifest.Version.ToString();
+
             if (updateResult is null || updateResult.SuggestedUpdate is null)
                 return;
 
             NewUpdateVersion = updateResult.SuggestedUpdate.Version.ToString();
-            Helper.Events.Display.RenderedHud += RenderHud;
         }
 
         public void RenderHud(object sender, RenderedHudEventArgs e)
@@ -192,27 +195,43 @@ namespace StardewRoguelike
             if (!Context.IsWorldReady)
                 return;
 
-            string newVersionText = $"New Update: {NewUpdateVersion}";
-            Vector2 newVersionTextSize = Game1.smallFont.MeasureString(newVersionText);
+            if (NewUpdateVersion is not null)
+            {
+                string newVersionText = $"New Update: {NewUpdateVersion}";
+                Vector2 newVersionTextSize = Game1.smallFont.MeasureString(newVersionText);
 
-            Point drawPos = new((int)(Game1.uiViewport.Width - newVersionTextSize.X - 40), 140);
+                Point drawPos = new((int)(Game1.uiViewport.Width - newVersionTextSize.X - 40), 140);
 
-            IClickableMenu.drawTextureBox(
-                e.SpriteBatch,
-                drawPos.X - 15,
-                drawPos.Y - 12,
-                (int)newVersionTextSize.X + 33,
-                (int)newVersionTextSize.Y + 25,
-                Color.White
-            );
+                IClickableMenu.drawTextureBox(
+                    e.SpriteBatch,
+                    drawPos.X - 15,
+                    drawPos.Y - 12,
+                    (int)newVersionTextSize.X + 33,
+                    (int)newVersionTextSize.Y + 25,
+                    Color.White
+                );
 
-            Utility.drawTextWithShadow(
-                e.SpriteBatch,
-                newVersionText,
-                Game1.smallFont,
-                new Vector2(drawPos.X, drawPos.Y + 3),
-                Color.Black
-            );
+                Utility.drawTextWithShadow(
+                    e.SpriteBatch,
+                    newVersionText,
+                    Game1.smallFont,
+                    new Vector2(drawPos.X, drawPos.Y + 3),
+                    Color.Black
+                );
+            }
+            if (CurrentVersion is not null)
+            {
+                Vector2 versionTextSize = Game1.tinyFont.MeasureString(CurrentVersion);
+
+                Vector2 drawPos = new((Game1.uiViewport.Width - versionTextSize.X - 100), 80);
+
+                e.SpriteBatch.DrawString(
+                    Game1.tinyFont,
+                    CurrentVersion,
+                    drawPos,
+                    Color.White
+                );
+            }
         }
 
         /// <summary>
