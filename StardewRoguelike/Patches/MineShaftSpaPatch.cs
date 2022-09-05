@@ -125,6 +125,7 @@ namespace StardewRoguelike.Patches
                 {
                     Game1.player.health = Game1.player.maxHealth;
                     Game1.player.stamina = Game1.player.MaxStamina;
+                    Curse.DOTDamageToTick = 0;
                     Game1.player.swimTimer = 800;
                     Game1.player.swimming.Value = true;
                     Game1.player.changeIntoSwimsuit();
