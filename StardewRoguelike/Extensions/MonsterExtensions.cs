@@ -1,5 +1,6 @@
 ﻿using StardewValley.Monsters;
 using System;
+using xTile.Dimensions;
 
 namespace StardewRoguelike.Extensions
 {
@@ -19,6 +20,18 @@ namespace StardewRoguelike.Extensions
             float hpPercent = (float)monster.Health / monster.MaxHealth;
             int toSubtract = (int)Math.Round(hpPercent * range, 0);
             return Math.Min(Math.Max(min, max - toSubtract), max);
+        }
+
+        public static void KeepInMap(this Monster monster)
+        {
+            if (monster.Position.X < 0f)
+                monster.Position = new(0, monster.Position.Y);
+            if (monster.Position.Y < 0f)
+                monster.Position = new(monster.Position.X, 0);
+            if (monster.Position.X > monster.currentLocation.map.GetLayer("Back").LayerWidth * 64)
+                monster.Position = new(monster.currentLocation.map.GetLayer("Back").LayerWidth * 64, monster.Position.Y);
+            if (monster.Position.Y > monster.currentLocation.map.GetLayer("Back").LayerHeight * 64)
+                monster.Position = new(monster.Position.X, monster.currentLocation.map.GetLayer("Back").LayerHeight * 64);
         }
     }
 }

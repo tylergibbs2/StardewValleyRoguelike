@@ -307,6 +307,7 @@ namespace StardewRoguelike.Bosses
 
                 BigBugMinion minion = new(spawnLocation, Difficulty, currentMinionState);
                 minion.moveTowardPlayerThreshold.Value = 100;
+                minion.focusedOnFarmers = true;
                 currentLocation.characters.Add(minion);
 
                 amount--;
@@ -371,6 +372,7 @@ namespace StardewRoguelike.Bosses
 
         public override void update(GameTime time, GameLocation location)
         {
+            this.KeepInMap();
             base.update(time, location);
             spawnEggEvent.Poll();
             despawnEggEvent.Poll();

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
 using StardewRoguelike.Extensions;
@@ -128,6 +128,17 @@ namespace StardewRoguelike.Bosses
                 currentState.Value = State.Normal;
         }
 
+        public override void update(GameTime time, GameLocation location)
+        {
+            this.KeepInMap();
+            base.update(time, location);
+
+            if (currentState.Value == State.ChargingUp && !isGlowing)
+                startGlowing(Color.Black, false, 0.15f);
+            else if (currentState.Value != State.ChargingUp)
+                stopGlowing();
+        }
+
         public override void behaviorAtGameTick(GameTime time)
         {
             if (currentState.Value == State.Normal)
@@ -135,11 +146,6 @@ namespace StardewRoguelike.Bosses
                 base.behaviorAtGameTick(time);
                 DamageToFarmer = originalDamageToFarmer;
             }
-
-            if (currentState.Value == State.ChargingUp && !isGlowing)
-                startGlowing(Color.Black, false, 0.15f);
-            else if (currentState.Value != State.ChargingUp)
-                stopGlowing();
 
             if (currentState.Value == State.ChargingUp || currentState.Value == State.Attacking)
                 facePlayer(Player);
@@ -300,13 +306,10 @@ namespace StardewRoguelike.Bosses
 
         public override void drawAboveAllLayers(SpriteBatch b)
         {
-            if (Utility.isOnScreen(Position, 128))
-            {
-                b.Draw(Game1.shadowTexture, getLocalPosition(Game1.viewport) + new Vector2(64f, GetBoundingBox().Height), new Rectangle?(Game1.shadowTexture.Bounds), Color.White, 0f, new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y), 4f, SpriteEffects.None, (getStandingY() - 1) / 10000f);
-                b.Draw(Sprite.Texture, getLocalPosition(Game1.viewport) + new Vector2(width * 2, (GetBoundingBox().Height / 2)), new Rectangle?(Sprite.SourceRect), Color.White, rotation, new Vector2(width / 2, height / 2), scale * 4f, flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, drawOnTop ? 0.991f : ((getStandingY() + 8) / 10000f)));
-                if (isGlowing)
-                    b.Draw(Sprite.Texture, getLocalPosition(Game1.viewport) + new Vector2(width * 2, (GetBoundingBox().Height / 2)), new Rectangle?(Sprite.SourceRect), glowingColor * glowingTransparency, rotation, new Vector2(width / 2, height / 2), scale * 4f, flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, drawOnTop ? 0.991f : ((getStandingY() + 8) / 10000f + 0.0001f)));
-            }
+            b.Draw(Game1.shadowTexture, getLocalPosition(Game1.viewport) + new Vector2(64f, GetBoundingBox().Height), new Rectangle?(Game1.shadowTexture.Bounds), Color.White, 0f, new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y), 4f, SpriteEffects.None, (getStandingY() - 1) / 10000f);
+            b.Draw(Sprite.Texture, getLocalPosition(Game1.viewport) + new Vector2(width * 2, (GetBoundingBox().Height / 2)), new Rectangle?(Sprite.SourceRect), Color.White, rotation, new Vector2(width / 2, height / 2), scale * 4f, flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, drawOnTop ? 0.991f : ((getStandingY() + 8) / 10000f)));
+            if (isGlowing)
+                b.Draw(Sprite.Texture, getLocalPosition(Game1.viewport) + new Vector2(width * 2, (GetBoundingBox().Height / 2)), new Rectangle?(Sprite.SourceRect), glowingColor * glowingTransparency, rotation, new Vector2(width / 2, height / 2), scale * 4f, flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, drawOnTop ? 0.991f : ((getStandingY() + 8) / 10000f + 0.0001f)));
         }
 
         public override int takeDamage(int damage, int xTrajectory, int yTrajectory, bool isBomb, double addedPrecision, Farmer who)
@@ -314,7 +317,10 @@ namespace StardewRoguelike.Bosses
             if (currentState.Value == State.Charging)
                 currentState.Value = State.Normal;
             else if (currentState.Value == State.Attacking || currentState.Value == State.ChargingUp)
-                damage = 0;
+            {
+                currentLocation.playSound("crafting");
+                return 0;
+            }
 
             int result = base.takeDamage(damage, xTrajectory, yTrajectory, isBomb, addedPrecision, who);
             if (Health <= 0)
