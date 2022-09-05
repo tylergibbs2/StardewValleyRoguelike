@@ -62,6 +62,9 @@ namespace StardewValley.Menus
         {
             SetSpinParameters();
             SetUpPositions();
+
+            if (Game1.options.gamepadControls)
+                snapToDefaultClickableComponent();
         }
 
         public void SetSpinParameters()
@@ -176,9 +179,6 @@ namespace StardewValley.Menus
         public override void update(GameTime time)
         {
             base.update(time);
-
-            if (Game1.options.gamepadControls)
-                snapToDefaultClickableComponent();
 
             if (timerBeforeStart <= 0 && spinButtonPressed)
             {
@@ -313,6 +313,9 @@ namespace StardewValley.Menus
 
             Keys key = Utility.mapGamePadButtonToKey(b);
             receiveKeyPress(key);
+
+            if (currentlySnappedComponent is null)
+                snapToDefaultClickableComponent();
         }
 
         public override void draw(SpriteBatch b)
