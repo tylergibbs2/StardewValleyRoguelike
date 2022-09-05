@@ -184,9 +184,9 @@ namespace StardewRoguelike
 
             if (HasCurse(CurseType.DamageOverTime) && DOTDamageToTick > 0 && Game1.shouldTimePass())
             {
-                int toRemove = Math.Min(3, DOTDamageToTick);
+                int toRemove = Math.Max(3, DOTDamageToTick / 2);
                 Game1.player.health -= toRemove;
-                DOTDamageToTick -= toRemove;
+                DOTDamageToTick = Math.Max(DOTDamageToTick - toRemove, 0);
 
                 if (Game1.player.health <= 0 && Game1.player.GetEffectsOfRingMultiplier(863) > 0 && !Game1.player.hasUsedDailyRevive.Value)
                 {
