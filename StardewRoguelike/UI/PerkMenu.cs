@@ -15,7 +15,7 @@ namespace StardewRoguelike.UI
 
         public const int region_leftProfession = 102;
 
-        public const int region_rightProfession = 104;
+        public const int region_rightProfession = 103;
 
         public const int basewidth = 768;
 
@@ -120,7 +120,7 @@ namespace StardewRoguelike.UI
 
         public override void snapToDefaultClickableComponent()
         {
-            currentlySnappedComponent = getComponentWithID(102);
+            currentlySnappedComponent = getComponentWithID(region_leftProfession);
             snapCursorToCurrentSnappedComponent();
         }
 
@@ -234,12 +234,6 @@ namespace StardewRoguelike.UI
                 {
                     local = true
                 });
-            }
-
-            if (Game1.options.SnappyMenus)
-            {
-                populateClickableComponentList();
-                snapToDefaultClickableComponent();
             }
 
             if (isActive)
@@ -399,11 +393,7 @@ namespace StardewRoguelike.UI
                     b.DrawString(Game1.smallFont, alreadyUsedText, new Vector2(xPositionOnScreen + width / 2 - Game1.smallFont.MeasureString(alreadyUsedText).X / 2f, yPositionOnScreen + 232 + spaceToClearTopBorder), Game1.textColor);
                 }
 
-                if (!Game1.options.SnappyMenus || hasMovedSelection)
-                {
-                    Game1.mouseCursorTransparency = 1f;
-                    drawMouse(b);
-                }
+                drawMouse(b);
             }
         }
     }

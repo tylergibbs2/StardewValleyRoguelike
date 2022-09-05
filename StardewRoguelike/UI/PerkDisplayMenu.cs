@@ -75,22 +75,6 @@ namespace StardewRoguelike.UI
             }
         }
 
-        public override void receiveGamePadButton(Buttons b)
-        {
-            base.receiveGamePadButton(b);
-
-            if (b == Buttons.RightThumbstickUp && CanScrollUp())
-            {
-                scrollOffset += 100;
-                Game1.playSound("shiny4");
-            }
-            else if (b == Buttons.RightThumbstickDown && CanScrollDown())
-            {
-                scrollOffset -= 100;
-                Game1.playSound("shiny4");
-            }
-        }
-
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
             base.receiveLeftClick(x, y, playSound);
