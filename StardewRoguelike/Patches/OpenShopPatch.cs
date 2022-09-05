@@ -1,13 +1,20 @@
 ﻿using StardewRoguelike.UI;
 using StardewValley;
 using StardewValley.Menus;
-using System;
 
 namespace StardewRoguelike.Patches
 {
     internal class OpenShopPatch : Patch
     {
         protected override PatchDescriptor GetPatchDescriptor() => new(typeof(GameLocation), "openShopMenu");
+
+        public static bool OnPurchase(ISalable item, Farmer who, int numberToBuy)
+        {
+            if (item is Object boughtItem && boughtItem.ParentSheetIndex == 803)
+                Roguelike.MilksBought += numberToBuy;
+
+            return false;
+        }
 
         public static bool Prefix(ref bool __result, string which)
         {
@@ -17,14 +24,14 @@ namespace StardewRoguelike.Patches
                 {
                     ShopMenu menu;
                     if (Perks.HasPerk(Perks.PerkType.Indecisive))
-                        menu = new RefreshableShopMenu(Merchant.GetMerchantStock(), false, context: "Blacksmith");
+                        menu = new RefreshableShopMenu(Merchant.GetMerchantStock(), false, context: "Blacksmith", on_purchase: OnPurchase);
                     else
-                        menu = new(Merchant.GetMerchantStock(), context: "Blacksmith");
+                        menu = new(Merchant.GetMerchantStock(), context: "Blacksmith", on_purchase: OnPurchase);
                     menu.setUpStoreForContext();
                     Merchant.CurrentShop = menu;
                 }
                 else if (Merchant.CurrentShop is not RefreshableShopMenu && Perks.HasPerk(Perks.PerkType.Indecisive))
-                    Merchant.CurrentShop = new RefreshableShopMenu(Merchant.CurrentShop.itemPriceAndStock, false, context: "Blacksmith");
+                    Merchant.CurrentShop = new RefreshableShopMenu(Merchant.CurrentShop.itemPriceAndStock, false, context: "Blacksmith", on_purchase: OnPurchase);
 
                 Game1.activeClickableMenu = Merchant.CurrentShop;
 
@@ -35,7 +42,7 @@ namespace StardewRoguelike.Patches
             {
                 if (Merchant.CurrentShop is null)
                 {
-                    ShopMenu menu = new(Merchant.GetMerchantStock(0.5f), context: "Blacksmith");
+                    ShopMenu menu = new(Merchant.GetMerchantStock(0.5f), context: "Blacksmith", on_purchase: OnPurchase);
                     menu.setUpStoreForContext();
                     Merchant.CurrentShop = menu;
                 }

@@ -54,6 +54,7 @@ namespace StardewRoguelike
         public static readonly int MaxHP = 150;
 
         public static int TrueMaxHP = Game1.player.maxHealth;
+        public static int MilksBought = 0;
 
         public static bool HardMode
         {
@@ -491,6 +492,7 @@ namespace StardewRoguelike
             Game1.player.enchantments.Add(new WeaponStatTrack());
 
             Game1.player.hasUsedDailyRevive.Value = false;
+            MilksBought = 0;
 
             for (int i = 0; i < Game1.player.Items.Count; i++)
                 Game1.player.Items[i] = null;
