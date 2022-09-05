@@ -187,6 +187,39 @@ namespace StardewRoguelike
                 int toRemove = Math.Min(3, DOTDamageToTick);
                 Game1.player.health -= toRemove;
                 DOTDamageToTick -= toRemove;
+
+                if (Game1.player.health <= 0 && Game1.player.GetEffectsOfRingMultiplier(863) > 0 && !Game1.player.hasUsedDailyRevive.Value)
+                {
+                    Game1.player.startGlowing(new Color(255, 255, 0), border: false, 0.25f);
+                    DelayedAction.functionAfterDelay(delegate
+                    {
+                        Game1.player.stopGlowing();
+                    }, 500);
+                    Game1.playSound("yoba");
+                    for (int i = 0; i < 13; i++)
+                    {
+                        float xPos = Game1.random.Next(-32, 33);
+                        Game1.player.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite("LooseSprites\\Cursors2", new Microsoft.Xna.Framework.Rectangle(114, 46, 2, 2), 200f, 5, 1, new Vector2(xPos + 32f, -96f), flicker: false, flipped: false, 1f, 0f, Color.White, 4f, 0f, 0f, 0f)
+                        {
+                            attachedCharacter = Game1.player,
+                            positionFollowsAttachedCharacter = true,
+                            motion = new Vector2(xPos / 32f, -3f),
+                            delayBeforeAnimationStart = i * 50,
+                            alphaFade = 0.001f,
+                            acceleration = new Vector2(0f, 0.1f)
+                        });
+                    }
+                    Game1.player.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite("LooseSprites\\Cursors2", new Microsoft.Xna.Framework.Rectangle(157, 280, 28, 19), 2000f, 1, 1, new Vector2(-20f, -16f), flicker: false, flipped: false, 1E-06f, 0f, Color.White, 4f, 0f, 0f, 0f)
+                    {
+                        attachedCharacter = Game1.player,
+                        positionFollowsAttachedCharacter = true,
+                        alpha = 0.1f,
+                        alphaFade = -0.01f,
+                        alphaFadeFade = -0.00025f
+                    });
+                    Game1.player.health = (int)Math.Min(Game1.player.maxHealth, Game1.player.maxHealth * 0.5f + Game1.player.GetEffectsOfRingMultiplier(863));
+                    Game1.player.hasUsedDailyRevive.Value = true;
+                }
             }
 
             if (HasCurse(CurseType.HealOverTime) && HOTHealToTick > 0 && Game1.shouldTimePass())
