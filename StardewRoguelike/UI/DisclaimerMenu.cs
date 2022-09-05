@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewRoguelike.Extensions;
 using StardewValley;
@@ -27,6 +28,8 @@ namespace StardewRoguelike.UI
         private float understandScale = 1f;
         private float understandBaseScale = 1f;
 
+        private Vector2 textSize;
+
         private Color understandButtonColor = Game1.textColor;
         private ClickableComponent understandButton;
 
@@ -36,7 +39,16 @@ namespace StardewRoguelike.UI
 
         public DisclaimerMenu()
         {
+            string understandText = "I Understand";
+            textSize = Game1.smallFont.MeasureString(understandText);
+            understandButton = new(new(0, 0, (int)textSize.X, (int)textSize.Y), "understandButton", understandText)
+            {
+                myID = 101
+            };
+
             CalculatePosition();
+
+            populateClickableComponentList();
         }
 
         private void CalculatePosition()
@@ -47,9 +59,21 @@ namespace StardewRoguelike.UI
             xPositionOnScreen = Game1.uiViewport.Width / 2 - width / 2;
             yPositionOnScreen = 100.ToUIScale();
 
-            string understandText = "I Understand";
-            Vector2 textSize = Game1.smallFont.MeasureString(understandText);
-            understandButton = new(new(0, 0, (int)textSize.X, (int)textSize.Y), "understandButton", understandText);
+            understandButton.bounds = new(0, 0, (int)textSize.X, (int)textSize.Y);
+        }
+
+        public override void snapToDefaultClickableComponent()
+        {
+            currentlySnappedComponent = understandButton;
+            snapCursorToCurrentSnappedComponent();
+        }
+
+        public override void update(GameTime time)
+        {
+            base.update(time);
+
+            if (Game1.options.gamepadControls)
+                snapToDefaultClickableComponent();
         }
 
         public override void performHoverAction(int x, int y)
