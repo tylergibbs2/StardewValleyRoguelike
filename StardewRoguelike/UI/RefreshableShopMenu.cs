@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using StardewRoguelike.Patches;
 
 namespace StardewRoguelike.UI
 {
@@ -17,13 +19,17 @@ namespace StardewRoguelike.UI
 
         public RefreshableShopMenu(Dictionary<ISalable, int[]> itemPriceAndStock, bool hasRefreshed, int currency = 0, string who = null, Func<ISalable, Farmer, int, bool> on_purchase = null, Func<ISalable, bool> on_sell = null, string context = null) : base(itemPriceAndStock, currency, who, on_purchase, on_sell, context)
         {
-            HasRefreshed = hasRefreshed;
-            SetUpPositions();
-        }
+            refreshButton = new(new(xPositionOnScreen + 174, yPositionOnScreen + height - 150, 64, 64), Game1.mouseCursors, refreshSourceRect, 4f)
+            {
+                myID = 1000,
+                rightNeighborID = inventory.GetBorder(InventoryMenu.BorderSide.Top)[0].myID
+            };
 
-        public void Refresh(Dictionary<ISalable, int[]> newStock)
-        {
-            itemPriceAndStock = newStock;
+            HasRefreshed = hasRefreshed;
+
+            inventory.GetBorder(InventoryMenu.BorderSide.Top)[0].leftNeighborID = 1000;
+
+            allClickableComponents.Add(refreshButton);
         }
 
         public override void gameWindowSizeChanged(Rectangle oldBounds, Rectangle newBounds)
@@ -34,22 +40,22 @@ namespace StardewRoguelike.UI
 
         public void SetUpPositions()
         {
-            refreshButton = new(new(xPositionOnScreen + 174, yPositionOnScreen + height - 150, 64, 64), Game1.mouseCursors, refreshSourceRect, 4f);
+            refreshButton.bounds = new(xPositionOnScreen + 174, yPositionOnScreen + height - 150, 64, 64);
+        }
+
+        public void DoRefresh()
+        {
+            Merchant.CurrentShop = new RefreshableShopMenu(Merchant.GetMerchantStock(), true, context: "Blacksmith", on_purchase: OpenShopPatch.OnPurchase);
+            Game1.activeClickableMenu = Merchant.CurrentShop;
+            Game1.playSound("sell");
         }
 
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
             base.receiveLeftClick(x, y, playSound);
 
-            if (HasRefreshed)
-                return;
-
-            if (refreshButton.containsPoint(x, y))
-            {
-                Merchant.CurrentShop = new RefreshableShopMenu(Merchant.GetMerchantStock(), true, context: "Blacksmith");
-                Game1.activeClickableMenu = Merchant.CurrentShop;
-                Game1.playSound("sell");
-            }
+            if (refreshButton.containsPoint(x, y) && !HasRefreshed)
+                DoRefresh();
         }
 
         public override void performHoverAction(int x, int y)
