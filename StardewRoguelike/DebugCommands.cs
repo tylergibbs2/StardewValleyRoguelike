@@ -10,6 +10,7 @@ using Netcode;
 using StardewValley.Network;
 using StardewRoguelike.Bosses;
 using System.Text.Json;
+using StardewValley.Menus;
 
 namespace StardewRoguelike
 {
@@ -235,6 +236,9 @@ namespace StardewRoguelike
                         for (int i = highestLevel + 1; i <= highestLevel + toGen; i++)
                             MineShaft.GetMine($"UndergroundMine1/{i}");
                     }
+                    break;
+                case "gamba":
+                    Game1.activeClickableMenu = new GambaMenu();
                     break;
                 default:
                     ModEntry.ModMonitor.Log("Invalid command.", LogLevel.Error);
