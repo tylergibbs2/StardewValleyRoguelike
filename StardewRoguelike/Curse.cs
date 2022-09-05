@@ -219,6 +219,7 @@ namespace StardewRoguelike
                     });
                     Game1.player.health = (int)Math.Min(Game1.player.maxHealth, Game1.player.maxHealth * 0.5f + Game1.player.GetEffectsOfRingMultiplier(863));
                     Game1.player.hasUsedDailyRevive.Value = true;
+                    DOTDamageToTick = 0;
                 }
             }
 

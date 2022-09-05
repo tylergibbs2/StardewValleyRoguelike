@@ -131,6 +131,7 @@ namespace StardewRoguelike.Patches
                     });
                     __instance.health = (int)Math.Min(__instance.maxHealth, __instance.maxHealth * 0.5f + __instance.GetEffectsOfRingMultiplier(863));
                     __instance.hasUsedDailyRevive.Value = true;
+                    Curse.DOTDamageToTick = 0;
                 }
 
                 if (damager is not null && damage > 0 && Curse.HasCurse(CurseType.PlayerKnockback))
