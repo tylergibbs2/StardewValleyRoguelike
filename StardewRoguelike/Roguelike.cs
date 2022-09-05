@@ -29,7 +29,8 @@ namespace StardewRoguelike
             "2", "3", "4", "5", "6", "7",
             "8", "9", "11", "13", "15",
             "21", "23", "25", "26", "27",
-            "custom-1", "custom-2"
+            "custom-1", "custom-2", "custom-3",
+            "custom-4"
         };
 
         public static readonly List<string> MapsWithWater = new()

@@ -83,6 +83,8 @@ namespace StardewRoguelike
             { "Maps/Mines/custom-pickapath", "assets/Maps/custom-pickapath.tmx" },
             { "Maps/Mines/custom-1", "assets/Maps/custom-1.tmx" },
             { "Maps/Mines/custom-2", "assets/Maps/custom-2.tmx" },
+            { "Maps/Mines/custom-3", "assets/Maps/custom-3.tmx" },
+            { "Maps/Mines/custom-4", "assets/Maps/custom-4.tmx" },
             { "Maps/Mines/boss-dragon", "assets/Maps/boss-dragon.tmx" },
             { "Maps/Mines/boss-bug", "assets/Maps/boss-bug.tmx" },
             { "Maps/Mines/boss-slime", "assets/Maps/boss-slime.tmx" },
