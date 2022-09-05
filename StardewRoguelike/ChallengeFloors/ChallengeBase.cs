@@ -15,7 +15,6 @@ namespace StardewRoguelike.ChallengeFloors
         protected ChallengeBase()
         {
             initNetFields();
-            ModEntry.Events.GameLoop.ReturnedToTitle += DisposeHandler;
         }
 
         public NetFields NetFields { get; } = new();
@@ -35,10 +34,16 @@ namespace StardewRoguelike.ChallengeFloors
         public virtual void Update(MineShaft mine, GameTime time) { }
 
         // Runs only for Game1.player
-        public virtual void PlayerEntered(MineShaft mine) { }
+        public virtual void PlayerEntered(MineShaft mine)
+        {
+            ModEntry.Events.GameLoop.ReturnedToTitle += DisposeHandler;
+        }
 
         // Runs only for Game1.player
-        public virtual void PlayerLeft(MineShaft mine) { }
+        public virtual void PlayerLeft(MineShaft mine)
+        {
+            ModEntry.Events.GameLoop.ReturnedToTitle -= DisposeHandler;
+        }
 
         public virtual bool AnswerDialogueAction(MineShaft mine, string questionAndAnswer, string[] questionParams) => false;
 

@@ -103,6 +103,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void PlayerEntered(MineShaft mine)
         {
+            base.PlayerEntered(mine);
             Game1.chatBox.addMessage("Hit as many monsters as you can with the slingshot! The more you hit, the better your reward.", Color.Gold);
 
             ModEntry.Events.Display.RenderedHud += RenderHud;
@@ -115,6 +116,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void PlayerLeft(MineShaft mine)
         {
+            base.PlayerLeft(mine);
             Dispose();
         }
 

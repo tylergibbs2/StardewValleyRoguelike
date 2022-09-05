@@ -31,6 +31,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void PlayerEntered(MineShaft mine)
         {
+            base.PlayerEntered(mine);
             mine.forceViewportPlayerFollow = false;
             mine.waterTiles = null;
         }

@@ -184,6 +184,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void PlayerEntered(MineShaft mine)
         {
+            base.PlayerEntered(mine);
             Game1.chatBox.addMessage("Reclaim the areas that the monsters have taken over!", Color.Gold);
 
             if (state.Value != "over")
@@ -195,6 +196,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void PlayerLeft(MineShaft mine)
         {
+            base.PlayerLeft(mine);
             Dispose();
         }
 

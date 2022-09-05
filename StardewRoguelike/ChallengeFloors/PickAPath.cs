@@ -83,6 +83,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void PlayerEntered(MineShaft mine)
         {
+            base.PlayerEntered(mine);
             Location = mine;
         }
 

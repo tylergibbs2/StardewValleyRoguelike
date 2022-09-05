@@ -172,6 +172,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void PlayerEntered(MineShaft mine)
         {
+            base.PlayerEntered(mine);
             mine.forceViewportPlayerFollow = false;
 
             Game1.chatBox.addMessage("Pick up the golden egg in the middle to start the egg hunt!", Color.Gold);
@@ -181,6 +182,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void PlayerLeft(MineShaft mine)
         {
+            base.PlayerLeft(mine);
             Dispose();
         }
 

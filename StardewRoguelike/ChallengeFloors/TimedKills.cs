@@ -132,6 +132,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void PlayerEntered(MineShaft mine)
         {
+            base.PlayerEntered(mine);
             Game1.chatBox.addMessage("Kill all the monsters within the time limit!", Color.Gold);
 
             ModEntry.Events.Display.RenderedHud += RenderTimer;
@@ -139,6 +140,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void PlayerLeft(MineShaft mine)
         {
+            base.PlayerLeft(mine);
             Dispose();
         }
 
