@@ -31,7 +31,12 @@ namespace StardewRoguelike.Patches
                     Merchant.CurrentShop = menu;
                 }
                 else if (Merchant.CurrentShop is not RefreshableShopMenu && Perks.HasPerk(Perks.PerkType.Indecisive))
-                    Merchant.CurrentShop = new RefreshableShopMenu(Merchant.CurrentShop.itemPriceAndStock, false, context: "Blacksmith", on_purchase: OnPurchase);
+                {
+                    if (Merchant.CurrentShop is null)
+                        Merchant.CurrentShop = new RefreshableShopMenu(Merchant.GetMerchantStock(), false, context: "Blacksmith", on_purchase: OnPurchase);
+                    else
+                        Merchant.CurrentShop = new RefreshableShopMenu(Merchant.CurrentShop.itemPriceAndStock, false, context: "Blacksmith", on_purchase: OnPurchase);
+                }
 
                 Game1.activeClickableMenu = Merchant.CurrentShop;
 
