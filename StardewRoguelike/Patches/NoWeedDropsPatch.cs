@@ -19,7 +19,6 @@ namespace StardewRoguelike.Patches
 			string sound = "cut";
 			int animation = 50;
 			__instance.Fragility = 2;
-			int toDrop = -1;
 
 			Multiplayer multiplayer = (Multiplayer)typeof(Game1).GetField("multiplayer", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 
@@ -69,10 +68,7 @@ namespace StardewRoguelike.Patches
 					c = new Color(30, 97, 68);
 					break;
 			}
-			if (sound.Equals("breakingGlass") && Game1.random.NextDouble() < 0.0025)
-			{
-				toDrop = 338;
-			}
+
 			location.playSound(sound);
 			multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(animation, __instance.TileLocation * 64f, c));
 			multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(animation, __instance.TileLocation * 64f + new Vector2(Game1.random.Next(-16, 16), Game1.random.Next(-48, 48)), c * 0.75f)
@@ -80,44 +76,28 @@ namespace StardewRoguelike.Patches
 				scale = 0.75f,
 				flipped = true
 			});
+
 			multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(animation, __instance.TileLocation * 64f + new Vector2(Game1.random.Next(-16, 16), Game1.random.Next(-48, 48)), c * 0.75f)
 			{
 				scale = 0.75f,
 				delayBeforeAnimationStart = 50
 			});
+
 			multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(animation, __instance.TileLocation * 64f + new Vector2(Game1.random.Next(-16, 16), Game1.random.Next(-48, 48)), c * 0.75f)
 			{
 				scale = 0.75f,
 				flipped = true,
 				delayBeforeAnimationStart = 100
 			});
+
 			if (!sound.Equals("breakingGlass"))
 			{
 				if (Game1.random.NextDouble() < 1E-05)
-				{
 					location.debris.Add(new Debris(new Hat(40), __instance.TileLocation * 64f + new Vector2(32f, 32f)));
-				}
-				if (Game1.random.NextDouble() <= 0.01 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
-				{
-					location.debris.Add(new Debris(new StardewValley.Object(890, 1), __instance.TileLocation * 64f + new Vector2(32f, 32f)));
-				}
 			}
-			if (toDrop != -1)
-			{
-				location.debris.Add(new Debris(new StardewValley.Object(toDrop, 1), __instance.TileLocation * 64f + new Vector2(32f, 32f)));
-			}
+
 			if (Game1.random.NextDouble() < 0.02)
-			{
 				location.addJumperFrog(__instance.TileLocation);
-			}
-			if (who.currentLocation.HasUnlockedAreaSecretNotes(who) && Game1.random.NextDouble() < 0.009)
-			{
-				StardewValley.Object o = location.tryToCreateUnseenSecretNote(who);
-				if (o is not null)
-				{
-					Game1.createItemDebris(o, new Vector2(__instance.TileLocation.X + 0.5f, __instance.TileLocation.Y + 0.75f) * 64f, Game1.player.facingDirection, location);
-				}
-			}
 
 			return false;
         }
