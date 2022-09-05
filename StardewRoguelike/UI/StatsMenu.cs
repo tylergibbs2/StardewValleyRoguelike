@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewRoguelike.Extensions;
 using StardewValley;
@@ -24,6 +25,7 @@ namespace StardewRoguelike.UI
 
         private Color uploadButtonColor = Game1.textColor;
         private ClickableComponent uploadButton;
+        private Vector2 textSize;
 
         private bool AlreadyUploaded = false;
 
@@ -31,18 +33,54 @@ namespace StardewRoguelike.UI
 
         public StatsMenu()
         {
+            string uploadText = "Upload";
+            textSize = Game1.smallFont.MeasureString(uploadText);
+            uploadButton = new(new(0, 0, (int)textSize.X, (int)textSize.Y), "uploadButton", uploadText)
+            {
+                myID = 101
+            };
+
+            upperRightCloseButton = new(new(xPositionOnScreen + width - 36, yPositionOnScreen - 8, 48, 48), Game1.mouseCursors, new Rectangle(337, 494, 12, 12), 4f)
+            {
+                myID = 102
+            };
+
             CalculatePosition();
+
+            populateClickableComponentList();
+
+            if (Game1.options.gamepadControls)
+                snapToDefaultClickableComponent();
+        }
+
+        public override void snapToDefaultClickableComponent()
+        {
+            currentlySnappedComponent = uploadButton;
+            snapCursorToCurrentSnappedComponent();
+        }
+
+        public override void receiveKeyPress(Keys key)
+        {
+            Keys menuKey = Game1.options.getFirstKeyboardKeyFromInputButtonList(Game1.options.menuButton);
+            Keys journalKey = Game1.options.getFirstKeyboardKeyFromInputButtonList(Game1.options.journalButton);
+            if (key == menuKey || key == journalKey)
+                Game1.exitActiveMenu();
+        }
+
+        public override void receiveGamePadButton(Buttons b)
+        {
+            base.receiveGamePadButton(b);
+
+            if (currentlySnappedComponent is null)
+                snapToDefaultClickableComponent();
+
+            Keys key = Utility.mapGamePadButtonToKey(b);
+            receiveKeyPress(key);
         }
 
         public static void Show()
         {
             Game1.activeClickableMenu = new StatsMenu();
-        }
-
-        public static void Remove()
-        {
-            if (Game1.activeClickableMenu is StatsMenu)
-                Game1.activeClickableMenu = null;
         }
 
         private void CalculatePosition()
@@ -53,11 +91,8 @@ namespace StardewRoguelike.UI
             xPositionOnScreen = Game1.uiViewport.Width / 2 - width / 2;
             yPositionOnScreen = 100.ToUIScale();
 
-            upperRightCloseButton = new(new(xPositionOnScreen + width - 36, yPositionOnScreen - 8, 48, 48), Game1.mouseCursors, new Rectangle(337, 494, 12, 12), 4f);
-
-            string uploadText = "Upload";
-            Vector2 textSize = Game1.smallFont.MeasureString(uploadText);
-            uploadButton = new(new(0, 0, (int)textSize.X, (int)textSize.Y), "uploadButton", uploadText);
+            uploadButton.bounds = new(0, 0, (int)textSize.X, (int)textSize.Y);
+            upperRightCloseButton.bounds = new(xPositionOnScreen + width - 36, yPositionOnScreen - 8, 48, 48);
         }
 
         public override void performHoverAction(int x, int y)
