@@ -7,7 +7,6 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Monsters;
-using System;
 using System.Collections.Generic;
 
 namespace StardewRoguelike.ChallengeFloors
