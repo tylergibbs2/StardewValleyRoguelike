@@ -35,7 +35,7 @@ namespace StardewRoguelike
 
         public static readonly List<string> MapsWithWater = new()
         {
-            "custom-1", "custom-2"
+            "custom-1", "custom-2", "custom-3"
         };
 
         public static Random FloorRng { get; set; } = new(FloorRngSeed);
