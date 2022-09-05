@@ -163,8 +163,7 @@ namespace StardewRoguelike
             {
                 if (Game1.player.maxHealth > hpNeeded)
                 {
-                    Game1.player.maxHealth -= hpNeeded;
-                    Game1.player.health = Math.Min(Game1.player.health, Game1.player.maxHealth);
+                    Roguelike.TrueMaxHP -= hpNeeded;
                     paid = true;
                 }
                 else
