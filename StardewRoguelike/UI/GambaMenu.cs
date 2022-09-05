@@ -84,11 +84,20 @@ namespace StardewValley.Menus
             SetUpPositions();
         }
 
+        public override void snapToDefaultClickableComponent()
+        {
+            currentlySnappedComponent = spinButton;
+            snapCursorToCurrentSnappedComponent();
+        }
+
         private void SetUpPositions()
         {
             string spinText = "Spin";
             Vector2 spinTextSize = Game1.smallFont.MeasureString(spinText);
-            spinButton = new(new(xPositionOnScreen + (width / 2) - (int)(spinTextSize.X / 2), yPositionOnScreen + height - 32, (int)spinTextSize.X, (int)spinTextSize.Y), "spinButton", spinText);
+            spinButton = new(new(xPositionOnScreen + (width / 2) - (int)(spinTextSize.X / 2), yPositionOnScreen + height - 32, (int)spinTextSize.X, (int)spinTextSize.Y), "spinButton", spinText)
+            {
+                myID = 101
+            };
 
             string spinsLeftText = $"Spins Left: {spinsLeft}";
             Vector2 spinsLeftTextSize = Game1.smallFont.MeasureString(spinsLeftText);
@@ -167,6 +176,9 @@ namespace StardewValley.Menus
         public override void update(GameTime time)
         {
             base.update(time);
+
+            if (Game1.options.gamepadControls)
+                snapToDefaultClickableComponent();
 
             if (timerBeforeStart <= 0 && spinButtonPressed)
             {
@@ -289,8 +301,18 @@ namespace StardewValley.Menus
 
         public override void receiveKeyPress(Keys key)
         {
-            if (key == Keys.Escape && (CanSpin() || spinsLeft == 0))
+            Keys menuKey = Game1.options.getFirstKeyboardKeyFromInputButtonList(Game1.options.menuButton);
+            Keys journalKey = Game1.options.getFirstKeyboardKeyFromInputButtonList(Game1.options.journalButton);
+            if ((key == menuKey || key == journalKey) && (CanSpin() || spinsLeft == 0))
                 Game1.exitActiveMenu();
+        }
+
+        public override void receiveGamePadButton(Buttons b)
+        {
+            base.receiveGamePadButton(b);
+
+            Keys key = Utility.mapGamePadButtonToKey(b);
+            receiveKeyPress(key);
         }
 
         public override void draw(SpriteBatch b)
