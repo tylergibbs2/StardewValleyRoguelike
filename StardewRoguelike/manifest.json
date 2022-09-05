@@ -1,7 +1,7 @@
 {
   "Name": "StardewRoguelike",
   "Author": "Tyler Gibbs",
-  "Version": "1.0.9",
+  "Version": "1.0.10",
   "Description": "Stardew Valley but it's a roguelike!",
   "UniqueID": "tylergibbs2.StardewRoguelike",
   "EntryDll": "StardewRoguelike.dll",
