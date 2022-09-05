@@ -111,7 +111,7 @@ namespace StardewRoguelike.Bosses
         protected override void initNetFields()
         {
             base.initNetFields();
-            NetFields.AddFields(firing);
+            NetFields.AddFields(firing, currentState, currentAttack);
         }
 
         public override void MovePosition(GameTime time, xTile.Dimensions.Rectangle viewport, GameLocation currentLocation)
@@ -130,6 +130,9 @@ namespace StardewRoguelike.Bosses
 
         public override void update(GameTime time, GameLocation location)
         {
+            if (float.IsNaN(Position.X) || float.IsNaN(Position.Y))
+                Position = SpawnLocation * 64f;
+
             this.KeepInMap();
             base.update(time, location);
 
