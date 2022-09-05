@@ -7,7 +7,6 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Monsters;
-using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 
@@ -35,7 +34,7 @@ namespace StardewRoguelike.ChallengeFloors
         }
 
         public override List<string> MapPaths => new() {
-            "3", "13", "16", "21", "23",
+            "3", "21", "23",
             "custom-1", "custom-2"
         };
 
