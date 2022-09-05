@@ -78,7 +78,7 @@ namespace StardewRoguelike.UI
         {
             base.receiveLeftClick(x, y, playSound);
 
-            if (uploadButton is not null && uploadButton.containsPoint(x, y))
+            if (uploadButton is not null && uploadButton.containsPoint(x, y) && ModEntry.Stats.EndTime is not null)
             {
                 Game1.playSound("bigSelect");
                 if (ModEntry.GetInvalidMods().Count > 0 || ModEntry.DisableUpload)
@@ -248,7 +248,10 @@ namespace StardewRoguelike.UI
 
             DrawTitle(spriteBatch);
             DrawStats(spriteBatch);
-            DrawUploadButton(spriteBatch);
+
+            if (ModEntry.Stats.EndTime is not null)
+                DrawUploadButton(spriteBatch);
+
             height = currentDrawHeight;
 
             upperRightCloseButton.draw(spriteBatch);
