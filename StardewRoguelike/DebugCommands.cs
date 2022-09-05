@@ -240,6 +240,10 @@ namespace StardewRoguelike
                 case "gamba":
                     Game1.activeClickableMenu = new GambaMenu();
                     break;
+                case "skills":
+                    ModEntry.ModMonitor.Log($"luck: base={Game1.player.LuckLevel} added={Game1.player.addedLuckLevel} daily={Game1.player.DailyLuck}", LogLevel.Info);
+                    ModEntry.ModMonitor.Log($"speed: base={Game1.player.Speed} added={Game1.player.addedSpeed} result={Game1.player.getMovementSpeed()}", LogLevel.Info);
+                    break;
                 default:
                     ModEntry.ModMonitor.Log("Invalid command.", LogLevel.Error);
                     break;
@@ -281,6 +285,7 @@ namespace StardewRoguelike
             help.AppendLine("stamina [int:new] : sets the player's stamina");
             help.AppendLine("genmines <int:amount> : generates amount mines and stores in memory");
             help.AppendLine("gamba : opens the gamba wheel menu");
+            help.AppendLine("skills : displays the player's luck and speed skills");
 
             ModEntry.ModMonitor.Log(help.ToString(), LogLevel.Info);
         }
