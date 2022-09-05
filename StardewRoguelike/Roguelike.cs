@@ -494,6 +494,9 @@ namespace StardewRoguelike
             Game1.player.hasUsedDailyRevive.Value = false;
             MilksBought = 0;
 
+            Game1.player.craftingRecipes.Clear();
+            Game1.player.craftingRecipes.Add("Wood Fence", 0);
+
             for (int i = 0; i < Game1.player.Items.Count; i++)
                 Game1.player.Items[i] = null;
 
