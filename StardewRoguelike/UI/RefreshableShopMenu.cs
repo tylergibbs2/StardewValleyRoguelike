@@ -29,6 +29,7 @@ namespace StardewRoguelike.UI
 
             inventory.GetBorder(InventoryMenu.BorderSide.Top)[0].leftNeighborID = 1000;
 
+            populateClickableComponentList();
             allClickableComponents.Add(refreshButton);
         }
 
