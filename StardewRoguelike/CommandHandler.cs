@@ -1,10 +1,16 @@
-﻿using StardewModdingAPI;
+﻿using Microsoft.Xna.Framework;
+using Netcode;
+using StardewModdingAPI;
 using StardewRoguelike.UI;
 using StardewValley;
+using StardewValley.Locations;
 using StardewValley.Menus;
+using StardewValley.Monsters;
+using StardewValley.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace StardewRoguelike
 {
@@ -19,7 +25,8 @@ namespace StardewRoguelike
         {
             { "stats", ShowStats },
             { "character", Character },
-            { "reset", Reset }
+            { "reset", Reset },
+            { "stuck", Stuck }
         };
 
         /// <summary>
@@ -90,6 +97,67 @@ namespace StardewRoguelike
                 "GameOver"
             );
             Roguelike.GameOver();
+        }
+
+        /// <summary>
+        /// Helps you when you're stuck.
+        /// </summary>
+        /// <param name="args">The command arguments.</param>
+        public static void Stuck(string[] args)
+        {
+            if (!Context.IsMainPlayer)
+            {
+                Game1.chatBox.addErrorMessage("Only the host can use this command.");
+                return;
+            }
+
+            if (Game1.player.currentLocation is not MineShaft mine)
+            {
+                Game1.chatBox.addErrorMessage("You cannot use this command here.");
+                return;
+            }
+
+            int monstersOffMap = 0;
+            foreach (Character character in mine.characters)
+            {
+                if (character is Monster monster)
+                {
+                    Vector2 tileLoc = monster.getTileLocation();
+                    Point tilePoint = new((int)tileLoc.X, (int)tileLoc.Y);
+                    int backTile = mine.getTileIndexAt(tilePoint, "Back");
+                    int backbackTile = mine.getTileIndexAt(tilePoint, "BackBack");
+                    int backbackbackTile = mine.getTileIndexAt(tilePoint, "BackBackBack");
+                    if (backTile == -1 && backbackTile == -1 && backbackbackTile == -1)
+                    {
+                        monstersOffMap++;
+
+                        Vector2 newPos;
+                        do
+                        {
+                            newPos = mine.getRandomTile();
+                        } while (!mine.isTileClearForMineObjects(new(newPos.X, newPos.Y)));
+                        monster.setTileLocation(newPos);
+                    }
+                }
+            }
+
+            if (monstersOffMap == 0)
+            {
+                bool ladderHasSpawned = (bool)mine.GetType().GetField("ladderHasSpawned", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mine);
+
+                if (!ladderHasSpawned && mine.EnemyCount == 0)
+                {
+                    Vector2 tileBeneathLadder = (Vector2)mine.GetType().GetProperty("tileBeneathLadder", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mine);
+                    NetVector2Dictionary<bool, NetBool> createLadderEvent = (NetVector2Dictionary<bool, NetBool>)mine.GetType().GetField("createLadderAtEvent", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mine);
+                    createLadderEvent[tileBeneathLadder] = true;
+                    Game1.chatBox.addInfoMessage("Spawned ladder.");
+                }
+                else
+                    Game1.chatBox.addInfoMessage("All monsters have been detected to be on the map.");
+                return;
+            }
+            else
+                Game1.chatBox.addInfoMessage($"Found {monstersOffMap} off the map, they have been repositioned.");
         }
     }
 }

@@ -535,6 +535,7 @@ namespace StardewRoguelike
                 $"Below, you will also find vendors for perks and curses. View your active perks by pressing {perkKey}.#$b#" +
                 "Your tracking chip will keep note of all your statistics. You can view them by typing /stats. " +
                 "You can reset your journey at any time with the /reset command.#$b#" +
+                "At any time, if you get stuck with nowhere to go, use /stuck for a helping hand.#$b#" +
                 "If you're up for, check out that statue over there for a more difficult time.#$b#" +
                 "Good luck, kid."
             );

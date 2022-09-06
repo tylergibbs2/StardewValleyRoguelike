@@ -23,6 +23,7 @@ namespace StardewRoguelike.Patches
             __instance.addInfoMessage("stats: shows the current run stats");
             __instance.addInfoMessage("character: opens the character customization menu");
             __instance.addInfoMessage("reset: resets the run");
+            __instance.addInfoMessage("stuck: helps ensure progression");
             if (Game1.IsServer)
             {
                 __instance.addInfoMessage(Game1.content.LoadString("Strings\\UI:Chat_HelpKick", "kick"));
