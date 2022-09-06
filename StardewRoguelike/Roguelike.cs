@@ -1,4 +1,4 @@
-﻿using StardewRoguelike.VirtualProperties;
+using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
@@ -30,7 +30,7 @@ namespace StardewRoguelike
             "8", "9", "11", "13", "15",
             "21", "23", "25", "26", "27",
             "custom-1", "custom-2", "custom-3",
-            "custom-4"
+            "custom-4", "custom-5", "custom-6"
         };
 
         public static readonly List<string> MapsWithWater = new()
