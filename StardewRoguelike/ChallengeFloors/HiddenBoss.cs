@@ -40,6 +40,7 @@ namespace StardewRoguelike.ChallengeFloors
         {
             mine.playSound("discoverMineral");
             mine.SpawnLocalChest(new(17, 35), new Object(74, 1));
+            mine.projectiles.Clear();
         }
 
         public override void Update(MineShaft mine, GameTime time)

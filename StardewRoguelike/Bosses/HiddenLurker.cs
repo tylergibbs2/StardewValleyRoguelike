@@ -50,7 +50,7 @@ namespace StardewRoguelike.Bosses
         private bool waitingToDive = false;
 
         // max health percent, shot angle
-        private List<(float, int)> whenToFireWall = new()
+        private readonly List<(float, int)> whenToFireWall = new()
         {
             (0.145f * 6, 135),
             (0.145f * 4, 45),
@@ -67,7 +67,8 @@ namespace StardewRoguelike.Bosses
             Scale = 2f;
 
             DamageToFarmer = (int)Math.Round(17 * Difficulty);
-            MaxHealth = DamageToFarmer * 7;
+            int hits = Roguelike.HardMode ? 10 : 7;
+            MaxHealth = DamageToFarmer * hits;
             Health = MaxHealth;
 
             moveTowardPlayerThreshold.Value = 12;
@@ -113,7 +114,7 @@ namespace StardewRoguelike.Bosses
                 if (stateTimer == 0f)
                 {
                     currentState.Value = State.Lurking;
-                    stateTimer = 0.5f;
+                    stateTimer = 0.1f;
                 }
             }
             else if (currentState.Value == State.Lurking)
@@ -172,6 +173,12 @@ namespace StardewRoguelike.Bosses
                     currentState.Value = State.Emerged;
                     stateTimer = 2.5f;
                     waitingToDive = true;
+
+                    if (Roguelike.HardMode)
+                    {
+                        stateTimer = 1f;
+                        waitingToDive = false;
+                    }
                 }
 
                 if (fireballTimer > 0f)
@@ -182,7 +189,7 @@ namespace StardewRoguelike.Bosses
                         Vector2 shot_origin = Position + new Vector2(0f, -32f);
                         Vector2 shot_velocity = targettedFarmer.Position - shot_origin;
                         shot_velocity.Normalize();
-                        shot_velocity *= 7f;
+                        shot_velocity *= 7f + (Roguelike.HardMode ? 2f : 0);
                         currentLocation.playSound("fireball");
 
                         ReturningProjectile returningShot = new(10f, DamageToFarmer, 14, 0, 3, (float)Math.PI / 16f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", explode: false, damagesMonsters: false, currentLocation, this);
@@ -207,7 +214,7 @@ namespace StardewRoguelike.Bosses
                                 Vector2 shot_origin = Position + new Vector2(0f, -32f);
                                 Vector2 shot_velocity = targettedFarmer.Position - shot_origin;
                                 shot_velocity.Normalize();
-                                shot_velocity *= 7f;
+                                shot_velocity *= 7f + (Roguelike.HardMode ? 2f : 0);
                                 currentLocation.playSound("fireball");
 
                                 BasicProjectile projectile = new(DamageToFarmer, 10, 0, 3, (float)Math.PI / 16f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", explode: false, damagesMonsters: false, currentLocation, this);
@@ -239,6 +246,7 @@ namespace StardewRoguelike.Bosses
                                     FireWallProjectile projectile = new(i, 120f, DamageToFarmer * 2, 10, 0, 0, (float)Math.PI / 16f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", explode: false, damagesMonsters: false, currentLocation, this);
                                     projectile.ignoreMeleeAttacks.Value = true;
                                     projectile.ignoreTravelGracePeriod.Value = true;
+                                    projectile.startingScale.Value = Roguelike.HardMode ? 3f : 1f;
                                     currentLocation.projectiles.Add(projectile);
                                 }
                             }
@@ -262,7 +270,8 @@ namespace StardewRoguelike.Bosses
                                 );
 
                                 Vector2 shot_origin = Position + new Vector2(0f, -32f);
-                                ExplodingRockProjectile projectile = new(targetTile, 8f, DamageToFarmer, shot_origin, "fireball", currentLocation, this);
+                                float speedMultiplier = Roguelike.HardMode ? 10f : 8f;
+                                ExplodingRockProjectile projectile = new(targetTile, speedMultiplier, DamageToFarmer, shot_origin, "fireball", currentLocation, this);
 
                                 projectile.maxTravelDistance.Value = -1;
                                 projectile.ignoreMeleeAttacks.Value = true;
@@ -286,7 +295,7 @@ namespace StardewRoguelike.Bosses
                                 Vector2 shot_origin = Position + new Vector2(0f, -32f);
                                 Vector2 shot_velocity = targettedFarmer.Position - shot_origin;
                                 shot_velocity.Normalize();
-                                shot_velocity *= 6f + this.AdjustRangeForHealth(0f, 10f);
+                                shot_velocity *= 6f + this.AdjustRangeForHealth(0f, 10f) + (Roguelike.HardMode ? 2f : 0);
                                 currentLocation.playSound("fireball");
 
                                 BasicProjectile projectile = new(DamageToFarmer, 10, 0, 0, (float)Math.PI / 16f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", explode: false, damagesMonsters: false, currentLocation, this);
@@ -295,7 +304,7 @@ namespace StardewRoguelike.Bosses
                                 projectile.startingScale.Value = 2.5f;
                                 currentLocation.projectiles.Add(projectile);
 
-                                fireTimer = 1f;
+                                fireTimer = Roguelike.HardMode ? 0.5f : 1f;
 
                                 if (stateTimer <= 1.1f)
                                 {
@@ -310,7 +319,7 @@ namespace StardewRoguelike.Bosses
             else if (currentState.Value == State.Diving && stateTimer == 0f)
             {
                 currentState.Value = State.Submerged;
-                stateTimer = 1f;
+                stateTimer = 0.75f;
 
                 targettedFarmer = findPlayer();
             }
