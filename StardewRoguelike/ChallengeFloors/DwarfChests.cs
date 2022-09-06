@@ -62,7 +62,14 @@ namespace StardewRoguelike.ChallengeFloors
                 .Select(kvp => kvp.Key).ToList();
 
             foreach (Vector2 v in toRemove)
-                mine.overlayObjects.Remove(v);
+            {
+                Chest chest = mine.overlayObjects[v] as Chest;
+                Item chestItem = chest.items[0];
+                Sign sign = new(v, 39);
+                sign.displayItem.Value = chestItem;
+                sign.displayType.Value = chestItem is Ring ? 4 : 1;
+                mine.overlayObjects[v] = sign;
+            }
         }
 
         public override bool AnswerDialogueAction(MineShaft mine, string questionAndAnswer, string[] questionParams)
