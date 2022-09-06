@@ -16,6 +16,7 @@ using xTile.Tiles;
 using StardewRoguelike.Netcode;
 using Force.DeepCloner;
 using StardewRoguelike.Enchantments;
+using System.Reflection;
 
 namespace StardewRoguelike
 {
@@ -270,6 +271,57 @@ namespace StardewRoguelike
                 GoldDropMax++;
             else if (FloorsIncreaseGoldMin.Contains(CurrentLevel))
                 GoldDropMin++;
+
+            if (Context.IsMainPlayer)
+                ClearInactiveMines();
+        }
+
+        // This method is a bandaid until SMAPI merges my pull request
+        public static void ClearInactiveMines()
+        {
+            int instancesToKeep = 10;
+
+            if (MineShaft.activeMines.Count < instancesToKeep)
+                return;
+
+            if (!Context.IsMultiplayer)
+            {
+                LocalizedContentManager mapContent = (LocalizedContentManager)MineShaft.activeMines[0].GetType().GetField("mapContent", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(MineShaft.activeMines[0]);
+                mapContent.Dispose();
+                MineShaft.activeMines.RemoveAt(0);
+                return;
+            }
+
+            int playersAccountedFor = 0;
+            int playersToAccountFor = Game1.getOnlineFarmers().Count;
+            int floorsSinceLastPlayer = 0;
+            int amountToRemove = 0;
+            int merchantInterval = ScalingOrder[1] - ScalingOrder[0];
+
+            for (int i = MineShaft.activeMines.Count - 1; i == 0; i--)
+            {
+                bool allPlayersFound = playersAccountedFor == playersToAccountFor;
+                if (allPlayersFound && floorsSinceLastPlayer < merchantInterval)
+                {
+                    floorsSinceLastPlayer++;
+                    continue;
+                }
+                else if (allPlayersFound && floorsSinceLastPlayer >= merchantInterval)
+                {
+                    amountToRemove++;
+                    continue;
+                }
+
+                MineShaft mine = MineShaft.activeMines[i];
+                playersAccountedFor += mine.farmers.Count;
+            }
+
+            while (amountToRemove > 0 && MineShaft.activeMines.Count >= instancesToKeep)
+            {
+                LocalizedContentManager mapContent = (LocalizedContentManager)MineShaft.activeMines[0].GetType().GetField("mapContent", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(MineShaft.activeMines[0]);
+                mapContent.Dispose();
+                MineShaft.activeMines.RemoveAt(0);
+            }
         }
 
         public static string GetRandomTrack(List<string> tracks)
