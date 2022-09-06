@@ -13,10 +13,13 @@ namespace StardewRoguelike.Bosses
 
         public SkellyMinion() { }
 
-        public SkellyMinion(Vector2 position, bool isMage = false) : base(position, isMage)
+        public SkellyMinion(Vector2 position, float difficulty, bool isMage = false) : base(position, isMage)
         {
-            MaxHealth = (int)Math.Round(MaxHealth * 0.75f);
+            MaxHealth = (int)Math.Round(50 * difficulty);
             Health = MaxHealth;
+            DamageToFarmer = 10;
+            moveTowardPlayerThreshold.Value = 30;
+            focusedOnFarmers = true;
         }
 
         public override void behaviorAtGameTick(GameTime time)

@@ -284,12 +284,16 @@ namespace StardewRoguelike.Bosses
                     {
                         throwingAnim.Value = true;
                         bonesToThrow = spawnedMages ? 5 : 3;
+                        if (Roguelike.HardMode)
+                            bonesToThrow += 2;
                         nextBoneThrow = 20;
                     }
                     else if (attack == 1)
                     {
                         throwingAnim.Value = true;
                         frostBoltsToThrow = spawnedMages ? 5 : 3;
+                        if (Roguelike.HardMode)
+                            bonesToThrow += 2;
                         nextFrostBolt = 20;
                     }
                     else
@@ -311,12 +315,9 @@ namespace StardewRoguelike.Bosses
         {
             foreach (Vector2 tilePosition in mageSpawnLocations)
             {
-                SkellyMinion mage = new(Vector2.Zero, isMage: true);
-                mage.MaxHealth = (int)(mage.MaxHealth * ((float)2 / 3));
-                mage.Health = mage.MaxHealth;
-                mage.DamageToFarmer = (int)(mage.DamageToFarmer * ((float)2 / 3));
-                mage.Speed = 0;
-                mage.setTileLocation(tilePosition);
+                SkellyMinion mage = new(tilePosition * 64f, Difficulty, isMage: true);
+                if (!Roguelike.HardMode)
+                    mage.Speed = 0;
                 currentLocation.characters.Add(mage);
             }
 
