@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Netcode;
 using StardewModdingAPI;
+using StardewRoguelike.Extensions;
 using StardewRoguelike.UI;
 using StardewValley;
 using StardewValley.Locations;
@@ -148,13 +149,15 @@ namespace StardewRoguelike
             {
                 bool ladderHasSpawned = (bool)mine.GetType().GetField("ladderHasSpawned", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mine);
 
-                if (!ladderHasSpawned && mine.EnemyCount == 0)
+                if (!ladderHasSpawned && mine.EnemyCount == 0 && mine.IsNormalFloor())
                 {
                     Vector2 tileBeneathLadder = (Vector2)mine.GetType().GetProperty("tileBeneathLadder", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mine);
                     NetVector2Dictionary<bool, NetBool> createLadderEvent = (NetVector2Dictionary<bool, NetBool>)mine.GetType().GetField("createLadderAtEvent", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mine);
                     createLadderEvent[tileBeneathLadder] = true;
                     Game1.chatBox.addInfoMessage("Spawned ladder.");
                 }
+                else if (!ladderHasSpawned && mine.EnemyCount == 0 && !mine.IsNormalFloor())
+                    Game1.chatBox.addErrorMessage("You cannot use this command here.");
                 else
                     Game1.chatBox.addInfoMessage("All monsters have been detected to be on the map.");
                 return;
