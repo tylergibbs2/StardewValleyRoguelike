@@ -33,9 +33,9 @@ namespace StardewRoguelike.Bosses
         {
             CurrentState.Value = state;
 
-            DamageToFarmer = (int)Math.Round(DamageToFarmer * difficulty * 2);
-            Health = (int)Math.Round(Health * difficulty * 5);
-            MaxHealth = Health;
+            MaxHealth = (int)(100 * difficulty);
+            Health = MaxHealth;
+            DamageToFarmer = (int)(12 * difficulty);
 
             originalResilience = resilience.Value;
             originalDamage = DamageToFarmer;
