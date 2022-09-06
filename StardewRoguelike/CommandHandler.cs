@@ -138,6 +138,9 @@ namespace StardewRoguelike
                         } while (!mine.isTileClearForMineObjects(new(newPos.X, newPos.Y)));
                         monster.setTileLocation(newPos);
                     }
+
+                    monster.moveTowardPlayerThreshold.Value = 50;
+                    monster.focusedOnFarmers = true;
                 }
             }
 
