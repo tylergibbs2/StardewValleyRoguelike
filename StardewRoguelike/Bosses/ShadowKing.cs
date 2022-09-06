@@ -425,7 +425,7 @@ namespace StardewRoguelike.Bosses
             Vector2 shot_origin = new(GetBoundingBox().X, GetBoundingBox().Y);
             float fire_angle = 0f;
             if (Roguelike.HardMode)
-                fire_angle = BossManager.VectorToDegrees(Player.Position - Position);
+                fire_angle = BossManager.VectorToDegrees(Player.Position - Position) - 90;
             else
             {
                 switch (facingDirection.Value)
