@@ -49,19 +49,6 @@ namespace StardewRoguelike.ChallengeFloors
             mine.characters.Filter(c => c is not Monster);
         }
 
-        public int CountMonstersLeft(MineShaft mine)
-        {
-            int count = 0;
-
-            foreach (Character character in mine.characters)
-            {
-                if (character is Monster)
-                    count++;
-            }
-
-            return count;
-        }
-
         public void Win(MineShaft mine)
         {
             mine.playSound("Cowboy_Secret");
@@ -152,7 +139,7 @@ namespace StardewRoguelike.ChallengeFloors
             tickCounter++;
             if (tickCounter >= 60)
             {
-                if (CountMonstersLeft(mine) == 0)
+                if (mine.EnemyCount == 0)
                 {
                     gameOver = true;
                     Win(mine);

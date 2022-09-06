@@ -38,19 +38,6 @@ namespace StardewRoguelike.ChallengeFloors
             "custom-5", "custom-6"
         };
 
-        public int MonstersLeft(MineShaft mine)
-        {
-            int count = 0;
-
-            foreach (Character character in mine.characters)
-            {
-                if (character is Monster)
-                    count++;
-            }
-
-            return count;
-        }
-
         public void GameOver(MineShaft mine)
         {
             gameOver = true;
@@ -198,7 +185,7 @@ namespace StardewRoguelike.ChallengeFloors
             tickCounter++;
             if (tickCounter >= 60)
             {
-                if (MonstersLeft(mine) == 0)
+                if (mine.EnemyCount == 0)
                 {
                     wavesKilled.Value++;
                     SpawnWave(mine);

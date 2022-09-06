@@ -141,14 +141,7 @@ namespace StardewRoguelike.ChallengeFloors
 
             if (InitializedRoomType.Value == (int)RoomType.Monsters && !spawnedLadder && tickCounter == 0)
             {
-                int monsterCount = 0;
-                foreach (Character character in mine.characters)
-                {
-                    if (character is Monster)
-                        monsterCount++;
-                }
-
-                if (monsterCount == 0)
+                if (mine.EnemyCount == 0)
                     SpawnLadder();
             }
             else if (InitializedRoomType.Value != (int)RoomType.Monsters && !spawnedLadder)

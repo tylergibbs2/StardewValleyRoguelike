@@ -159,19 +159,6 @@ namespace StardewRoguelike.ChallengeFloors
             mine.SpawnLocalChest(new(20, 18), merchantFloor.PickAnyRandom());
         }
 
-        public int MonstersLeft(MineShaft mine)
-        {
-            int count = 0;
-
-            foreach (Character character in mine.characters)
-            {
-                if (character is Monster)
-                    count++;
-            }
-
-            return count;
-        }
-
         public override void Update(MineShaft mine, GameTime time)
         {
             if (!Context.IsMainPlayer || !Game1.shouldTimePass() || gameOver.Value)
@@ -190,7 +177,7 @@ namespace StardewRoguelike.ChallengeFloors
             }
             else if (!killedFirstMonster)
             {
-                if (MonstersLeft(mine) == 0)
+                if (mine.EnemyCount == 0)
                 {
                     ticksToSpawnEnemies = 150;
                     killedFirstMonster = true;
@@ -222,7 +209,7 @@ namespace StardewRoguelike.ChallengeFloors
             {
                 if (floorSecondsLeft.Value > 0)
                     floorSecondsLeft.Value--;
-                else if (MonstersLeft(mine) == 0)
+                else if (mine.EnemyCount == 0)
                     GameOver(mine);
 
                 tickCounter = 0;
