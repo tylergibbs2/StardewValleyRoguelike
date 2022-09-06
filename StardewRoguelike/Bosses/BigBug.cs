@@ -167,7 +167,7 @@ namespace StardewRoguelike.Bosses
                     int toSpawn = Game1.random.Next(1, 3);
                     SpawnOffScreenBugs(toSpawn);
 
-                    ticksToOffscreenBugs = Game1.random.Next(4 * 60, 8 * 60);
+                    ticksToOffscreenBugs = Game1.random.Next(6 * 60, 10 * 60);
                     if (Roguelike.HardMode)
                         ticksToOffscreenBugs -= Game1.random.Next(60, 3 * 60);
                 }
