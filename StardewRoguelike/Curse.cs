@@ -184,7 +184,7 @@ namespace StardewRoguelike
 
             if (HasCurse(CurseType.DamageOverTime) && DOTDamageToTick > 0 && Game1.shouldTimePass())
             {
-                int toRemove = Math.Max(3, DOTDamageToTick / 2);
+                int toRemove = Math.Max(3, DOTDamageToTick / 3);
                 Game1.player.health -= toRemove;
                 DOTDamageToTick = Math.Max(DOTDamageToTick - toRemove, 0);
 
