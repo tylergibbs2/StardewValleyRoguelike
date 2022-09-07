@@ -82,6 +82,26 @@ namespace StardewRoguelike.ChallengeFloors
             mine.playSound("cowboy_dead");
             DespawnMonsters(mine);
             mine.createLadderAt(ChallengeFloor.GetSpawnLocation(mine));
+
+            // find adjacent free tile to spawn the chest
+            Vector2 spawnLocation = ChallengeFloor.GetSpawnLocation(mine);
+            Vector2 chestSpot = Vector2.Zero;
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    if (i == 0 && j == 0)
+                        continue;
+
+                    if (mine.isTileLocationTotallyClearAndPlaceable((int)spawnLocation.X + i, (int)spawnLocation.Y + j))
+                    {
+                        chestSpot = new((int)spawnLocation.X + i, (int)spawnLocation.Y + j);
+                        break;
+                    }
+                }
+            }
+
+            mine.SpawnLocalChest(chestSpot, new Object(384, 20));
         }
 
         public override bool ShouldSpawnLadder(MineShaft mine)

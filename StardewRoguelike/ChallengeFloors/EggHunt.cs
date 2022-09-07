@@ -195,15 +195,17 @@ namespace StardewRoguelike.ChallengeFloors
 
             int totalEggsFound = eggsFound.Value <= 3 ? 0 : eggsFound.Value - 3;  // don't count the first gold egg
 
-            if (totalEggsFound < 10)
-                return;
-
             mine.playSound("discoverMineral");
 
             int gemReward;
             int goldAmount;
 
-            if (totalEggsFound <= 15)
+            if (totalEggsFound <= 10)
+            {
+                gemReward = 68;
+                goldAmount = 25;
+            }
+            else if (totalEggsFound <= 15)
             {
                 gemReward = 70;
                 goldAmount = 30;

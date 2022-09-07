@@ -45,9 +45,6 @@ namespace StardewRoguelike.ChallengeFloors
 
             mine.characters.Filter(c => c is not Monster);
 
-            if (wavesKilled < 3)
-                return;
-
             mine.playSound("discoverMineral");
 
             // find adjacent free tile to spawn the chest
@@ -70,6 +67,8 @@ namespace StardewRoguelike.ChallengeFloors
 
             int gemReward = wavesKilled.Value switch
             {
+                1 => 68,
+                2 => 68,
                 3 => 70,
                 4 => 64,
                 _ => 72,
@@ -77,6 +76,8 @@ namespace StardewRoguelike.ChallengeFloors
 
             int goldAmount = wavesKilled.Value switch
             {
+                1 => 20,
+                2 => 25,
                 3 => 30,
                 4 => 35,
                 _ => 40
