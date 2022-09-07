@@ -241,8 +241,12 @@ namespace StardewRoguelike
                     Game1.activeClickableMenu = new GambaMenu();
                     break;
                 case "skills":
-                    ModEntry.ModMonitor.Log($"luck: base={Game1.player.LuckLevel} added={Game1.player.addedLuckLevel} daily={Game1.player.DailyLuck}", LogLevel.Info);
-                    ModEntry.ModMonitor.Log($"speed: base={Game1.player.Speed} added={Game1.player.addedSpeed} result={Game1.player.getMovementSpeed()}", LogLevel.Info);
+                    ModEntry.ModMonitor.Log($"luck: base={Game1.player.luckLevel.Value} added={Game1.player.addedLuckLevel} daily={Game1.player.DailyLuck} average={Game1.player.team.AverageLuckLevel()}", LogLevel.Info);
+                    ModEntry.ModMonitor.Log($"speed: base={Game1.player.speed} added={Game1.player.addedSpeed} result={Game1.player.getMovementSpeed()}", LogLevel.Info);
+                    break;
+                case "food":
+                    ModEntry.ModMonitor.Log($"food: {Game1.buffsDisplay.food}", LogLevel.Info);
+                    ModEntry.ModMonitor.Log($"drink: {Game1.buffsDisplay.drink}", LogLevel.Info);
                     break;
                 default:
                     ModEntry.ModMonitor.Log("Invalid command.", LogLevel.Error);
