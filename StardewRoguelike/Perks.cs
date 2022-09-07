@@ -77,7 +77,7 @@ namespace StardewRoguelike
 
         private static readonly float RarePerkChance = 0.1f;
 
-        private static readonly List<PerkType> ActivePerks = new();
+        private static readonly HashSet<PerkType> ActivePerks = new();
 
         public static string GetPerkDisplayName(PerkType perkType)
         {
@@ -158,7 +158,7 @@ namespace StardewRoguelike
                 return PerkRarity.Rare;
         }
 
-        public static List<PerkType> GetActivePerks()
+        public static HashSet<PerkType> GetActivePerks()
         {
             return ActivePerks;
         }
@@ -238,7 +238,7 @@ namespace StardewRoguelike
                     Game1.player.professions.Add(19);
                     break;
                 case PerkType.SpecialCharm:
-                    Game1.player.LuckLevel += 1;
+                    Game1.player.addedLuckLevel.Value += 1;
                     break;
                 case PerkType.Swift:
                     Game1.player.addedSpeed += 1;
@@ -247,7 +247,7 @@ namespace StardewRoguelike
                     Game1.player.immunity += 2;
                     break;
                 case PerkType.RabbitsFoot:
-                    Game1.player.LuckLevel += 3;
+                    Game1.player.addedLuckLevel.Value += 3;
                     break;
             }
 
@@ -290,7 +290,7 @@ namespace StardewRoguelike
                     Game1.player.professions.Remove(19);
                     break;
                 case PerkType.SpecialCharm:
-                    Game1.player.LuckLevel -= 1;
+                    Game1.player.addedLuckLevel.Value -= 1;
                     break;
                 case PerkType.Swift:
                     Game1.player.addedSpeed -= 1;
@@ -299,7 +299,7 @@ namespace StardewRoguelike
                     Game1.player.immunity -= 2;
                     break;
                 case PerkType.RabbitsFoot:
-                    Game1.player.LuckLevel -= 3;
+                    Game1.player.addedLuckLevel.Value -= 3;
                     break;
             }
 
