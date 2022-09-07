@@ -129,7 +129,13 @@ namespace StardewRoguelike.Bosses
         {
             new(20, 70),
             new(21, 70),
-            new(22, 70)
+            new(22, 70),
+            new(20, 75),
+            new(21, 75),
+            new(22, 75),
+            new(20, 76),
+            new(21, 76),
+            new(22, 76)
         };
 
         private readonly Vector2 warpDestination = new(21, 78);
