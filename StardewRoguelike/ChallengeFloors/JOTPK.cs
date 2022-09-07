@@ -114,7 +114,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public void SpawnEnemies(MineShaft mine)
         {
-            int monstersToSpawn = Game1.random.Next(1, 5);
+            int monstersToSpawn = Game1.random.Next(1, 4);
 
             if (Curse.AnyFarmerHasCurse(CurseType.MoreEnemiesLessHealth))
                 monstersToSpawn += 2;
