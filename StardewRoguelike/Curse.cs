@@ -325,21 +325,25 @@ namespace StardewRoguelike
                 case CurseType.BuffsMorePotent:
                     if (Game1.buffsDisplay.food is not null)
                     {
+                        Game1.player.removeBuffAttributes(Game1.buffsDisplay.food.buffAttributes);
                         Game1.buffsDisplay.food.millisecondsDuration = PotentBuffDuration;
                         for (int i = 0; i < Game1.buffsDisplay.food.buffAttributes.Length; i++)
                         {
                             if (Game1.buffsDisplay.food.buffAttributes[i] > 0)
                                 Game1.buffsDisplay.food.buffAttributes[i] += 1;
                         }
+                        Game1.player.addBuffAttributes(Game1.buffsDisplay.food.buffAttributes);
                     }
                     if (Game1.buffsDisplay.drink is not null)
                     {
+                        Game1.player.removeBuffAttributes(Game1.buffsDisplay.drink.buffAttributes);
                         Game1.buffsDisplay.drink.millisecondsDuration = PotentBuffDuration;
                         for (int i = 0; i < Game1.buffsDisplay.drink.buffAttributes.Length; i++)
                         {
                             if (Game1.buffsDisplay.drink.buffAttributes[i] > 0)
                                 Game1.buffsDisplay.drink.buffAttributes[i] += 1;
                         }
+                        Game1.player.addBuffAttributes(Game1.buffsDisplay.drink.buffAttributes);
                     }
                     Game1.buffsDisplay.syncIcons();
                     break;
