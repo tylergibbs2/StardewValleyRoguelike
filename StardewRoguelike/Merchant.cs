@@ -41,7 +41,7 @@ namespace StardewRoguelike
 
         public static bool IsMerchantFloor(int level)
         {
-            return level % 6 == 0 || level == 1;
+            return level != 0 && (level % 6 == 0 || level == 1);
         }
 
         public static void PlayerWarped(object sender, WarpedEventArgs e)

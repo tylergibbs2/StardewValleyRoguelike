@@ -1,7 +1,6 @@
 ﻿using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
-using StardewRoguelike.VirtualProperties;
 using xTile.Dimensions;
 using xTile.Tiles;
 

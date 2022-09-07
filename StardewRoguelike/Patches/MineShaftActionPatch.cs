@@ -18,7 +18,15 @@ namespace StardewRoguelike.Patches
 			Tile tile = __instance.map.GetLayer("Buildings").PickTile(new Location(tileLocation.X * 64, tileLocation.Y * 64), viewport.Size);
 			if (tile is not null && who.IsLocalPlayer)
 			{
-				if (TilesToIgnore.Contains(tile.TileIndex))
+                int level = Roguelike.GetLevelFromMineshaft(__instance);
+                if (Merchant.IsMerchantFloor(__instance) && tile.TileIndex == 173 && __instance.farmers.Count != Game1.getOnlineFarmers().Count && Roguelike.GetHighestMineShaftLevel() == level)
+				{
+					Game1.drawObjectDialogue("Wait for all players to continue.");
+					__result = false;
+                    return false;
+                }
+
+                if (TilesToIgnore.Contains(tile.TileIndex))
 				{
 					__result = false;
 					return false;
