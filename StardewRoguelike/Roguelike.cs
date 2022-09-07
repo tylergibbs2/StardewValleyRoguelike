@@ -421,6 +421,7 @@ namespace StardewRoguelike
         {
             Game1.showGlobalMessage($"You survived {CurrentLevel - 1} floors!");
 
+            ModEntry.Invincible = true;
             Game1.player.temporarilyInvincible = true;
             Game1.player.maxHealth = StartingHP;
             Game1.player.health = StartingHP;
