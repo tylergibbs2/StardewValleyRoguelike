@@ -80,15 +80,16 @@ namespace StardewRoguelike
         public static void StoreItems()
         {
             for (int i = 0; i < Game1.player.MaxItems; i++)
-            {
                 StoredItems.Add(Game1.player.Items[i]);
-                Game1.player.items[i] = null;
-            }
+
+            Game1.player.clearBackpack();
         }
 
         public static void PopItems()
         {
-            Game1.player.setInventory(StoredItems);
+            foreach (Item item in StoredItems)
+                Game1.player.addItemToInventory(item);
+
             StoredItems.Clear();
         }
 
