@@ -51,7 +51,7 @@ namespace StardewRoguelike.Projectiles
                     slime.moveTowardPlayerThreshold.Value = 25;
                     if (!slime.Sprite.textureName.Value.EndsWith("_dangerous"))
                         slime.Sprite.LoadTexture(slime.Sprite.textureName.Value + "_dangerous");
-                    Roguelike.AdjustMonster(ref slime);
+                    Roguelike.AdjustMonster(location as MineShaft, ref slime);
                     location.characters.Add(slime);
 
                     slimesToSpawn--;

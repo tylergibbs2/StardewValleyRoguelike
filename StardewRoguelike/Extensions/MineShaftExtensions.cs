@@ -29,7 +29,7 @@ namespace StardewRoguelike.Extensions
                         if (Game1.random.NextDouble() <= spawnChance && mine.getDistanceFromStart(i, j) > 5f)
                         {
                             Monster monster = mine.BuffMonsterIfNecessary(mine.getMonsterForThisLevel(mine.mineLevel, i, j));
-                            Roguelike.AdjustMonster(ref monster);
+                            Roguelike.AdjustMonster(mine, ref monster);
                             mine.characters.Add(monster);
                             amount--;
                         }

@@ -281,7 +281,7 @@ namespace StardewRoguelike.ChallengeFloors
                     topLeftTile.Y + Game1.random.Next(0, 6)
                 );
                 Monster monster = mine.BuffMonsterIfNecessary(mine.getMonsterForThisLevel(mine.mineLevel, (int)tileLocation.X, (int)tileLocation.Y));
-                Roguelike.AdjustMonster(ref monster);
+                Roguelike.AdjustMonster(mine, ref monster);
 
                 mine.characters.Add(monster);
                 monstersToSpawn--;

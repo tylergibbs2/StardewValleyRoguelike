@@ -174,7 +174,7 @@ namespace StardewRoguelike.ChallengeFloors
                 monster.Health = monster.MaxHealth;
                 monster.resilience.Value = 2;
 
-                Roguelike.AdjustMonster(ref monster);
+                Roguelike.AdjustMonster(mine, ref monster);
 
                 mine.characters.Add(monster);
 

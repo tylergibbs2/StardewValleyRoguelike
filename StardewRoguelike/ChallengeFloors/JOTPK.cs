@@ -139,7 +139,7 @@ namespace StardewRoguelike.ChallengeFloors
             foreach (Vector2 tile in spawnTiles)
             {
                 Monster monster = mine.BuffMonsterIfNecessary(mine.getMonsterForThisLevel(mine.mineLevel, (int)tile.X, (int)tile.Y));
-                Roguelike.AdjustMonster(ref monster);
+                Roguelike.AdjustMonster(mine, ref monster);
                 monster.moveTowardPlayerThreshold.Value = 50;
 
                 mine.characters.Add(monster);

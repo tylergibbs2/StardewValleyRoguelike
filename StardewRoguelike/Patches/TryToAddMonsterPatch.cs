@@ -10,7 +10,7 @@ namespace StardewRoguelike.Patches
     {
         public static bool Prefix(MineShaft __instance, Monster m, int tileX, int tileY)
         {
-            Roguelike.AdjustMonster(ref m);
+            Roguelike.AdjustMonster(__instance, ref m);
 
             if (__instance.isTileClearForMineObjects(tileX, tileY) && !__instance.isTileOccupied(new Vector2(tileX, tileY)))
             {

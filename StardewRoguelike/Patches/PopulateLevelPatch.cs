@@ -190,7 +190,7 @@ namespace StardewRoguelike.Patches
 
                             monsterToAdd.hasSpecialItem.Value = false;
 
-                            Roguelike.AdjustMonster(ref monsterToAdd);
+                            Roguelike.AdjustMonster(__instance, ref monsterToAdd);
 
                             if (level >= Roguelike.DangerousThreshold)
                                 monsterToAdd.DamageToFarmer = (int)Math.Round(monsterToAdd.DamageToFarmer * 1.75f);

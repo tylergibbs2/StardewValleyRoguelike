@@ -127,7 +127,7 @@ namespace StardewRoguelike.Bosses
                     slime.moveTowardPlayerThreshold.Value = 25;
                     if (!slime.Sprite.textureName.Value.EndsWith("_dangerous"))
                         slime.Sprite.LoadTexture(slime.Sprite.textureName.Value + "_dangerous");
-                    Roguelike.AdjustMonster(ref slime);
+                    Roguelike.AdjustMonster(currentLocation as MineShaft, ref slime);
                     mine.characters.Add(slime);
                 }
 

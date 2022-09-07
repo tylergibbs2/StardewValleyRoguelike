@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using StardewRoguelike.Extensions;
 using StardewValley;
+using StardewValley.Locations;
 using StardewValley.Monsters;
 using StardewValley.Projectiles;
 using System;
@@ -236,7 +237,7 @@ namespace StardewRoguelike.Bosses
                 Vector2 randomTile = new(getTileX() + Game1.random.Next(-4, 5), getTileY() + Game1.random.Next(-4, 5));
 
                 Monster bee = new QueenBeeMinion(randomTile, Difficulty);
-                Roguelike.AdjustMonster(ref bee);
+                Roguelike.AdjustMonster(currentLocation as MineShaft, ref bee);
                 currentLocation.characters.Add(bee);
             }
         }

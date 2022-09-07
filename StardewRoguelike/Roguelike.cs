@@ -74,7 +74,7 @@ namespace StardewRoguelike
 
         private static bool DidHardModeDowngrade = false;
 
-        public static void AdjustMonster(ref Monster monster)
+        public static void AdjustMonster(MineShaft mine, ref Monster monster)
         {
             if (HardMode)
                 monster.DamageToFarmer += (int)Math.Round(monster.DamageToFarmer * 0.25f);

@@ -143,7 +143,7 @@ namespace StardewValley.Menus
                             continue;
 
                         Monster monster = mine.BuffMonsterIfNecessary(mine.getMonsterForThisLevel(mine.mineLevel, (int)randomTile.X, (int)randomTile.Y));
-                        Roguelike.AdjustMonster(ref monster);
+                        Roguelike.AdjustMonster(mine, ref monster);
                         mine.characters.Add(monster);
                         monstersToSpawn--;
                     }
