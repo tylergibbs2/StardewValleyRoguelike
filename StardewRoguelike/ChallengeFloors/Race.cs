@@ -173,7 +173,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void Update(MineShaft mine, GameTime time)
         {
-            if (!Context.IsMainPlayer || gameOver)
+            if (!Context.IsMainPlayer || gameOver || !Game1.shouldTimePass())
                 return;
 
             if (!spawnedFirstWave)
