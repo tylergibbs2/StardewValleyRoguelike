@@ -226,13 +226,8 @@ namespace StardewRoguelike
             if (HasCurse(CurseType.HealOverTime) && HOTHealToTick > 0 && Game1.shouldTimePass())
             {
                 int toAdd = Math.Max(3, HOTHealToTick / 3);
-                if (Game1.player.health + toAdd >= Game1.player.maxHealth)
-                    Game1.player.health = Game1.player.maxHealth;
-                else
-                {
-                    Game1.player.health += toAdd;
-                    HOTHealToTick -= toAdd;
-                }
+                Game1.player.health = Math.Min(Game1.player.health + toAdd, Game1.player.maxHealth);
+                HOTHealToTick = Math.Max(0, HOTHealToTick - toAdd);
             }
         }
 
