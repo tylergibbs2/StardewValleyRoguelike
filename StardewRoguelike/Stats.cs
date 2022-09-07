@@ -106,15 +106,15 @@ namespace StardewRoguelike
             if (DinoKillEndTime is not null && StartTime is not null)
             {
                 TimeSpan span = (TimeSpan)(DinoKillEndTime - StartTime);
-                lines.Add($"Dino Kill Duration:{span:hh\\h\\ mm\\m\\ ss\\s}");
+                lines.Add($"Completion Time:{span:hh\\h\\ mm\\m\\ ss\\s}");
             }
             else if (DinoKillEndTime is null && StartTime is not null && EndTime is null)
             {
                 TimeSpan span = (TimeSpan)(DateTime.UtcNow - StartTime);
-                lines.Add($"Dino Kill Duration:{span:hh\\h\\ mm\\m\\ ss\\s}");
+                lines.Add($"Completion Time:{span:hh\\h\\ mm\\m\\ ss\\s}");
             }
             else
-                lines.Add("Dino Kill Duration:Not Started");
+                lines.Add("Completion Time:Not Started");
 
             lines.Add($"Floors Descended:{FloorsDescended}");
             lines.Add($"Monsters Killed:{MonstersKilled}");
