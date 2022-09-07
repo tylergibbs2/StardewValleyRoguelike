@@ -642,6 +642,19 @@ namespace StardewRoguelike
             return highestFloor;
         }
 
+        public static int GetLowestMineShaftLevel()
+        {
+            int lowestFloor = GetHighestMineShaftLevel();
+            foreach (MineShaft mine in MineShaft.activeMines)
+            {
+                int floor = GetLevelFromMineshaft(mine);
+                if (floor < lowestFloor)
+                    lowestFloor = floor;
+            }
+
+            return lowestFloor;
+        }
+
         public static int GetLevelFromMineshaft(MineShaft mine)
         {
             return mine.get_MineShaftLevel().Value;

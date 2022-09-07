@@ -34,6 +34,12 @@ namespace StardewRoguelike.Patches
                         __result = false;
                         return false;
                     }
+                    else if (tile.TileIndex == 173 && Roguelike.GetLowestMineShaftLevel() > 1)
+                    {
+                        Game1.drawObjectDialogue("Cannot enter, the run has already started.");
+                        __result = false;
+                        return false;
+                    }
                 }
             }
 
