@@ -486,12 +486,10 @@ namespace StardewRoguelike
             GoldDropMin = 1;
 
             Game1.flushLocationLookup();
+            MineShaft.clearActiveMines();
 
             if (Context.IsMainPlayer)
-            {
                 SeenMineMaps.Clear();
-                MineShaft.clearActiveMines();
-            }
         }
 
         public static void ResetLocalPlayer()
