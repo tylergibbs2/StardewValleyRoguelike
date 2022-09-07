@@ -95,7 +95,7 @@ namespace StardewRoguelike
             if (Game1.player.health > Game1.player.maxHealth)
                 Game1.player.health = Game1.player.maxHealth;
 
-            if (HardMode && !DidHardModeDowngrade)
+            if (HardMode && !DidHardModeDowngrade && Game1.player.hasItemInInventory(194, 1))
             {
                 Game1.player.removeFirstOfThisItemFromInventory(194);
                 DelayedAction.playSoundAfterDelay("clank", 250);
