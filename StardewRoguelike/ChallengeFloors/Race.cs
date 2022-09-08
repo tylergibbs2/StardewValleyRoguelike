@@ -35,7 +35,7 @@ namespace StardewRoguelike.ChallengeFloors
         public override List<string> MapPaths => new() {
             "3", "21", "23", "custom-1",
             "custom-2", "custom-3", "custom-4",
-            "custom-5", "custom-6"
+            "custom-5", "custom-6", "custom-7"
         };
 
         public void GameOver(MineShaft mine)
