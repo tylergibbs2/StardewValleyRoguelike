@@ -223,6 +223,9 @@ namespace StardewRoguelike
 
             if (Context.IsMainPlayer)
             {
+                HardMode = false;
+                ModEntry.Stats.HardMode = false;
+
                 qi.setTileLocation(new(17, 6));
                 qi.faceDirection(2);
                 mine.addCharacter(qi);
