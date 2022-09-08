@@ -139,7 +139,7 @@ namespace StardewRoguelike.Patches
                             }
                         }
 
-                        // MONSTER SPAWNING 1
+                        // MONSTER SPAWNING
 
                         else if (mineRandom.NextDouble() <= monsterChance && __instance.getDistanceFromStart(j, l) > 5f && monstersSpawned < maxMonsters)
                         {

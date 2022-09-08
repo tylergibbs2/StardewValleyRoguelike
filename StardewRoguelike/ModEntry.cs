@@ -81,6 +81,7 @@ namespace StardewRoguelike
             { "Maps/Mines/custom-lavalurk", "assets/Maps/custom-lavalurk.tmx" },
             { "Maps/Mines/custom-slingshot", "assets/Maps/custom-slingshot.tmx" },
             { "Maps/Mines/custom-pickapath", "assets/Maps/custom-pickapath.tmx" },
+            { "Maps/Mines/custom-speedrun", "assets/Maps/custom-speedrun.tmx" },
             { "Maps/Mines/custom-1", "assets/Maps/custom-1.tmx" },
             { "Maps/Mines/custom-2", "assets/Maps/custom-2.tmx" },
             { "Maps/Mines/custom-3", "assets/Maps/custom-3.tmx" },
@@ -101,6 +102,7 @@ namespace StardewRoguelike
             { "LooseSprites/Cursors", "assets/TileSheets/Cursors.png" },
             { "TerrainFeatures/CleansingCauldron", "assets/TileSheets/Cauldron.png" },
             { "TerrainFeatures/CleansingCauldronEmpty", "assets/TileSheets/CauldronEmpty.png" },
+            { "TerrainFeatures/SpeedPad", "assets/TileSheets/speedrun_pads.png" },
         };
 
         private readonly Dictionary<string, string> modifiedStrings = new()

@@ -29,7 +29,8 @@ namespace StardewRoguelike
             EggHunt      = 7,
             JOTPK        = 8,
             HiddenBoss   = 9,
-            PickAPath    = 10
+            PickAPath    = 10,
+            Speedrun     = 11
         }
         #pragma warning restore format
 
@@ -201,6 +202,7 @@ namespace StardewRoguelike
                 ChallengeType.JOTPK => new JOTPK(),
                 ChallengeType.HiddenBoss => new HiddenBoss(),
                 ChallengeType.PickAPath => new PickAPath(),
+                ChallengeType.Speedrun => new Speedrun(),
                 _ => throw new NotImplementedException()
             };
         }

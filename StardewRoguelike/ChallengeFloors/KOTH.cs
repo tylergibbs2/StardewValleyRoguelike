@@ -8,7 +8,6 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Monsters;
-using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 
