@@ -134,6 +134,7 @@ namespace StardewRoguelike
             "tylergibbs2.DefaultFarmer",
             "spacechase0.GenericModConfigMenu",
             "jltaylor-us.GMCMOptions",
+            "thespbgamer.ZoomLevel"
         };
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
