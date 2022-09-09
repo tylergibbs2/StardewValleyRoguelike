@@ -182,6 +182,8 @@ namespace StardewRoguelike
             helper.Events.Player.Warped += SpectatorMode.RespawnPlayers;
 
             helper.ConsoleCommands.Add("rdebug", "Debugging command suite for the Roguelike.", DebugCommands.Parse);
+            if (DebugMode)
+                helper.Events.Input.ButtonPressed += DebugCommands.LadderKeyPressed;
         }
 
         public void CheckForUpdate(object sender, GameLaunchedEventArgs e)

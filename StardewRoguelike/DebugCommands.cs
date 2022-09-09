@@ -11,6 +11,7 @@ using StardewValley.Network;
 using StardewRoguelike.Bosses;
 using System.Text.Json;
 using StardewValley.Menus;
+using StardewModdingAPI.Events;
 
 namespace StardewRoguelike
 {
@@ -292,6 +293,14 @@ namespace StardewRoguelike
             help.AppendLine("skills : displays the player's luck and speed skills");
 
             ModEntry.ModMonitor.Log(help.ToString(), LogLevel.Info);
+        }
+
+        public static void LadderKeyPressed(object sender, ButtonPressedEventArgs e)
+        {
+            if (e.Button != SButton.RightAlt)
+                return;
+
+            ForceLadder(new string[] { "", $"{Game1.currentCursorTile.X}", $"{Game1.currentCursorTile.Y}" });
         }
 
         public static void ForceLadder(string[] args)
