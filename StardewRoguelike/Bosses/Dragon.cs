@@ -238,7 +238,12 @@ namespace StardewRoguelike.Bosses
                             else if (currentAttack.Value == AttackType.RandomFire)
                             {
                                 Vector2 shot_origin = new(GetBoundingBox().Center.X, GetBoundingBox().Center.Y);
-                                Vector2 trajectory = BossManager.VectorFromDegree(Game1.random.Next(0, 360)) * 10f;
+                                int degreesToPlayer = BossManager.VectorToDegrees(Player.Position - Position);
+                                Vector2 trajectory = BossManager.VectorFromDegree(degreesToPlayer + Game1.random.Next(-65, 66));
+                                if (Roguelike.HardMode)
+                                    trajectory *= 12f;
+                                else
+                                    trajectory *= 10f;
                                 BasicProjectile projectile = new(DamageToFarmer, 10, 0, 1, 0.196349546f, trajectory.X, trajectory.Y, shot_origin, "", "fireball", false, false, currentLocation, this, false, null);
                                 projectile.ignoreMeleeAttacks.Value = true;
                                 projectile.ignoreTravelGracePeriod.Value = true;
