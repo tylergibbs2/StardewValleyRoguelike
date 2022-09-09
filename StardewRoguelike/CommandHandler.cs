@@ -136,7 +136,7 @@ namespace StardewRoguelike
                         do
                         {
                             newPos = mine.getRandomTile();
-                        } while (!mine.isTileClearForMineObjects(new(newPos.X, newPos.Y)));
+                        } while (!mine.isTileOnClearAndSolidGround(newPos));
                         monster.setTileLocation(newPos);
                     }
 
