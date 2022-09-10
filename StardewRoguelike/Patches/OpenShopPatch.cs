@@ -1,6 +1,8 @@
 ﻿using StardewRoguelike.UI;
 using StardewValley;
 using StardewValley.Menus;
+using System.Linq;
+using System.Reflection;
 
 namespace StardewRoguelike.Patches
 {
@@ -38,6 +40,17 @@ namespace StardewRoguelike.Patches
                         Merchant.CurrentShop = new RefreshableShopMenu(Merchant.CurrentShop.itemPriceAndStock, false, context: "Blacksmith", on_purchase: OnPurchase);
                 }
 
+                foreach (ISalable buyback_item in Merchant.CurrentShop.buyBackItems)
+                    Merchant.CurrentShop.itemPriceAndStock.Remove(buyback_item);
+
+                Merchant.CurrentShop.forSale = Merchant.CurrentShop.itemPriceAndStock.Keys.ToList();
+
+                Merchant.CurrentShop.currentItemIndex = 0;
+                MethodInfo scroll = Merchant.CurrentShop.GetType().GetMethod("setScrollBarToCurrentIndex", BindingFlags.Instance | BindingFlags.NonPublic);
+                scroll.Invoke(Merchant.CurrentShop, null);
+
+                Merchant.CurrentShop.buyBackItems.Clear();
+                Merchant.CurrentShop.buyBackItemsToResellTomorrow.Clear();
                 Game1.activeClickableMenu = Merchant.CurrentShop;
 
                 __result = true;
