@@ -184,7 +184,7 @@ namespace StardewRoguelike
 
             helper.ConsoleCommands.Add("rdebug", "Debugging command suite for the Roguelike.", DebugCommands.Parse);
             if (DebugMode)
-                helper.Events.Input.ButtonPressed += DebugCommands.LadderKeyPressed;
+                helper.Events.Input.ButtonPressed += DebugCommands.ButtonPressed;
         }
 
         public void CheckForUpdate(object sender, GameLaunchedEventArgs e)

@@ -12,6 +12,7 @@ using StardewRoguelike.Bosses;
 using System.Text.Json;
 using StardewValley.Menus;
 using StardewModdingAPI.Events;
+using StardewRoguelike.Extensions;
 
 namespace StardewRoguelike
 {
@@ -295,12 +296,15 @@ namespace StardewRoguelike
             ModEntry.ModMonitor.Log(help.ToString(), LogLevel.Info);
         }
 
-        public static void LadderKeyPressed(object sender, ButtonPressedEventArgs e)
+        public static void ButtonPressed(object sender, ButtonPressedEventArgs e)
         {
-            if (e.Button != SButton.RightAlt)
-                return;
-
-            ForceLadder(new string[] { "", $"{Game1.currentCursorTile.X}", $"{Game1.currentCursorTile.Y}" });
+            if (e.Button == SButton.RightAlt)
+                ForceLadder(new string[] { "", $"{Game1.currentCursorTile.X}", $"{Game1.currentCursorTile.Y}" });
+            else if (e.Button == SButton.RightControl)
+            {
+                MineShaft mine = Game1.player.currentLocation as MineShaft;
+                mine.SpawnLocalChest(new(Game1.currentCursorTile.X, Game1.currentCursorTile.Y));
+            }
         }
 
         public static void ForceLadder(string[] args)
