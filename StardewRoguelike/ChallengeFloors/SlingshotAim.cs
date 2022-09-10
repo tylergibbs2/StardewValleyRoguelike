@@ -148,6 +148,9 @@ namespace StardewRoguelike.ChallengeFloors
             gameOver = true;
             mine.characters.Filter(c => c is not Monster);
 
+            if (wavesKilled.Value == 0)
+                return;
+
             mine.playSound("discoverMineral");
 
             // find adjacent free tile to spawn the chest
