@@ -1,10 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using StardewRoguelike.Extensions;
+﻿using StardewRoguelike.Extensions;
 using StardewRoguelike.VirtualProperties;
-using StardewValley;
 using StardewValley.Locations;
-using StardewValley.Objects;
-using System.Collections.Generic;
 
 namespace StardewRoguelike
 {
@@ -21,8 +17,7 @@ namespace StardewRoguelike
         /// <param name="mine">The mine.</param>
         public static void SpawnChest(MineShaft mine)
         {
-            MerchantFloor merchantFloor = Merchant.GetNextMerchantFloor(mine);
-            mine.SpawnLocalChest(new(9, 9), merchantFloor.PickAnyRandom());
+            mine.SpawnLocalChest(new(9, 9));
         }
 
         /// <summary>
