@@ -719,6 +719,15 @@ namespace StardewRoguelike
             return (itemId, quantity);
         }
 
+        /// <summary>
+        /// Finds the index for a tile in a map with many tilesheets.
+        /// </summary>
+        /// <param name="map">The map to look through</param>
+        /// <param name="tileSheetId">The ID (string name) of the tilesheet</param>
+        /// <param name="tileId">The tile ID in the passed tilesheet</param>
+        /// <param name="doSum">Whether or not to return the tile ID as the sum of all previous or standalone</param>
+        /// <returns>tilesheet index, tile ID</returns>
+        /// <exception cref="Exception">The tilesheet passed could not be found.</exception>
         public static (int, int) GetTileIndexForMap(xTile.Map map, string tileSheetId, int tileId, bool doSum = false)
         {
             int idSum = 0;
