@@ -216,7 +216,7 @@ namespace StardewRoguelike.Bosses
                                 faceGeneralDirection(Player.Position, 0, false);
 
                                 float fire_angle = BossManager.VectorToRadians(playerAngle);
-                                fire_angle = fire_angle * (float)(180 / Math.PI);
+                                fire_angle *= (float)(180 / Math.PI);
                                 fire_angle += (float)Math.Sin(totalFireTime / 1000f * BossManager.DegreesToRadians(200)) * 30f;
                                 fire_angle = BossManager.DegreesToRadians(fire_angle);
 
@@ -332,7 +332,7 @@ namespace StardewRoguelike.Bosses
 
             int result = base.takeDamage(damage, xTrajectory, yTrajectory, isBomb, addedPrecision, who);
             if (Health <= 0)
-                BossManager.Death(who.currentLocation, who, DisplayName, SpawnLocation);
+                BossManager.Death(who.currentLocation, who, DisplayName, new(23, 4));
 
             return result;
         }
