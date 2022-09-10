@@ -8,6 +8,7 @@ using StardewModdingAPI.Events;
 using StardewValley.Menus;
 using System;
 using StardewValley.Objects;
+using StardewRoguelike.TerrainFeatures;
 
 namespace StardewRoguelike.ChallengeFloors
 {

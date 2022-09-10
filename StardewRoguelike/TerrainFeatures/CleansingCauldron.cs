@@ -4,7 +4,7 @@ using StardewValley.TerrainFeatures;
 using System;
 using Microsoft.Xna.Framework;
 
-namespace StardewRoguelike
+namespace StardewRoguelike.TerrainFeatures
 {
     internal class CleansingCauldron : TerrainFeature
     {

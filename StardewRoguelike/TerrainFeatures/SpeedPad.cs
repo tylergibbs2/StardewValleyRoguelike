@@ -6,7 +6,7 @@ using StardewValley.TerrainFeatures;
 using System;
 using System.Linq;
 
-namespace StardewRoguelike
+namespace StardewRoguelike.TerrainFeatures
 {
     internal class SpeedPad : TerrainFeature
     {

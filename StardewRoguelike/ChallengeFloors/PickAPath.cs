@@ -2,6 +2,7 @@
 using Netcode;
 using StardewModdingAPI;
 using StardewRoguelike.Extensions;
+using StardewRoguelike.TerrainFeatures;
 using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;

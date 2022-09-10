@@ -244,7 +244,7 @@ namespace StardewRoguelike.Bosses
                 int readyToJump = (int)GetType().BaseType.GetField("readyToJump", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
                 NetVector2 facePosition = (NetVector2)GetType().BaseType.GetField("facePosition", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this);
 
-                b.Draw(Sprite.Texture, getLocalPosition(Game1.viewport) + new Vector2(32f * Scale, GetBoundingBox().Height / 2 * Scale + yOffset) + stack_adjustment, Sprite.SourceRect, prismatic ? Utility.GetPrismaticColor(348 + (int)specialNumber, 5f) : ((Color)color), 0f, new Vector2(8f, 16f), 4f * Math.Max(0.2f, (float)Scale - 0.4f * ((float)ageUntilFullGrown.Value / 120000f)), SpriteEffects.None, Math.Max(0f, drawOnTop ? 0.991f : ((float)(getStandingY() + i * 2) / 10000f)));
+                b.Draw(Sprite.Texture, getLocalPosition(Game1.viewport) + new Vector2(32f * Scale, GetBoundingBox().Height / 2 * Scale + yOffset) + stack_adjustment, Sprite.SourceRect, prismatic ? Utility.GetPrismaticColor(348 + specialNumber.Value, 5f) : color.Value, 0f, new Vector2(8f, 16f), 4f * Math.Max(0.2f, (float)Scale - 0.4f * ((float)ageUntilFullGrown.Value / 120000f)), SpriteEffects.None, Math.Max(0f, drawOnTop ? 0.991f : ((float)(getStandingY() + i * 2) / 10000f)));
                 if (top_slime)
                 {
                     int xDongleSource = ((isMoving() || wagTimer > 0) ? (16 * Math.Min(7, Math.Abs(((wagTimer > 0) ? (992 - wagTimer) : (Game1.currentGameTime.TotalGameTime.Milliseconds % 992)) - 496) / 62) % 64) : 48);
