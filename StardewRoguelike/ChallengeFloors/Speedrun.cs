@@ -187,7 +187,7 @@ namespace StardewRoguelike.ChallengeFloors
         {
             foreach (var (pad1, pad2) in SpeedPadSpawns)
             {
-                bool firstIsBad = Game1.random.NextDouble() < 0.5;
+                bool firstIsBad = Roguelike.FloorRng.NextDouble() < 0.5;
                 mine.terrainFeatures.Add(pad1, new SpeedPad(firstIsBad));
                 mine.terrainFeatures.Add(pad2, new SpeedPad(!firstIsBad));
             }
@@ -195,12 +195,12 @@ namespace StardewRoguelike.ChallengeFloors
 
         private void SpawnBoulders(MineShaft mine)
         {
-            int whichClump = ((Game1.random.NextDouble() < 0.5) ? 752 : 754);
+            int whichClump = ((Roguelike.FloorRng.NextDouble() < 0.5) ? 752 : 754);
             int mineArea = mine.getMineArea();
 
             for (int i = 0; i < BouldersToSpawn; i++)
             {
-                Vector2 boulderTile = BoulderSpawns[Game1.random.Next(BoulderSpawns.Count)];
+                Vector2 boulderTile = BoulderSpawns[Roguelike.FloorRng.Next(BoulderSpawns.Count)];
                 BoulderSpawns.Remove(boulderTile);
 
                 if (mineArea == 40)
@@ -208,11 +208,11 @@ namespace StardewRoguelike.ChallengeFloors
                     if (mine.GetAdditionalDifficulty() > 0)
                     {
                         whichClump = 600;
-                        if (Game1.random.NextDouble() < 0.1)
+                        if (Roguelike.FloorRng.NextDouble() < 0.1)
                             whichClump = 602;
                     }
                     else
-                        whichClump = ((Game1.random.NextDouble() < 0.5) ? 756 : 758);
+                        whichClump = ((Roguelike.FloorRng.NextDouble() < 0.5) ? 756 : 758);
                 }
                 mine.resourceClumps.Add(new ResourceClump(whichClump, 2, 2, boulderTile));
             }
@@ -223,7 +223,7 @@ namespace StardewRoguelike.ChallengeFloors
             int toSpawn = SlimesToSpawn;
             while (toSpawn > 0)
             {
-                Vector2 tile = mine.getRandomTile();
+                Vector2 tile = new(Roguelike.FloorRng.Next(mine.Map.Layers[0].LayerWidth), Roguelike.FloorRng.Next(mine.Map.Layers[0].LayerHeight));
                 if (!mine.isTileClearForMineObjects(tile) || mine.getDistanceFromStart((int)tile.X, (int)tile.Y) < 7)
                     continue;
 
