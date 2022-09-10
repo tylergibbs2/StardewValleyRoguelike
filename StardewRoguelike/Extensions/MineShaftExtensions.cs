@@ -64,6 +64,12 @@ namespace StardewRoguelike.Extensions
             return gate;
         }
 
+        public static void SpawnLocalChest(this MineShaft mine, Vector2 tileLocation)
+        {
+            var chests = mine.get_MineShaftNetChests();
+            chests.Add(new(tileLocation));
+        }
+
         public static void SpawnLocalChest(this MineShaft mine, Vector2 tileLocation, Item item)
         {
             List<Item> items = new()

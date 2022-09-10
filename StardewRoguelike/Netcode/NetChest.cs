@@ -3,6 +3,7 @@ using Netcode;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
+using StardewValley.Tools;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,9 +13,11 @@ namespace StardewRoguelike.Netcode
     {
         public NetFields NetFields { get; } = new();
 
-        public NetVector2 TileLocation = new();
+        public readonly NetVector2 TileLocation = new();
 
-        public NetObjectList<Item> Items = new();
+        public readonly NetObjectList<Item> Items = new();
+
+        public readonly NetBool IndeterminateItemChest = new();
 
         private bool wasSpawned = false;
 
@@ -26,21 +29,52 @@ namespace StardewRoguelike.Netcode
         public NetChest(Vector2 tileLocation, List<Item> items) : this()
         {
             TileLocation.Value = tileLocation;
-            foreach (Item item in items)
-                Items.Add(item);
+            Items.CopyFrom(items);
+        }
+
+        public NetChest(Vector2 tileLocation) : this()
+        {
+            TileLocation.Value = tileLocation;
+            IndeterminateItemChest.Value = true;
         }
 
         protected void InitNetFields()
         {
-            NetFields.AddFields(TileLocation, Items);
+            NetFields.AddFields(TileLocation, Items, IndeterminateItemChest);
         }
 
+        // Is only called for Game1.player
         public void Spawn(MineShaft mine)
         {
             if (wasSpawned)
                 return;
 
-            Chest chest = new(0, Items.ToList(), TileLocation.Value)
+            List<Item> items;
+            if (IndeterminateItemChest.Value && Items.Count == 0)
+            {
+                items = new();
+                List<string> playerItems = new();
+
+                foreach (Item playerItem in Game1.player.Items)
+                {
+                    if (playerItem is MeleeWeapon || playerItem is Ring || playerItem is Boots)
+                        playerItems.Add(playerItem.DisplayName);
+                }
+
+                if (Game1.player.boots.Value is not null)
+                    playerItems.Add(Game1.player.boots.Value.DisplayName);
+                if (Game1.player.leftRing.Value is not null)
+                    playerItems.Add(Game1.player.leftRing.Value.DisplayName);
+                if (Game1.player.rightRing.Value is not null)
+                    playerItems.Add(Game1.player.rightRing.Value.DisplayName);
+
+                Item item = Merchant.GetNextMerchantFloor(mine).PickAnyRandomAvoiding(playerItems);
+                items.Add(item);
+            }
+            else
+                items = Items.ToList();
+
+            Chest chest = new(0, items, TileLocation.Value)
             {
                 Tint = Color.White
             };

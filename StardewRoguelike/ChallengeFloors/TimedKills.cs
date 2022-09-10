@@ -54,8 +54,6 @@ namespace StardewRoguelike.ChallengeFloors
             mine.playSound("Cowboy_Secret");
             mine.createLadderAt(ChallengeFloor.GetSpawnLocation(mine));
 
-            MerchantFloor merchantFloor = Merchant.GetNextMerchantFloor(mine);
-
             // find adjacent free tile to spawn the chest
             Vector2 spawnLocation = ChallengeFloor.GetSpawnLocation(mine);
             Vector2 chestSpot = Vector2.Zero;
@@ -74,7 +72,7 @@ namespace StardewRoguelike.ChallengeFloors
                 }
             }
 
-            mine.SpawnLocalChest(chestSpot, merchantFloor.PickAnyRandom());
+            mine.SpawnLocalChest(chestSpot);
         }
 
         public void Lose(MineShaft mine)

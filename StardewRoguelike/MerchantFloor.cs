@@ -98,6 +98,33 @@ namespace StardewRoguelike
             return Utility.GetRandom(validItems, Game1.random);
         }
 
+        public Item PickAnyRandomAvoiding(List<string> toAvoid)
+        {
+            List<Item> validItems = new();
+
+            foreach (int swordId in Swords.Keys)
+                validItems.Add(new MeleeWeapon(swordId));
+
+            foreach (int ringId in Rings.Keys)
+                validItems.Add(new Ring(ringId));
+
+            foreach (int ringId in SpecialRings.Keys)
+                validItems.Add(new Ring(ringId));
+
+            foreach (int bootId in Boots.Keys)
+                validItems.Add(new Boots(bootId));
+
+            foreach (int specialFoodId in SpecialFood.Keys)
+                validItems.Add(new StardewValley.Object(specialFoodId, 1));
+
+            while (toAvoid.Count >= validItems.Count)
+                toAvoid.RemoveAt(Game1.random.Next(toAvoid.Count));
+
+            validItems.RemoveAll(item => toAvoid.Contains(item.DisplayName));
+
+            return Utility.GetRandom(validItems, Game1.random);
+        }
+
         public MeleeWeapon PickAnySword()
         {
             int swordId = Utility.GetRandom(PickNFromList(Swords.Keys.ToList(), SwordsToPick), Game1.random);

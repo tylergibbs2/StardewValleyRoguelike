@@ -155,8 +155,7 @@ namespace StardewRoguelike.ChallengeFloors
 
             mine.playSound("discoverMineral");
 
-            MerchantFloor merchantFloor = Merchant.GetNextMerchantFloor(mine);
-            mine.SpawnLocalChest(new(20, 18), merchantFloor.PickAnyRandom());
+            mine.SpawnLocalChest(new(20, 18));
         }
 
         public override void Update(MineShaft mine, GameTime time)

@@ -121,8 +121,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public static void SpawnRewardChest(MineShaft mine)
         {
-            MerchantFloor merchantFloor = Merchant.GetNextMerchantFloor(mine);
-            mine.SpawnLocalChest(new(44, 35), merchantFloor.PickAnyRandom());
+            mine.SpawnLocalChest(new(44, 35));
         }
 
         public void SpawnEnemies(MineShaft mine)
