@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Linq;
 using xTile.Dimensions;
 using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI;
 
 namespace StardewRoguelike
 {
@@ -172,7 +173,8 @@ namespace StardewRoguelike
                 type = values[DebugCommands.ForcedChallengeIndex];
             else
             {
-                if (FloorsUntilNextBoss(level) > 1)
+                float healthRemaining = Game1.player.health / (float)Game1.player.maxHealth;
+                if (FloorsUntilNextBoss(level) > 1 || (!Context.IsMultiplayer && healthRemaining >= 0.9f))
                     values.Remove(ChallengeType.HotSpring);
 
                 if (level < 6)
