@@ -8,7 +8,7 @@ namespace StardewRoguelike.Patches
 {
     internal class FarmerTakeDamagePatch : Patch
     {
-        private static DateTime lastShellUse = DateTime.Now;
+        public static int ShellCooldownSeconds = 0;
 
         protected override PatchDescriptor GetPatchDescriptor() => new(typeof(Farmer), "takeDamage");
 
@@ -77,11 +77,11 @@ namespace StardewRoguelike.Patches
                 if (Perks.HasPerk(Perks.PerkType.Shield))
                     damage = (int)Math.Round(damage * 0.9f);
 
-                if (Perks.HasPerk(Perks.PerkType.TurtleShell) && (DateTime.Now - lastShellUse).TotalSeconds >= 10)
+                if (Perks.HasPerk(Perks.PerkType.TurtleShell) && ShellCooldownSeconds == 0)
                 {
                     __instance.currentLocation.playSound("crafting");
                     damage = (int)Math.Round(damage * 0.5f);
-                    lastShellUse = DateTime.Now;
+                    ShellCooldownSeconds = 10;
                 }
 
                 if (Curse.HasCurse(CurseType.DamageOverTime))

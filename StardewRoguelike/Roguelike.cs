@@ -17,6 +17,7 @@ using StardewRoguelike.Netcode;
 using Force.DeepCloner;
 using StardewRoguelike.Enchantments;
 using System.Reflection;
+using StardewRoguelike.Patches;
 
 namespace StardewRoguelike
 {
@@ -95,6 +96,9 @@ namespace StardewRoguelike
 
             if (Game1.player.health > Game1.player.maxHealth)
                 Game1.player.health = Game1.player.maxHealth;
+
+            if (e.IsOneSecond && FarmerTakeDamagePatch.ShellCooldownSeconds > 0 && Game1.shouldTimePass())
+                FarmerTakeDamagePatch.ShellCooldownSeconds--;
 
             if (HardMode && !DidHardModeDowngrade && Game1.player.hasItemInInventory(194, 1))
             {
