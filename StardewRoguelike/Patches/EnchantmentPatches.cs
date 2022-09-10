@@ -51,7 +51,7 @@ namespace StardewRoguelike.Patches
                 _enchantments.Add(new VampiricEnchantment());
                 _enchantments.Add(new ArtfulEnchantment());
                 _enchantments.Add(new CrusaderEnchantment());
-                _enchantments.Add(new BugKillerEnchantment());
+                _enchantments.Add(new CustomBugKillerEnchantment());
                 _enchantments.Add(new SlimeKillerEnchantment());
             }
 
