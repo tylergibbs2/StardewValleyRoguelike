@@ -196,13 +196,19 @@ namespace StardewRoguelike.ChallengeFloors
         public void InitializeRooms()
         {
             var validRoomTypes = new List<RoomType>((IEnumerable<RoomType>)Enum.GetValues(typeof(RoomType)));
-            RoomType roomType = validRoomTypes[Roguelike.FloorRng.Next(validRoomTypes.Count)];
 
-            RoomType otherRoom;
+            RoomType otherRoom = validRoomTypes[Roguelike.FloorRng.Next(validRoomTypes.Count)];
+
+            if (!Context.IsMultiplayer && Game1.player.health == Game1.player.maxHealth)
+                validRoomTypes.Remove(RoomType.HealingStatue);
+            if (!Context.IsMultiplayer && !Curse.HasAnyCurse())
+                validRoomTypes.Remove(RoomType.Cauldron);
+
+            RoomType roomType;
             do
             {
-                otherRoom = validRoomTypes[Roguelike.FloorRng.Next(validRoomTypes.Count)];
-            } while (otherRoom == roomType);
+                roomType = validRoomTypes[Roguelike.FloorRng.Next(validRoomTypes.Count)];
+            } while (roomType == otherRoom);
 
             InitializedRoomType.Value = (int)roomType;
             InaccessibleRoomType.Value = (int)otherRoom;
