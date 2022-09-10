@@ -29,6 +29,9 @@ namespace StardewRoguelike
         /// <returns>true if we should, false otherwise.</returns>
         public static bool ShouldDoChestFloor(int level)
         {
+            if (DebugCommands.ForcedChestFloor)
+                return true;
+
             bool previousFloorWasChestFloor = false;
             foreach (MineShaft mine in MineShaft.activeMines)
             {
