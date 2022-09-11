@@ -24,15 +24,15 @@ namespace StardewRoguelike.TerrainFeatures
 
         private double frameCounter = 0;
 
-        public SpeedPad(bool isSlowPad) : base(true)
+        public SpeedPad() : base(true)
+        {
+            ResetTexture();
+            NetFields.AddField(IsSlowPad);
+        }
+
+        public SpeedPad(bool isSlowPad) : this()
         {
             IsSlowPad.Value = isSlowPad;
-            ResetTexture();
-
-            if (IsSlowPad)
-                SourceRect.X += 32;
-
-            NetFields.AddField(IsSlowPad);
         }
 
         protected void ResetTexture()
@@ -75,6 +75,9 @@ namespace StardewRoguelike.TerrainFeatures
 
         public override bool tickUpdate(GameTime time, Vector2 tileLocation, GameLocation location)
         {
+            if (IsSlowPad.Value && SourceRect.X != 32)
+                SourceRect.X = 32;
+
             if (frameCounter >= FrameDuration)
             {
                 currentFrame++;

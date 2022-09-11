@@ -78,6 +78,9 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void Update(MineShaft mine, GameTime time)
         {
+            if (Game1.player.currentLocation != mine)
+                return;
+
             if (!Started)
             {
                 if (Game1.player.getTileX() >= XTileStart)
