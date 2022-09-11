@@ -47,7 +47,7 @@ namespace StardewRoguelike.Patches
 
                 Merchant.CurrentShop.currentItemIndex = 0;
                 MethodInfo scroll = Merchant.CurrentShop.GetType().GetMethod("setScrollBarToCurrentIndex", BindingFlags.Instance | BindingFlags.NonPublic);
-                scroll.Invoke(Merchant.CurrentShop, null);
+                scroll?.Invoke(Merchant.CurrentShop, null);
 
                 Merchant.CurrentShop.buyBackItems.Clear();
                 Merchant.CurrentShop.buyBackItemsToResellTomorrow.Clear();
