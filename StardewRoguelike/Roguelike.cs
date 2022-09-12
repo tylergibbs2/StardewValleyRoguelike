@@ -253,10 +253,7 @@ namespace StardewRoguelike
         public static void ReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
         {
             if (CurrentLevel != 0)
-            {
                 CurrentLevel--;
-                ModEntry.Stats.FloorsDescended--;
-            }
         }
 
         public static void TimeChanged(object sender, TimeChangedEventArgs e)
@@ -271,7 +268,7 @@ namespace StardewRoguelike
                 ModEntry.Stats.Reset();
 
             CurrentLevel++;
-            ModEntry.Stats.FloorsDescended++;
+            ModEntry.Stats.FloorsDescended = GetHighestMineShaftLevel();
             Merchant.CurrentShop = null;
             Perks.CurrentMenu = null;
 
