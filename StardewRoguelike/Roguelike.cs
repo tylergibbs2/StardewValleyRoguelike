@@ -669,6 +669,11 @@ namespace StardewRoguelike
             return mine.get_MineShaftLevel().Value;
         }
 
+        public static StardewValley.Object GetFish(MineShaft mine)
+        {
+            return new StardewValley.Object(72, 1);
+        }
+
         public static (int, int) GetBarrelDrops(MineShaft mine)
         {
             int itemId;
