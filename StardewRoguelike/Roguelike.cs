@@ -18,6 +18,8 @@ using Force.DeepCloner;
 using StardewRoguelike.Enchantments;
 using System.Reflection;
 using StardewRoguelike.Patches;
+using StardewRoguelike.Extensions;
+using Microsoft.Xna.Framework;
 
 namespace StardewRoguelike
 {
@@ -52,6 +54,8 @@ namespace StardewRoguelike
 
         public static readonly List<int> FloorsIncreaseGoldMax = new() { 6 };
         public static readonly List<int> FloorsIncreaseGoldMin = new() { 24 };
+
+        public static readonly List<int> PossibleFish = new() { 155, 269, 698, 795, 838, 128, 129  };
 
         public static readonly int StartingGold = 100;
 
@@ -204,10 +208,9 @@ namespace StardewRoguelike
 
         public static void SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
-            ModEntry.ModMonitor.Log($"Initialized floor generation with seed {FloorRngSeed}", LogLevel.Debug);
-
             Game1.options.screenFlash = false;
             Game1.options.zoomButtons = true;
+            Game1.player.FishingLevel = 10;
 
             var loadedOptions = ModEntry.DataHelper.ReadGlobalData<Options>("RoguelikeGameOptions");
             if (loadedOptions is not null)
@@ -685,9 +688,63 @@ namespace StardewRoguelike
             return mine.get_MineShaftLevel().Value;
         }
 
-        public static StardewValley.Object GetFish(MineShaft mine)
+        public static StardewValley.Object GetFish(MineShaft mine, Farmer who)
         {
-            return new StardewValley.Object(72, 1);
+            double roll = Game1.random.NextDouble();
+            double qualityRoll = Game1.random.NextDouble();
+
+            int itemId;
+            int quality;
+            if (roll <= 0.4)
+            {
+                // trash
+                itemId = Game1.random.Next(167, 174);
+                quality = 0;
+            }
+            else if (roll <= 0.65)
+            {
+                // fish
+                itemId = MerchantFloor.PickNFromList(PossibleFish, 1).First();
+
+                if (qualityRoll <= 0.05)
+                    quality = 3;
+                else if (qualityRoll <= 0.35)
+                    quality = 2;
+                else if (qualityRoll <= 0.65)
+                    quality = 1;
+                else
+                    quality = 0;
+            }
+            else if (roll <= 0.9)
+            {
+                int toSpawn = Game1.random.Next(1, 3);
+                if (Curse.AnyFarmerHasCurse(CurseType.MoreEnemiesLessHealth))
+                    toSpawn++;
+
+                mine.SpawnMonsters(toSpawn);
+                Game1.chatBox.addMessage("Monsters emerge from the depths...", Color.Gold);
+
+                return null;
+            }
+            else
+            {
+                // gems
+                if (qualityRoll <= 0.05)
+                    itemId = 74;
+                else if (qualityRoll <= 0.25)
+                    itemId = 72;
+                else if (qualityRoll <= 0.55)
+                    itemId = 64;
+                else if (qualityRoll <= 0.85)
+                    itemId = 60;
+                else
+                    itemId = 68;
+
+                quality = 0;
+            }
+
+
+            return new StardewValley.Object(itemId, 1, quality: quality);
         }
 
         public static (int, int) GetBarrelDrops(MineShaft mine)
