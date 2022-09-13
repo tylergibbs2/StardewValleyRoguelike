@@ -24,6 +24,8 @@ namespace StardewRoguelike
 
         public static IModEvents Events;
 
+        public static IDataHelper DataHelper;
+
         public static IMultiplayerHelper MultiplayerHelper;
 
         public static IGameContentHelper GameContentHelper;
@@ -148,6 +150,7 @@ namespace StardewRoguelike
             // Assign references to various helpers to
             // static fields.
             Events = helper.Events;
+            DataHelper = helper.Data;
             MultiplayerHelper = helper.Multiplayer;
             GameContentHelper = helper.GameContent;
             ReflectionHelper = helper.Reflection;
@@ -298,6 +301,12 @@ namespace StardewRoguelike
         /// <param name="e">The <see cref="MenuChangedEventArgs"/> instance containing the event data.</param>
         public void MenuChanged(object sender, MenuChangedEventArgs e)
         {
+            if (e.OldMenu is GameMenu && e.NewMenu is null)
+            {
+                Helper.Data.WriteGlobalData("RoguelikeGameOptions", Game1.options);
+                return;
+            }
+
             if (!ShouldShowModDisclaimer || e.NewMenu is not null || Config.SkipModDisclaimer)
                 return;
 

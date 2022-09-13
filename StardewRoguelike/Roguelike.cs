@@ -206,6 +206,11 @@ namespace StardewRoguelike
 
             Game1.options.screenFlash = false;
             Game1.options.zoomButtons = true;
+
+            var loadedOptions = ModEntry.DataHelper.ReadGlobalData<Options>("RoguelikeGameOptions");
+            if (loadedOptions is not null)
+                Game1.options = loadedOptions;
+
             ModEntry.DisableUpload = false;
 
             List<IModInfo> invalidMods = ModEntry.GetInvalidMods();
