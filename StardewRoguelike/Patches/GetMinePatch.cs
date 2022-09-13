@@ -31,6 +31,7 @@ namespace StardewRoguelike.Patches
             }
 
             MineShaft newMine = new(0);
+            newMine.GetType().GetField("mineRandom", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(newMine, Roguelike.FloorRng);
             newMine.get_MineShaftLevel().Value = requestedLevel;
             newMine.get_MineShaftEntryTime().Value = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
 

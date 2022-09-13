@@ -495,9 +495,6 @@ namespace StardewRoguelike
 
             Game1.flushLocationLookup();
             MineShaft.clearActiveMines();
-
-            if (Context.IsMainPlayer)
-                SeenMineMaps.Clear();
         }
 
         public static void ResetLocalPlayer()
