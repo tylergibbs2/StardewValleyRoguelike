@@ -258,16 +258,17 @@ namespace StardewRoguelike
             return false;
         }
 
-        public static bool AddRandomCurse()
+        public static CurseType? GetRandomUniqueCurse(Random random = null)
         {
+            random ??= Game1.random;
+
             List<CurseType> curseTypes = Enum.GetValues<CurseType>().ToList();
             curseTypes = curseTypes.Where(c => !HasCurse(c)).ToList();
 
             if (curseTypes.Count == 0)
-                return false;
+                return null;
 
-            CurseType curseType = curseTypes[Game1.random.Next(curseTypes.Count)];
-            return AddCurse(curseType);
+            return curseTypes[random.Next(curseTypes.Count)];
         }
 
         public static void RemoveRandomCurse()

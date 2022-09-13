@@ -304,6 +304,8 @@ namespace StardewRoguelike.ChallengeFloors
 
         public void SpawnCurseTeller(MineShaft mine, Point topLeftTile)
         {
+            Merchant.CurseToAdd = Curse.GetRandomUniqueCurse();
+
             var (xOrigin, yOrigin) = topLeftTile;
 
             mine.SetTile(xOrigin + 2, yOrigin + 1, "Front", "z_Festivals", 473);

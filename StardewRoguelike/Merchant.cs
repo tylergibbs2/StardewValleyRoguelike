@@ -13,7 +13,6 @@ using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using xTile.Dimensions;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace StardewRoguelike
 {
@@ -22,6 +21,8 @@ namespace StardewRoguelike
         public static readonly List<MerchantFloor> MerchantFloors = PopulateMerchantFloors();
 
         public static ShopMenu CurrentShop = null;
+
+        internal static CurseType? CurseToAdd = null;
 
         public static string GetMapPath(MineShaft mine)
         {
@@ -54,6 +55,7 @@ namespace StardewRoguelike
             if (e.NewLocation is MineShaft mine && IsMerchantFloor(mine))
             {
                 Perks.CurrentMenu = new();
+                CurseToAdd = Curse.GetRandomUniqueCurse(Roguelike.FloorRng);
 
                 ShopMenu menu;
                 if (Perks.HasPerk(Perks.PerkType.Indecisive))
@@ -219,7 +221,7 @@ namespace StardewRoguelike
 
                 if (paid)
                 {
-                    Curse.AddRandomCurse();
+                    Curse.AddCurse(CurseToAdd.Value);
                     Game1.playSound("debuffSpell");
                     mine.set_MineShaftUsedFortune(true);
                 }
@@ -255,7 +257,7 @@ namespace StardewRoguelike
         {
             if (action == "Curses" && !mine.get_MineShaftUsedFortune())
             {
-                if (Curse.HasAllCurses())
+                if (Curse.HasAllCurses() || !CurseToAdd.HasValue)
                 {
                     Game1.drawObjectDialogue("You have every otherworldly power known to mankind.");
                     return true;
@@ -286,7 +288,7 @@ namespace StardewRoguelike
         public static void Draw(MineShaft mine, SpriteBatch b)
         {
             if (ShouldSpawnBackpack(mine))
-                b.Draw(Game1.mouseCursors, Game1.GlobalToLocal(new Vector2(647, 704)), new Rectangle(255, 1436, 12, 14), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.01232f);
+                b.Draw(Game1.mouseCursors, Game1.GlobalToLocal(new Vector2(647, 704)), new Microsoft.Xna.Framework.Rectangle(255, 1436, 12, 14), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.01232f);
         }
 
         public static Dictionary<ISalable, int[]> GetMerchantStock(float priceAdjustment = 1f, Random random = null)
