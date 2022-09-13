@@ -713,9 +713,10 @@ namespace StardewRoguelike
                 quantity = 0;
             }
 
-            // 20% nothing
+            // 15% nothing
             // 60% gold
-            // 10% cave carrot 1-2
+            // 8% cave carrot 1-2
+            // 7% fishing rod
             // 3% amethyst 1
             // 3% topaz 1
             // 2% aquamarine 1
