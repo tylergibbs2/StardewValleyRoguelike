@@ -64,7 +64,7 @@ namespace StardewRoguelike.ChallengeFloors
         {
             // 67 - 70. 66 is golden egg
 
-            EggTiles.Shuffle();
+            EggTiles.Shuffle(Roguelike.FloorRng);
 
             int baseIndex = 67;
             int offset = 0;

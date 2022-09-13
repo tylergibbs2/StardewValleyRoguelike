@@ -76,8 +76,10 @@ namespace StardewRoguelike
             return pickedElements;
         }
 
-        public Item PickAnyRandom()
+        public Item PickAnyRandom(Random random = null)
         {
+            random ??= Game1.random;
+
             List<Item> validItems = new();
 
             foreach (int swordId in Swords.Keys)
@@ -95,11 +97,13 @@ namespace StardewRoguelike
             foreach (int specialFoodId in SpecialFood.Keys)
                 validItems.Add(new StardewValley.Object(specialFoodId, 1));
 
-            return Utility.GetRandom(validItems, Game1.random);
+            return Utility.GetRandom(validItems, random);
         }
 
-        public Item PickAnyRandomAvoiding(List<string> toAvoid)
+        public Item PickAnyRandomAvoiding(List<string> toAvoid, Random random = null)
         {
+            random ??= Game1.random;
+
             List<Item> validItems = new();
 
             foreach (int swordId in Swords.Keys)
@@ -122,7 +126,7 @@ namespace StardewRoguelike
 
             validItems.RemoveAll(item => toAvoid.Contains(item.DisplayName));
 
-            return Utility.GetRandom(validItems, Game1.random);
+            return Utility.GetRandom(validItems, random);
         }
 
         public MeleeWeapon PickAnySword()

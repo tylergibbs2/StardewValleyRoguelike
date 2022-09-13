@@ -43,7 +43,7 @@ namespace StardewRoguelike.ChallengeFloors
             for (int i = 0; i < 3; i++)
             {
                 Vector2 chestSpot = new(leftMostChest.X + (i * 3), leftMostChest.Y);
-                List<Item> chestItems = new() { merchantFloor.PickAnyRandom() };
+                List<Item> chestItems = new() { merchantFloor.PickAnyRandom(Roguelike.FloorRng) };
 
                 Chest chest = new(0, chestItems, chestSpot)
                 {
