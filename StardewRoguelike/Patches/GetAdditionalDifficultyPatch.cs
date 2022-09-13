@@ -9,7 +9,7 @@ namespace StardewRoguelike.Patches
         public static bool Prefix(MineShaft __instance, ref int __result)
         {
             int level = Roguelike.GetLevelFromMineshaft(__instance);
-            __result = level >= Roguelike.DangerousThreshold ? 1 : 0;
+            __result = level % 48 >= Roguelike.DangerousThreshold ? 1 : 0;
             return false;
         }
     }

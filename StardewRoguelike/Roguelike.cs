@@ -84,6 +84,10 @@ namespace StardewRoguelike
 
         public static void AdjustMonster(MineShaft mine, ref Monster monster)
         {
+            int level = GetLevelFromMineshaft(mine);
+
+            if (level >= ScalingOrder[^1])
+                monster.DamageToFarmer = (int)(monster.DamageToFarmer * BossFloor.GetLevelDifficulty(level));
             if (HardMode)
                 monster.DamageToFarmer += (int)Math.Round(monster.DamageToFarmer * 0.25f);
 
@@ -362,6 +366,8 @@ namespace StardewRoguelike
 
             if (BossFloor.IsBossFloor(level))
                 return floor;
+
+            level %= ScalingOrder[^1];
 
             int result;
             if (level < ScalingOrder[0])
