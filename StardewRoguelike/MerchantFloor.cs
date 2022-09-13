@@ -58,15 +58,17 @@ namespace StardewRoguelike
             SpecialFood[id] = new(priceFrom, priceTo, quantity);
         }
 
-        public static List<T> PickNFromList<T>(IList<T> source, int numToPick)
+        public static List<T> PickNFromList<T>(IList<T> source, int numToPick, Random random = null)
         {
+            random ??= Game1.random;
+
             if (numToPick > source.Count)
                 return (List<T>)source;
 
             List<T> pickedElements = new();
             while (pickedElements.Count < numToPick)
             {
-                int pickedIndex = Game1.random.Next(source.Count);
+                int pickedIndex = random.Next(source.Count);
                 if (pickedElements.Contains(source[pickedIndex]))
                     continue;
 
@@ -129,52 +131,60 @@ namespace StardewRoguelike
             return Utility.GetRandom(validItems, random);
         }
 
-        public MeleeWeapon PickAnySword()
+        public MeleeWeapon PickAnySword(Random random = null)
         {
-            int swordId = Utility.GetRandom(PickNFromList(Swords.Keys.ToList(), SwordsToPick), Game1.random);
+            random ??= Game1.random;
+            int swordId = Utility.GetRandom(PickNFromList(Swords.Keys.ToList(), SwordsToPick), random);
             return new(swordId);
         }
 
-        public Ring PickAnyRing()
+        public Ring PickAnyRing(Random random = null)
         {
+            random ??= Game1.random;
             var allRingIds = Rings.Keys.ToList().Concat(SpecialRings.Keys.ToList()).ToList();
-            int ringId = Utility.GetRandom(PickNFromList(allRingIds, RingsToPick + SpecialRingsToPick), Game1.random);
+            int ringId = Utility.GetRandom(PickNFromList(allRingIds, RingsToPick + SpecialRingsToPick), random);
             return new(ringId);
         }
 
-        public Boots PickAnyBoots()
+        public Boots PickAnyBoots(Random random = null)
         {
-            int bootId = Utility.GetRandom(PickNFromList(Boots.Keys.ToList(), BootsToPick), Game1.random);
+            random ??= Game1.random;
+            int bootId = Utility.GetRandom(PickNFromList(Boots.Keys.ToList(), BootsToPick), random);
             return new(bootId);
         }
 
-        public StardewValley.Object PickAnyFood()
+        public StardewValley.Object PickAnyFood(Random random = null)
         {
+            random ??= Game1.random;
             List<int> regularFoodIds = new() { 194, 196, 773 };
             var allFoodIds = SpecialFood.Keys.ToList().Concat(regularFoodIds).ToList();
-            int specialFoodId = Utility.GetRandom(PickNFromList(allFoodIds, SpecialFoodToPick + 3), Game1.random);
+            int specialFoodId = Utility.GetRandom(PickNFromList(allFoodIds, SpecialFoodToPick + 3, random), random);
             return new(specialFoodId, 1);
         }
 
 
-        public static int Randint(int from, int to)
+        public static int Randint(int from, int to, Random random = null)
         {
-            return Game1.random.Next(from, to + 1);
+            random ??= Game1.random;
+            return random.Next(from, to + 1);
         }
 
-        public static int CalculateBuyPrice(int priceFrom, int priceTo, float priceAdjustment = 1f)
+        public static int CalculateBuyPrice(int priceFrom, int priceTo, float priceAdjustment = 1f, Random random = null)
         {
+            random ??= Game1.random;
             int result;
             if (Curse.HasCurse(CurseType.CheaperMerchant))
-                result = Randint((int)Math.Round(priceFrom * 0.6f), (int)Math.Round(priceTo * 0.6f));
+                result = Randint((int)Math.Round(priceFrom * 0.6f), (int)Math.Round(priceTo * 0.6f), random);
             else
-                result = Randint(priceFrom, priceTo);
+                result = Randint(priceFrom, priceTo, random);
 
             return (int)(result * priceAdjustment);
         }
 
-        public void AddToStock(Dictionary<ISalable, int[]> stock, float priceAdjustment = 1f)
+        public void AddToStock(Dictionary<ISalable, int[]> stock, float priceAdjustment = 1f, Random random = null)
         {
+            random ??= Game1.random;
+
             int swordsToPick = SwordsToPick;
             int ringsToPick = RingsToPick;
             int specialRingsToPick = SpecialRingsToPick;
@@ -190,26 +200,26 @@ namespace StardewRoguelike
                 specialFoodToPick = Math.Min(1, SpecialFoodToPick);
             }
 
-            List<int> chosenSwords = PickNFromList(Swords.Keys.ToList(), swordsToPick);
-            List<int> chosenRings = PickNFromList(Rings.Keys.ToList(), ringsToPick);
-            List<int> chosenSpecialRings = PickNFromList(SpecialRings.Keys.ToList(), specialRingsToPick);
-            List<int> chosenBoots = PickNFromList(Boots.Keys.ToList(), bootsToPick);
-            List<int> chosenSpecialFood = PickNFromList(SpecialFood.Keys.ToList(), specialFoodToPick);
+            List<int> chosenSwords = PickNFromList(Swords.Keys.ToList(), swordsToPick, random);
+            List<int> chosenRings = PickNFromList(Rings.Keys.ToList(), ringsToPick, random);
+            List<int> chosenSpecialRings = PickNFromList(SpecialRings.Keys.ToList(), specialRingsToPick, random);
+            List<int> chosenBoots = PickNFromList(Boots.Keys.ToList(), bootsToPick, random);
+            List<int> chosenSpecialFood = PickNFromList(SpecialFood.Keys.ToList(), specialFoodToPick, random);
 
             foreach (int swordId in chosenSwords)
-                Utility.AddStock(stock, new MeleeWeapon(swordId), buyPrice: CalculateBuyPrice(Swords[swordId].Item1, Swords[swordId].Item2, priceAdjustment), limitedQuantity: Swords[swordId].Item3);
+                Utility.AddStock(stock, new MeleeWeapon(swordId), buyPrice: CalculateBuyPrice(Swords[swordId].Item1, Swords[swordId].Item2, priceAdjustment, random), limitedQuantity: Swords[swordId].Item3);
 
             foreach (int ringId in chosenRings)
-                Utility.AddStock(stock, new Ring(ringId), buyPrice: CalculateBuyPrice(Rings[ringId].Item1, Rings[ringId].Item2, priceAdjustment), limitedQuantity: Rings[ringId].Item3);
+                Utility.AddStock(stock, new Ring(ringId), buyPrice: CalculateBuyPrice(Rings[ringId].Item1, Rings[ringId].Item2, priceAdjustment, random), limitedQuantity: Rings[ringId].Item3);
 
             foreach (int ringId in chosenSpecialRings)
-                Utility.AddStock(stock, new Ring(ringId), buyPrice: CalculateBuyPrice(SpecialRings[ringId].Item1, SpecialRings[ringId].Item2, priceAdjustment), limitedQuantity: SpecialRings[ringId].Item3);
+                Utility.AddStock(stock, new Ring(ringId), buyPrice: CalculateBuyPrice(SpecialRings[ringId].Item1, SpecialRings[ringId].Item2, priceAdjustment, random), limitedQuantity: SpecialRings[ringId].Item3);
 
             foreach (int bootId in chosenBoots)
-                Utility.AddStock(stock, new Boots(bootId), buyPrice: CalculateBuyPrice(Boots[bootId].Item1, Boots[bootId].Item2, priceAdjustment), limitedQuantity: Boots[bootId].Item3);
+                Utility.AddStock(stock, new Boots(bootId), buyPrice: CalculateBuyPrice(Boots[bootId].Item1, Boots[bootId].Item2, priceAdjustment, random), limitedQuantity: Boots[bootId].Item3);
 
             foreach (int specialFoodId in chosenSpecialFood)
-                Utility.AddStock(stock, new StardewValley.Object(specialFoodId, SpecialFood[specialFoodId].Item3), buyPrice: CalculateBuyPrice(SpecialFood[specialFoodId].Item1, SpecialFood[specialFoodId].Item2), limitedQuantity: SpecialFood[specialFoodId].Item3);
+                Utility.AddStock(stock, new StardewValley.Object(specialFoodId, SpecialFood[specialFoodId].Item3), buyPrice: CalculateBuyPrice(SpecialFood[specialFoodId].Item1, SpecialFood[specialFoodId].Item2, random: random), limitedQuantity: SpecialFood[specialFoodId].Item3);
         }
     }
 }

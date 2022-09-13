@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewRoguelike.Extensions;
+using StardewRoguelike.Patches;
+using StardewRoguelike.UI;
 using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
@@ -51,6 +53,16 @@ namespace StardewRoguelike
         {
             if (e.NewLocation is MineShaft mine && IsMerchantFloor(mine))
             {
+                Perks.CurrentMenu = new();
+
+                ShopMenu menu;
+                if (Perks.HasPerk(Perks.PerkType.Indecisive))
+                    menu = new RefreshableShopMenu(GetMerchantStock(random: Roguelike.FloorRng), false, context: "Blacksmith", on_purchase: OpenShopPatch.OnPurchase);
+                else
+                    menu = new(GetMerchantStock(random: Roguelike.FloorRng), context: "Blacksmith", on_purchase: OpenShopPatch.OnPurchase);
+                menu.setUpStoreForContext();
+                CurrentShop = menu;
+
                 int level = Roguelike.GetLevelFromMineshaft(mine);
                 Vector2 dialogueLocation;
 
@@ -277,31 +289,33 @@ namespace StardewRoguelike
                 b.Draw(Game1.mouseCursors, Game1.GlobalToLocal(new Vector2(647, 704)), new Rectangle(255, 1436, 12, 14), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.01232f);
         }
 
-        public static Dictionary<ISalable, int[]> GetMerchantStock(float priceAdjustment = 1f)
+        public static Dictionary<ISalable, int[]> GetMerchantStock(float priceAdjustment = 1f, Random random = null)
         {
+            random ??= Game1.random;
+
             Dictionary<ISalable, int[]> stock = new();
 
             if (Perks.HasPerk(Perks.PerkType.Discount))
                 priceAdjustment *= 0.9f;
 
             if (Roguelike.CurrentLevel < Roguelike.ScalingOrder[0])         // Floor 1 Shop
-                MerchantFloors[0].AddToStock(stock, priceAdjustment);
+                MerchantFloors[0].AddToStock(stock, priceAdjustment, random);
             else if (Roguelike.CurrentLevel < Roguelike.ScalingOrder[1])    // Floor 10 Shop
-                MerchantFloors[1].AddToStock(stock, priceAdjustment);
+                MerchantFloors[1].AddToStock(stock, priceAdjustment, random);
             else if (Roguelike.CurrentLevel < Roguelike.ScalingOrder[2])    // Floor 20 Shop
-                MerchantFloors[2].AddToStock(stock, priceAdjustment);
+                MerchantFloors[2].AddToStock(stock, priceAdjustment, random);
             else if (Roguelike.CurrentLevel < Roguelike.ScalingOrder[3])    // Floor 30 Shop
-                MerchantFloors[3].AddToStock(stock, priceAdjustment);
+                MerchantFloors[3].AddToStock(stock, priceAdjustment, random);
             else if (Roguelike.CurrentLevel < Roguelike.ScalingOrder[4])    // Floor 40 Shop
-                MerchantFloors[4].AddToStock(stock, priceAdjustment);
+                MerchantFloors[4].AddToStock(stock, priceAdjustment, random);
             else if (Roguelike.CurrentLevel < Roguelike.ScalingOrder[5])    // Floor 50 Shop
-                MerchantFloors[5].AddToStock(stock, priceAdjustment);
+                MerchantFloors[5].AddToStock(stock, priceAdjustment, random);
             else if (Roguelike.CurrentLevel < Roguelike.ScalingOrder[6])    // Floor 60 Shop
-                MerchantFloors[6].AddToStock(stock, priceAdjustment);
+                MerchantFloors[6].AddToStock(stock, priceAdjustment, random);
             else if (Roguelike.CurrentLevel < Roguelike.ScalingOrder[7])    // Floor 70 Shop
-                MerchantFloors[7].AddToStock(stock, priceAdjustment);
+                MerchantFloors[7].AddToStock(stock, priceAdjustment, random);
             else                                                            // Floor 80+ Shop
-                MerchantFloors[8].AddToStock(stock, priceAdjustment);
+                MerchantFloors[8].AddToStock(stock, priceAdjustment, random);
 
             int foodQuantity = Curse.HasCurse(CurseType.CheaperMerchant) ? 1 : 3;
             int foodPriceOffset = Curse.HasCurse(CurseType.CheaperMerchant) ? -100 : 0;

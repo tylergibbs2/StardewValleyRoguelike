@@ -22,23 +22,8 @@ namespace StardewRoguelike.Patches
         {
             if (which.Equals("Roguelike"))
             {
-                if (Merchant.CurrentShop is null)
-                {
-                    ShopMenu menu;
-                    if (Perks.HasPerk(Perks.PerkType.Indecisive))
-                        menu = new RefreshableShopMenu(Merchant.GetMerchantStock(), false, context: "Blacksmith", on_purchase: OnPurchase);
-                    else
-                        menu = new(Merchant.GetMerchantStock(), context: "Blacksmith", on_purchase: OnPurchase);
-                    menu.setUpStoreForContext();
-                    Merchant.CurrentShop = menu;
-                }
-                else if (Merchant.CurrentShop is not RefreshableShopMenu && Perks.HasPerk(Perks.PerkType.Indecisive))
-                {
-                    if (Merchant.CurrentShop is null)
-                        Merchant.CurrentShop = new RefreshableShopMenu(Merchant.GetMerchantStock(), false, context: "Blacksmith", on_purchase: OnPurchase);
-                    else
-                        Merchant.CurrentShop = new RefreshableShopMenu(Merchant.CurrentShop.itemPriceAndStock, false, context: "Blacksmith", on_purchase: OnPurchase);
-                }
+                if (Merchant.CurrentShop is not RefreshableShopMenu && Perks.HasPerk(Perks.PerkType.Indecisive))
+                    Merchant.CurrentShop = new RefreshableShopMenu(Merchant.CurrentShop.itemPriceAndStock, false, context: "Blacksmith", on_purchase: OnPurchase);
 
                 foreach (ISalable buyback_item in Merchant.CurrentShop.buyBackItems)
                     Merchant.CurrentShop.itemPriceAndStock.Remove(buyback_item);
@@ -60,7 +45,7 @@ namespace StardewRoguelike.Patches
             {
                 if (Merchant.CurrentShop is null)
                 {
-                    ShopMenu menu = new(Merchant.GetMerchantStock(0.5f), context: "Blacksmith", on_purchase: OnPurchase);
+                    ShopMenu menu = new(Merchant.GetMerchantStock(0.5f, Roguelike.FloorRng), context: "Blacksmith", on_purchase: OnPurchase);
                     menu.setUpStoreForContext();
                     Merchant.CurrentShop = menu;
                 }
@@ -71,7 +56,6 @@ namespace StardewRoguelike.Patches
             }
             else if (which.Equals("Perks"))
             {
-                Perks.CurrentMenu ??= new PerkMenu();
                 Perks.CurrentMenu.isActive = true;
                 Perks.CurrentMenu.informationUp = true;
                 Game1.activeClickableMenu = Perks.CurrentMenu;

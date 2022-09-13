@@ -46,7 +46,7 @@ namespace StardewRoguelike.UI
 
         public void DoRefresh()
         {
-            Merchant.CurrentShop = new RefreshableShopMenu(Merchant.GetMerchantStock(), true, context: "Blacksmith", on_purchase: OpenShopPatch.OnPurchase);
+            Merchant.CurrentShop = new RefreshableShopMenu(Merchant.GetMerchantStock(random: Roguelike.FloorRng), true, context: "Blacksmith", on_purchase: OpenShopPatch.OnPurchase);
             Game1.activeClickableMenu = Merchant.CurrentShop;
             Game1.playSound("sell");
         }
