@@ -1,14 +1,17 @@
 using Force.DeepCloner;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewRoguelike.Extensions;
 using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
+using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using xTile.Dimensions;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace StardewRoguelike
 {
@@ -132,9 +135,29 @@ namespace StardewRoguelike
             mine.removeTile(19, 11, "Buildings");
         }
 
+        public static void SpawnBackpack(MineShaft mine)
+        {
+            mine.setTileProperty(10, 11, "Buildings", "Action", "RoguelikeBackpack");
+            mine.setTileProperty(10, 12, "Buildings", "Action", "RoguelikeBackpack");
+        }
+
+        public static bool ShouldSpawnBackpack(MineShaft mine)
+        {
+            return Game1.player.MaxItems == 12;
+        }
+
         public static bool ShouldSpawnGil(int level)
         {
             return level > 1 || DebugCommands.ForcedGil;
+        }
+
+        public static void SetupForLocalPlayer(MineShaft mine)
+        {
+            if (!ShouldSpawnGil(Roguelike.GetLevelFromMineshaft(mine)))
+                DespawnGil(mine);
+
+            if (ShouldSpawnBackpack(mine))
+                SpawnBackpack(mine);
         }
 
         public static MerchantFloor GetNextMerchantFloor(MineShaft mine)
@@ -154,37 +177,63 @@ namespace StardewRoguelike
 
         public static bool AnswerDialogueAction(MineShaft mine, string questionAndAnswer, string[] questionParams)
         {
-            int hpNeeded = 15;
-            int goldNeeded = 500;
-
-            bool paid = false;
-
-            if (questionAndAnswer == "cursePurchase_YesHP")
+            if (questionAndAnswer.StartsWith("cursePurchase"))
             {
-                if (Game1.player.maxHealth > hpNeeded)
+                int hpNeeded = 15;
+                int goldNeeded = 500;
+
+                bool paid = false;
+
+                if (questionAndAnswer == "cursePurchase_YesHP")
                 {
-                    Roguelike.TrueMaxHP -= hpNeeded;
-                    paid = true;
+                    if (Game1.player.maxHealth > hpNeeded)
+                    {
+                        Roguelike.TrueMaxHP -= hpNeeded;
+                        paid = true;
+                    }
+                    else
+                        Game1.drawObjectDialogue("You do not have enough HP.");
                 }
-                else
-                    Game1.drawObjectDialogue("You do not have enough HP.");
+                else if (questionAndAnswer == "cursePurchase_YesGold")
+                {
+                    if (Game1.player.Money >= goldNeeded)
+                    {
+                        Game1.player.Money -= goldNeeded;
+                        paid = true;
+                    }
+                    else
+                        Game1.drawObjectDialogue("You do not have enough money.");
+                }
+
+                if (paid)
+                {
+                    Curse.AddRandomCurse();
+                    Game1.playSound("debuffSpell");
+                    mine.set_MineShaftUsedFortune(true);
+                }
             }
-            else if (questionAndAnswer == "cursePurchase_YesGold")
+            else if (questionAndAnswer == "roguelikeBackpackPurchase_Yes")
             {
-                if (Game1.player.Money >= goldNeeded)
+                int goldNeeded = 2500;
+
+                if (Game1.player.Money < goldNeeded)
+                    Game1.drawObjectDialogue("You do not have enough money.");
+                else if (Game1.player.MaxItems > 12)
+                    Game1.drawObjectDialogue("You already have the backpack upgrade.");
+                else
                 {
                     Game1.player.Money -= goldNeeded;
-                    paid = true;
-                }
-                else
-                    Game1.drawObjectDialogue("You do not have enough money.");
-            }
+                    Game1.player.maxItems.Value += 12;
+                    for (int i = 0; i < Game1.player.MaxItems; i++)
+                    {
+                        if (Game1.player.items.Count <= i)
+                            Game1.player.items.Add(null);
+                    }
 
-            if (paid)
-            {
-                Curse.AddRandomCurse();
-                Game1.playSound("debuffSpell");
-                mine.set_MineShaftUsedFortune(true);
+                    Game1.player.holdUpItemThenMessage(new SpecialItem(99, Game1.content.LoadString("Strings\\StringsFromCSFiles:GameLocation.cs.8708")));
+                    mine.removeTileProperty(10, 11, "Buildings", "Action");
+                    mine.removeTileProperty(10, 12, "Buildings", "Action");
+                }
             }
 
             return false;
@@ -213,8 +262,19 @@ namespace StardewRoguelike
                 mine.createQuestionDialogue("Would you like me to grant you an otherworldly ability for a low price?", responses, "cursePurchase");
                 return true;
             }
+            else if (action == "RoguelikeBackpack")
+            {
+                var responses = mine.createYesNoResponses();
+                mine.createQuestionDialogue("Upgrade backpack for 2500g?", responses, "roguelikeBackpackPurchase");
+            }
 
             return false;
+        }
+
+        public static void Draw(MineShaft mine, SpriteBatch b)
+        {
+            if (ShouldSpawnBackpack(mine))
+                b.Draw(Game1.mouseCursors, Game1.GlobalToLocal(new Vector2(647, 704)), new Rectangle(255, 1436, 12, 14), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.01232f);
         }
 
         public static Dictionary<ISalable, int[]> GetMerchantStock(float priceAdjustment = 1f)

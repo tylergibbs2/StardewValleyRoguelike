@@ -195,8 +195,8 @@ namespace StardewRoguelike
                 int level = GetLevelFromMineshaft(mine);
                 Game1.player.get_FarmerCurrentLevel().Value = level;
 
-                if (Merchant.IsMerchantFloor(level) && !Merchant.ShouldSpawnGil(level))
-                    Merchant.DespawnGil(mine);
+                if (Merchant.IsMerchantFloor(level))
+                    Merchant.SetupForLocalPlayer(mine);
             }
         }
 
@@ -555,6 +555,10 @@ namespace StardewRoguelike
 
             for (int i = 0; i < Game1.player.Items.Count; i++)
                 Game1.player.Items[i] = null;
+
+            Game1.player.MaxItems = 12;
+            while (Game1.player.Items.Count > Game1.player.MaxItems)
+                Game1.player.Items.RemoveAt(Game1.player.Items.Count - 1);
 
             AddDefaultItemsToInventory();
         }

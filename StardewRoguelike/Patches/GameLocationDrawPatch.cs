@@ -28,7 +28,10 @@ namespace StardewRoguelike.Patches
                 foreach (DwarfGate dwarfGate in mine.get_MineShaftDwarfGates())
                     dwarfGate.Draw(b);
 
-                ChallengeFloor.DrawBeforeLocation(mine, Game1.spriteBatch);
+                if (Merchant.IsMerchantFloor(mine))
+                    Merchant.Draw(mine, b);
+
+                ChallengeFloor.DrawAfterLocation(mine, Game1.spriteBatch);
             }
         }
     }
