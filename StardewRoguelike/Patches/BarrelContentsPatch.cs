@@ -1,6 +1,8 @@
-﻿using StardewValley;
+﻿using Microsoft.Xna.Framework;
+using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
+using StardewValley.Tools;
 
 namespace StardewRoguelike.Patches
 {
@@ -18,7 +20,12 @@ namespace StardewRoguelike.Patches
 					mine.updateMineLevelData(0, -1);
 
                 var (itemId, quantity) = Roguelike.GetBarrelDrops(mine);
-                if (itemId > 0 && quantity > 0)
+                if (itemId == 1000)
+                {
+                    Item toDrop = new FishingRod();
+                    location.debris.Add(new Debris(toDrop, new Vector2(x * 64 + 32, y * 64 + 32), Game1.player.getStandingPosition()));
+                }
+                else if (itemId > 0 && quantity > 0)
                     Game1.createMultipleObjectDebris(itemId, x, y, quantity, location);
             }
 

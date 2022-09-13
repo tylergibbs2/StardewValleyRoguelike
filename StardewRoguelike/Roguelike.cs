@@ -696,11 +696,13 @@ namespace StardewRoguelike
                 itemId = 62;
             else if (roll <= 0.07)
                 itemId = 68;
-            else if (roll <= 0.1)
+            else if (roll <= 0.14)
+                itemId = 1000;
+            else if (roll <= 0.17)
                 itemId = 66;
-            else if (roll <= 0.2)
+            else if (roll <= 0.25)
                 itemId = 78;
-            else if (roll <= 0.8)
+            else if (roll <= 0.85)
             {
                 itemId = 384;
                 quantity = Game1.random.Next(GoldDropMin, GoldDropMax + 1);
