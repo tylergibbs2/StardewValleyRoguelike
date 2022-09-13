@@ -157,7 +157,8 @@ namespace StardewRoguelike
 
         public static bool ShouldSpawnBackpack(MineShaft mine)
         {
-            return Game1.player.MaxItems == 12;
+            int level = Roguelike.GetLevelFromMineshaft(mine);
+            return Game1.player.MaxItems == 12 && level >= 48;
         }
 
         public static bool ShouldSpawnGil(int level)
