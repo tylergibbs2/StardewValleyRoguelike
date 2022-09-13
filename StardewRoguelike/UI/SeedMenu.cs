@@ -37,8 +37,14 @@ namespace StardewRoguelike.UI
 
         private ClickableTextureComponent doneButton;
 
+        private ClickableTextureComponent doRerollButton;
+
+        private bool rerollTarget;
+
         public SeedMenu()
         {
+            rerollTarget = Roguelike.RerollRandomEveryRun;
+
             textBox = new(Game1.smallFont, Game1.textColor);
             textBox.OnEnterPressed += textBoxEnter;
             Game1.keyboardDispatcher.Subscriber = textBox;
@@ -46,25 +52,36 @@ namespace StardewRoguelike.UI
 
             textBoxComponent = new(Rectangle.Empty, "")
             {
-                myID = 101,
-                rightNeighborID = 102
+                myID = 1001,
+                rightNeighborID = 1002,
+                downNeighborID = 1004
             };
             randomButton = new(Rectangle.Empty, Game1.mouseCursors, new Rectangle(381, 361, 10, 10), 4f)
             {
-                myID = 102,
-                leftNeighborID = 101,
-                rightNeighborID = 103
+                myID = 1002,
+                leftNeighborID = 1001,
+                rightNeighborID = 1003
             };
             doneButton = new(Rectangle.Empty, Game1.mouseCursors, Game1.getSourceRectForStandardTileSheet(Game1.mouseCursors, 46), 1f)
             {
-                myID = 103,
-                leftNeighborID = 102
+                myID = 1003,
+                leftNeighborID = 1002
+            };
+            doRerollButton = new ClickableTextureComponent("Reroll", Rectangle.Empty, null, "Reroll Every Run", Game1.mouseCursors, new Rectangle(227, 425, 9, 9), 4f)
+            {
+                myID = 1004,
+                upNeighborID = 1001
             };
 
             CalculatePositions();
             textBox.Text = Roguelike.FloorRngSeed.ToString();
 
-            populateClickableComponentList();
+            allClickableComponents ??= new();
+
+            allClickableComponents.Add(textBoxComponent);
+            allClickableComponents.Add(randomButton);
+            allClickableComponents.Add(doneButton);
+            allClickableComponents.Add(doRerollButton);
 
             if (Game1.options.gamepadControls)
                 snapToDefaultClickableComponent();
@@ -73,7 +90,7 @@ namespace StardewRoguelike.UI
         private void CalculatePositions()
         {
             width = 600;
-            height = 150;
+            height = 190;
 
             xPositionOnScreen = Game1.uiViewport.Width / 2 - (width / 2);
             yPositionOnScreen = Game1.uiViewport.Height / 2 - (height / 2) - 100;
@@ -83,10 +100,12 @@ namespace StardewRoguelike.UI
             textBox.Width = 370;
             textBox.Height = 186;
 
-            textBoxComponent.bounds = new(textBox.X, textBox.Y, 400, 75);
+            textBoxComponent.bounds = new(textBox.X - 64, textBox.Y - 16, 400, 75);
 
             randomButton.bounds = new(xPositionOnScreen + width - 150, yPositionOnScreen + 54, 64, 64);
             doneButton.bounds = new(xPositionOnScreen + width - 90, yPositionOnScreen + 42, 64, 64);
+            doRerollButton.bounds = new(xPositionOnScreen + 32, yPositionOnScreen + textBoxComponent.bounds.Height + 56, 36, 36);
+            doRerollButton.sourceRect.X = rerollTarget ? 236 : 227;
         }
 
         public override void gameWindowSizeChanged(Rectangle oldBounds, Rectangle newBounds)
@@ -97,7 +116,7 @@ namespace StardewRoguelike.UI
 
         public override void snapToDefaultClickableComponent()
         {
-            currentlySnappedComponent = textBoxComponent;
+            currentlySnappedComponent = getComponentWithID(1001);
             snapCursorToCurrentSnappedComponent();
         }
 
@@ -122,6 +141,12 @@ namespace StardewRoguelike.UI
                 textBox.Text = Guid.NewGuid().GetHashCode().ToString();
                 Game1.playSound("drumkit6");
             }
+            else if (doRerollButton.containsPoint(x, y))
+            {
+                Game1.playSound("drumkit6");
+                rerollTarget = !rerollTarget;
+                doRerollButton.sourceRect.X = rerollTarget ? 236 : 227;
+            }
         }
 
         private void textBoxEnter(TextBox sender)
@@ -130,9 +155,7 @@ namespace StardewRoguelike.UI
             {
                 Roguelike.FloorRngSeed = int.Parse(sender.Text);
                 Roguelike.FloorRng = new(Roguelike.FloorRngSeed);
-                ChallengeFloor.History.Clear();
-                Roguelike.SeenMineMaps.Clear();
-                MineShaft.clearActiveMines();
+                Roguelike.RerollRandomEveryRun = rerollTarget;
 
                 Game1.exitActiveMenu();
             }
@@ -156,9 +179,21 @@ namespace StardewRoguelike.UI
                 drawShadow: true
             );
 
+            Utility.drawTextWithShadow(
+                b,
+                "Regenerate Seed Every Run",
+                Game1.smallFont,
+                new(
+                    doRerollButton.bounds.X + doRerollButton.bounds.Width + 8,
+                    doRerollButton.bounds.Y + 4
+                ),
+                Game1.textColor
+            );
+
             textBox.Draw(b);
             doneButton.draw(b);
             randomButton.draw(b);
+            doRerollButton.draw(b);
 
             drawMouse(b);
         }

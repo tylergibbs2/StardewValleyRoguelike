@@ -25,6 +25,8 @@ namespace StardewRoguelike
     {
         public static int FloorRngSeed { get; set; } = Guid.NewGuid().GetHashCode();
 
+        public static bool RerollRandomEveryRun { get; set; } = true;
+
         public static readonly string SaveFile = "Roguelike_311053312";
 
         public static readonly List<string> ValidMineMaps = new() {
@@ -270,7 +272,17 @@ namespace StardewRoguelike
         public static void NextFloor()
         {
             if (CurrentLevel == 0)
+            {
                 ModEntry.Stats.Reset();
+
+                if (RerollRandomEveryRun)
+                    FloorRngSeed = Guid.NewGuid().GetHashCode();
+
+                FloorRng = new(FloorRngSeed);
+                SeenMineMaps.Clear();
+                ChallengeFloor.History.Clear();
+                MineShaft.clearActiveMines();
+            }
 
             Game1.player.get_FarmerWasDamagedOnThisLevel().Value = false;
 
