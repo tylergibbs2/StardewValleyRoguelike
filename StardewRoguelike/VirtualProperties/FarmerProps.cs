@@ -17,6 +17,20 @@ namespace StardewRoguelike.VirtualProperties
         }
     }
 
+    public static class FarmerWasDamagedOnThisLevel
+    {
+        internal class Holder { public readonly NetBool Value = new(); }
+
+        internal static ConditionalWeakTable<Farmer, Holder> values = new();
+
+        public static NetBool get_FarmerWasDamagedOnThisLevel(this Farmer farmer)
+        {
+            var holder = values.GetOrCreateValue(farmer);
+            return holder.Value;
+        }
+    }
+
+
     public static class FarmerCurrentLevel
     {
         internal class Holder { public readonly NetInt Value = new(); }

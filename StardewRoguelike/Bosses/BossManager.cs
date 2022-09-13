@@ -9,6 +9,7 @@ using StardewRoguelike.Extensions;
 using StardewValley.Menus;
 using StardewValley.Locations;
 using StardewRoguelike.UI;
+using StardewRoguelike.VirtualProperties;
 
 namespace StardewRoguelike.Bosses
 {
@@ -105,7 +106,18 @@ namespace StardewRoguelike.Bosses
 
             StopRenderHealthBar();
 
-            location.playSound("Cowboy_Secret");
+            bool allFarmersNoHit = true;
+            foreach (Farmer farmer in location.farmers)
+            {
+                if (farmer.get_FarmerWasDamagedOnThisLevel().Value)
+                {
+                    allFarmersNoHit = false;
+                    break;
+                }
+            }
+
+            string sound = allFarmersNoHit ? "getNewSpecialItem" : "Cowboy_Secret";
+            location.playSound(sound);
             Game1.changeMusicTrack("none", true, Game1.MusicContext.Default);
             location.checkForMusic(new GameTime());
 
@@ -114,7 +126,15 @@ namespace StardewRoguelike.Bosses
                 MineShaft mine = location as MineShaft;
                 int level = Roguelike.GetLevelFromMineshaft(mine);
                 int additionalGold = BossFloor.GetBossIndexForFloor(level) * 5;
-                mine.SpawnLocalChest(chestLocation.Value, new StardewValley.Object(384, 20 + additionalGold));
+
+                List<Item> chestItems = new()
+                {
+                    new StardewValley.Object(384, 20 + additionalGold),
+                };
+                if (allFarmersNoHit)
+                    chestItems.Add(new StardewValley.Object(72, 1));
+
+                mine.SpawnLocalChest(chestLocation.Value, chestItems);
             }
         }
 

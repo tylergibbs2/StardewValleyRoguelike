@@ -33,6 +33,7 @@ namespace StardewRoguelike.Patches
         {
             __instance.NetFields.AddFields(
                 __instance.get_FarmerIsSpectating(),
+                __instance.get_FarmerWasDamagedOnThisLevel(),
                 __instance.get_FarmerCurrentLevel(),
                 __instance.get_FarmerCurses()
             );

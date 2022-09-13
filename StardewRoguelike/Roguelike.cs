@@ -267,6 +267,8 @@ namespace StardewRoguelike
             if (CurrentLevel == 0)
                 ModEntry.Stats.Reset();
 
+            Game1.player.get_FarmerWasDamagedOnThisLevel().Value = false;
+
             CurrentLevel++;
             ModEntry.Stats.FloorsDescended = GetHighestMineShaftLevel();
             Merchant.CurrentShop = null;

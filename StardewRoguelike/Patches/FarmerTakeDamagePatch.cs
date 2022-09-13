@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Tools;
@@ -146,6 +147,8 @@ namespace StardewRoguelike.Patches
                 __instance.currentLocation.debris.Add(new Debris(damage, new Vector2(__instance.getStandingX() + 8, __instance.getStandingY()), Color.Red, 1f, __instance));
                 __instance.currentLocation.playSound("ow");
                 Game1.hitShakeTimer = 100 * damage;
+
+                Game1.player.get_FarmerWasDamagedOnThisLevel().Value = true;
             }
 
             return false;
