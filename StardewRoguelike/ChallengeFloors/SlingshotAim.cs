@@ -7,6 +7,7 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Monsters;
+using StardewValley.Objects;
 using StardewValley.Tools;
 using System.Collections.Generic;
 
@@ -98,7 +99,16 @@ namespace StardewRoguelike.ChallengeFloors
             Slingshot slingshot = new();
             slingshot.attachments[0] = new(388, 50);
 
-            mine.SpawnLocalChest(new(6, 23), slingshot);
+            Vector2 chestSpot = new(6, 23);
+            List<Item> chestItems = new()
+            {
+                slingshot
+            };
+            Chest chest = new(0, chestItems, chestSpot)
+            {
+                Tint = Color.White
+            };
+            mine.overlayObjects.Add(chestSpot, chest);
         }
 
         public override void PlayerLeft(MineShaft mine)
