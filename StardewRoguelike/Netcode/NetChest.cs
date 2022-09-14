@@ -19,7 +19,11 @@ namespace StardewRoguelike.Netcode
 
         public readonly NetBool IndeterminateItemChest = new();
 
-        private bool wasSpawned = false;
+        public readonly NetBool IsTimedChest = new();
+
+        public readonly NetLong MustOpenBy = new();
+
+        public bool Spawned { get; private set; } = false;
 
         public NetChest()
         {
@@ -38,15 +42,27 @@ namespace StardewRoguelike.Netcode
             IndeterminateItemChest.Value = true;
         }
 
+        public NetChest(Vector2 tileLocation, long mustOpenBy) : this(tileLocation)
+        {
+            MustOpenBy.Value = mustOpenBy;
+            IsTimedChest.Value = true;
+        }
+
+        public NetChest(Vector2 tileLocation, List<Item> items, long mustOpenBy) : this(tileLocation, items)
+        {
+            MustOpenBy.Value = mustOpenBy;
+            IsTimedChest.Value = true;
+        }
+
         protected void InitNetFields()
         {
-            NetFields.AddFields(TileLocation, Items, IndeterminateItemChest);
+            NetFields.AddFields(TileLocation, Items, IndeterminateItemChest, IsTimedChest, MustOpenBy);
         }
 
         // Is only called for Game1.player
         public void Spawn(MineShaft mine)
         {
-            if (wasSpawned)
+            if (Spawned)
                 return;
 
             List<Item> items;
@@ -74,13 +90,25 @@ namespace StardewRoguelike.Netcode
             else
                 items = Items.ToList();
 
-            Chest chest = new(0, items, TileLocation.Value)
+            Chest chest;
+            if (IsTimedChest.Value)
             {
-                Tint = Color.White
-            };
+                chest = new TimedChest(MustOpenBy.Value, items, TileLocation.Value)
+                {
+                    Tint = Color.White
+                };
+            }
+            else
+            {
+                chest = new(0, items, TileLocation.Value)
+                {
+                    Tint = Color.White
+                };
+            }
+
             mine.overlayObjects[TileLocation.Value] = chest;
 
-            wasSpawned = true;
+            Spawned = true;
         }
     }
 }

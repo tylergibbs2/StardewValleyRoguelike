@@ -70,6 +70,12 @@ namespace StardewRoguelike.Extensions
             chests.Add(new(tileLocation));
         }
 
+        public static void SpawnLocalChest(this MineShaft mine, Vector2 tileLocation, long mustOpenBy)
+        {
+            var chests = mine.get_MineShaftNetChests();
+            chests.Add(new(tileLocation, mustOpenBy));
+        }
+
         public static void SpawnLocalChest(this MineShaft mine, Vector2 tileLocation, Item item)
         {
             List<Item> items = new()
@@ -79,10 +85,25 @@ namespace StardewRoguelike.Extensions
             SpawnLocalChest(mine, tileLocation, items);
         }
 
+        public static void SpawnLocalChest(this MineShaft mine, Vector2 tileLocation, Item item, long mustOpenBy)
+        {
+            List<Item> items = new()
+            {
+                item
+            };
+            SpawnLocalChest(mine, tileLocation, items, mustOpenBy);
+        }
+
         public static void SpawnLocalChest(this MineShaft mine, Vector2 tileLocation, List<Item> items)
         {
             var chests = mine.get_MineShaftNetChests();
             chests.Add(new(tileLocation, items));
+        }
+
+        public static void SpawnLocalChest(this MineShaft mine, Vector2 tileLocation, List<Item> items, long mustOpenBy)
+        {
+            var chests = mine.get_MineShaftNetChests();
+            chests.Add(new(tileLocation, items, mustOpenBy));
         }
 
         public static bool TryToAddMonster(this MineShaft mine, Monster m, int tileX, int tileY)

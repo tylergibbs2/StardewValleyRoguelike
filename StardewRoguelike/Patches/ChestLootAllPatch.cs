@@ -20,7 +20,8 @@ namespace StardewRoguelike.Patches
                 return false;
             }
 
-            int currentLidFrame = (int)__instance.GetType().GetField("currentLidFrame", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
+            Type chestType = __instance is TimedChest ? __instance.GetType().BaseType : __instance.GetType();
+            int currentLidFrame = (int)chestType.GetField("currentLidFrame", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
 
             if (currentLidFrame == __instance.startingLidFrame.Value && __instance.frameCounter.Value <= -1)
             {
