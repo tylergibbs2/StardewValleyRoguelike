@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewRoguelike.UI;
 using StardewValley;
 using System;
@@ -43,6 +43,7 @@ namespace StardewRoguelike
             Sturdy           = 22,
             Indecisive       = 23,
             Fisherman        = 24,
+            Deconstructor    = 25
         }
         #pragma warning restore format
 
@@ -109,6 +110,7 @@ namespace StardewRoguelike
                 PerkType.Sturdy => "Sturdy",
                 PerkType.Indecisive => "Indecisive",
                 PerkType.Fisherman => "Fisherman",
+                PerkType.Deconstructor => "Deconstructor",
                 _ => "Not Implemented"
             };
         }
@@ -142,6 +144,7 @@ namespace StardewRoguelike
                 PerkType.Sturdy => "Debuffs last half as long",
                 PerkType.Indecisive => "You can refresh each merchant once",
                 PerkType.Fisherman => "Your fishing rods have +2 uses",
+                PerkType.Deconstructor => "You can deconstruct your items on merchant floors",
                 _ => "Not Implemented"
             };
         }

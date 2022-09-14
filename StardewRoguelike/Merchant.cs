@@ -65,6 +65,12 @@ namespace StardewRoguelike
                 menu.setUpStoreForContext();
                 CurrentShop = menu;
 
+                if (Perks.HasPerk(Perks.PerkType.Deconstructor))
+                {
+                    Vector2 deconstructorTile = new(17, 13);
+                    mine.Objects[deconstructorTile] = new StardewValley.Object(deconstructorTile, 265);
+                }
+
                 int level = Roguelike.GetLevelFromMineshaft(mine);
                 Vector2 dialogueLocation;
 
