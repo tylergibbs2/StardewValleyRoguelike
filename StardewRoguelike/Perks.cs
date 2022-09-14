@@ -43,7 +43,8 @@ namespace StardewRoguelike
             Sturdy           = 22,
             Indecisive       = 23,
             Fisherman        = 24,
-            Deconstructor    = 25
+            Deconstructor    = 25,
+            Gamer            = 26
         }
         #pragma warning restore format
 
@@ -111,6 +112,7 @@ namespace StardewRoguelike
                 PerkType.Indecisive => "Indecisive",
                 PerkType.Fisherman => "Fisherman",
                 PerkType.Deconstructor => "Deconstructor",
+                PerkType.Gamer => "Gamer",
                 _ => "Not Implemented"
             };
         }
@@ -145,6 +147,7 @@ namespace StardewRoguelike
                 PerkType.Indecisive => "You can refresh each merchant once",
                 PerkType.Fisherman => "Your fishing rods have +2 uses",
                 PerkType.Deconstructor => "You can deconstruct your items on merchant floors",
+                PerkType.Gamer => "Good scores in arcade machines award gold",
                 _ => "Not Implemented"
             };
         }

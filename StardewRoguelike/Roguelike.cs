@@ -20,6 +20,7 @@ using System.Reflection;
 using StardewRoguelike.Patches;
 using StardewRoguelike.Extensions;
 using Microsoft.Xna.Framework;
+using StardewValley.Minigames;
 
 namespace StardewRoguelike
 {
@@ -82,6 +83,8 @@ namespace StardewRoguelike
 
         private static bool DidHardModeDowngrade = false;
 
+        public static IMinigame ActiveMinigame = null;
+
         public static void AdjustMonster(MineShaft mine, ref Monster monster)
         {
             int level = GetLevelFromMineshaft(mine);
@@ -98,6 +101,14 @@ namespace StardewRoguelike
         {
             if (!Context.IsWorldReady)
                 return;
+
+            if (Game1.currentMinigame is not null && ActiveMinigame is null)
+                ActiveMinigame = Game1.currentMinigame;
+            else if (Game1.currentMinigame is null && ActiveMinigame is not null)
+            {
+                Minigames.MinigameClosed(ActiveMinigame);
+                ActiveMinigame = null;
+            }
 
             if (Curse.HasCurse(CurseType.GlassCannon))
                 Game1.player.maxHealth = TrueMaxHP / 2;

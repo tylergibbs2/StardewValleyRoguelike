@@ -9,6 +9,7 @@ using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
+using StardewValley.Minigames;
 using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
@@ -287,6 +288,12 @@ namespace StardewRoguelike
             {
                 var responses = mine.createYesNoResponses();
                 mine.createQuestionDialogue("Upgrade backpack for 2500g?", responses, "roguelikeBackpackPurchase");
+                return true;
+            }
+            else if (action == "Arcade_Minecart")
+            {
+                Game1.currentMinigame = new MineCart(0, 2);
+                return true;
             }
 
             return false;
