@@ -19,7 +19,7 @@ namespace StardewRoguelike.Patches
 
             var span = TimeSpan.FromSeconds(Math.Abs(chest.SecondsLeft));
             string sign = chest.SecondsLeft < 0 ? "-" : "";
-            string timeStr = $"{sign}{span.TotalMinutes:0}:{span.Seconds:00}";
+            string timeStr = $"{sign}{span.Minutes:0}:{span.Seconds:00}";
             Vector2 textSize = Game1.smallFont.MeasureString(timeStr);
 
             int width = (int)textSize.X + 32;
