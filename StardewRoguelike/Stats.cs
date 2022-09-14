@@ -60,6 +60,8 @@ namespace StardewRoguelike
 
         public string Patch { get; set; } = null;
 
+        public string Seed { get; set; } = null;
+
         private int oldMoney = -1;
 
         private int oldHealth = -1;
@@ -83,6 +85,7 @@ namespace StardewRoguelike
             DamageDealt = 0;
             DamageTaken = 0;
             Patch = null;
+            Seed = null;
         }
 
         /// <summary>
@@ -140,6 +143,7 @@ namespace StardewRoguelike
             Multiplayer = Context.IsMultiplayer;
             PlayerCount = Game1.getOnlineFarmers().Count;
             Patch = ModEntry.CurrentVersion;
+            Seed = Roguelike.FloorRngSeed.ToString();
 
             string statsJson = JsonSerializer.Serialize(this);
 
