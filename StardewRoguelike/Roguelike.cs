@@ -248,6 +248,9 @@ namespace StardewRoguelike
                 qi.faceDirection(2);
                 mine.addCharacter(qi);
 
+                Vector2 computerTile = new(19, 7);
+                mine.Objects[computerTile] = new StardewValley.Object(computerTile, 239);
+
                 Game1.player.Name = "";
                 Game1.player.favoriteThing.Value = "";
             }
