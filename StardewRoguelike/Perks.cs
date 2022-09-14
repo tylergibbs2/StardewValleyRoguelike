@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using StardewRoguelike.UI;
 using StardewValley;
 using System;
@@ -41,7 +41,8 @@ namespace StardewRoguelike
             Geologist        = 20,
             Scavenger        = 21,
             Sturdy           = 22,
-            Indecisive       = 23
+            Indecisive       = 23,
+            Fisherman        = 24,
         }
         #pragma warning restore format
 
@@ -107,6 +108,7 @@ namespace StardewRoguelike
                 PerkType.Scavenger => "Scavenger",
                 PerkType.Sturdy => "Sturdy",
                 PerkType.Indecisive => "Indecisive",
+                PerkType.Fisherman => "Fisherman",
                 _ => "Not Implemented"
             };
         }
@@ -139,6 +141,7 @@ namespace StardewRoguelike
                 PerkType.Scavenger => "Chance for monsters to drop food",
                 PerkType.Sturdy => "Debuffs last half as long",
                 PerkType.Indecisive => "You can refresh each merchant once",
+                PerkType.Fisherman => "Your fishing rods have +2 uses",
                 _ => "Not Implemented"
             };
         }
