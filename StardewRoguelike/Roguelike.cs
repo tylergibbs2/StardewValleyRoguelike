@@ -55,7 +55,7 @@ namespace StardewRoguelike
         public static readonly List<int> FloorsIncreaseGoldMax = new() { 6 };
         public static readonly List<int> FloorsIncreaseGoldMin = new() { 24 };
 
-        public static readonly List<int> PossibleFish = new() { 155, 269, 698, 795, 838, 128, 129  };
+        public static readonly List<int> PossibleFish = new() { 155, 269, 698, 795, 838, 128, 129 };
 
         public static readonly int StartingGold = 100;
 
@@ -284,9 +284,6 @@ namespace StardewRoguelike
             if (CurrentLevel == 0)
             {
                 ModEntry.Stats.Reset();
-
-                if (RerollRandomEveryRun)
-                    FloorRngSeed = Guid.NewGuid().GetHashCode();
 
                 FloorRng = new(FloorRngSeed);
                 SeenMineMaps.Clear();
@@ -524,6 +521,9 @@ namespace StardewRoguelike
 
             Game1.flushLocationLookup();
             MineShaft.clearActiveMines();
+
+            if (Context.IsMainPlayer && RerollRandomEveryRun)
+                FloorRngSeed = Guid.NewGuid().GetHashCode();
         }
 
         public static void ResetLocalPlayer()
