@@ -91,6 +91,7 @@ namespace StardewRoguelike
             { "Maps/Mines/custom-5", "assets/Maps/custom-5.tmx" },
             { "Maps/Mines/custom-6", "assets/Maps/custom-6.tmx" },
             { "Maps/Mines/custom-7", "assets/Maps/custom-7.tmx" },
+            { "Maps/Mines/custom-8", "assets/Maps/custom-8.tmx" },
             { "Maps/Mines/boss-dragon", "assets/Maps/boss-dragon.tmx" },
             { "Maps/Mines/boss-bug", "assets/Maps/boss-bug.tmx" },
             { "Maps/Mines/boss-slime", "assets/Maps/boss-slime.tmx" },
