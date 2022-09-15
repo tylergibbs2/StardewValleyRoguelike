@@ -30,7 +30,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override List<string> MapPaths => new() { "custom-pickapath" };
 
-        public override Vector2? SpawnLocation => new(6, 49);
+        public override Vector2? GetSpawnLocation(MineShaft mine) => new(6, 49);
 
         private readonly NetEnum<RoomType> InitializedRoomType = new();
 

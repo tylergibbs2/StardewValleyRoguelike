@@ -31,7 +31,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override List<string> MapPaths => new() { "custom-dwarf" };
 
-        public override Vector2? SpawnLocation => new(6, 5);
+        public override Vector2? GetSpawnLocation(MineShaft mine) => new(6, 5);
 
         public override bool ShouldSpawnLadder(MineShaft mine) => false;
 

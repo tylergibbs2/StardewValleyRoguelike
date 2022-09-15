@@ -36,18 +36,15 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override List<string> MapPaths => new() { "custom-egg" };
 
-        public override List<string> MusicTracks
+        public override List<string> GetMusicTracks(MineShaft mine)
         {
-            get
-            {
-                if (eggsFound.Value == 0 || floorSecondsLeft.Value == 0)
-                    return new() { "none" };
+            if (eggsFound.Value == 0 || floorSecondsLeft.Value == 0)
+                return new() { "none" };
 
-                return new() { "event1" };
-            }
+            return new() { "event1" };
         }
 
-        public override Vector2? SpawnLocation => new(37, 8);
+        public override Vector2? GetSpawnLocation(MineShaft mine) => new(37, 8);
 
         public EggHunt() : base() { }
 

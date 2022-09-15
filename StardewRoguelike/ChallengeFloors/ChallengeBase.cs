@@ -23,9 +23,9 @@ namespace StardewRoguelike.ChallengeFloors
 
         public virtual List<string> MapPaths { get; } = null;
 
-        public virtual List<string> MusicTracks { get; } = null;
+        public virtual List<string> GetMusicTracks(MineShaft mine) => null;
 
-        public virtual Vector2? SpawnLocation { get; } = null;
+        public virtual Vector2? GetSpawnLocation(MineShaft mine) => null;
 
         // Runs only for the main player
         public virtual void Initialize(MineShaft mine) { }

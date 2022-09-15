@@ -13,9 +13,9 @@ namespace StardewRoguelike.ChallengeFloors
     {
         public override List<string> MapPaths => new() { "custom-lavalurk" };
 
-        public override List<string> MusicTracks => new() { "VolcanoMines1", "VolcanoMines2" };
+        public override List<string> GetMusicTracks(MineShaft mine) => new() { "VolcanoMines1", "VolcanoMines2" };
 
-        public override Vector2? SpawnLocation => new(20, 41);
+        public override Vector2? GetSpawnLocation(MineShaft mine) => new(20, 41);
 
         private bool bossSpawned = false;
 

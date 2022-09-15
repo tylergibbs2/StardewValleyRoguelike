@@ -10,7 +10,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override List<string> MapPaths => new() { "custom-hotspring" };
 
-        public override Vector2? SpawnLocation => new(5, 5);
+        public override Vector2? GetSpawnLocation(MineShaft mine) => new(5, 5);
 
         public override bool ShouldSpawnLadder(MineShaft mine) => false;
     }

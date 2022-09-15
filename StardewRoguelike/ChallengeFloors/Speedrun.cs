@@ -16,15 +16,12 @@ namespace StardewRoguelike.ChallengeFloors
     {
         public override List<string> MapPaths => new() { "custom-speedrun" };
 
-        public override List<string> MusicTracks
+        public override List<string> GetMusicTracks(MineShaft mine)
         {
-            get
-            {
-                if (ReachedEnd || !Started)
-                    return new() { "none" };
+            if (ReachedEnd || !Started)
+                return new() { "none" };
 
-                return new() { "honkytonky" };
-            }
+            return new() { "honkytonky" };
         }
 
         private readonly int BouldersToSpawn = 9;

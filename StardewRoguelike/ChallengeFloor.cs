@@ -140,7 +140,7 @@ namespace StardewRoguelike
         public static List<string> GetMusicTracks(MineShaft mine)
         {
             ChallengeBase challenge = mine.get_MineShaftChallengeFloor();
-            return challenge.MusicTracks;
+            return challenge.GetMusicTracks(mine);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace StardewRoguelike
             Vector2 tileBeneathLadder = (Vector2)mine.GetType().GetProperty("tileBeneathLadder", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(mine);
 
             ChallengeBase challenge = mine.get_MineShaftChallengeFloor();
-            return challenge.SpawnLocation ?? tileBeneathLadder;
+            return challenge.GetSpawnLocation(mine) ?? tileBeneathLadder;
         }
 
         /// <summary>

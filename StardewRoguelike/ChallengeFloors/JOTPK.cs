@@ -34,18 +34,15 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override List<string> MapPaths => new() { "custom-jotpk" };
 
-        public override List<string> MusicTracks
+        public override List<string> GetMusicTracks(MineShaft mine)
         {
-            get
-            {
-                if (floorSecondsLeft.Value >= 45 || gameOver.Value)
-                    return new() { "none" };
+            if (floorSecondsLeft.Value >= 45 || gameOver.Value)
+                return new() { "none" };
 
-                return new() { "Cowboy_OVERWORLD" };
-            }
+            return new() { "Cowboy_OVERWORLD" };
         }
 
-        public override Vector2? SpawnLocation => new(20, 9);
+        public override Vector2? GetSpawnLocation(MineShaft mine) => new(20, 9);
 
         public JOTPK() : base() { }
 
