@@ -4,6 +4,7 @@ using Netcode;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewRoguelike.Extensions;
+using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
@@ -15,31 +16,47 @@ namespace StardewRoguelike.ChallengeFloors
 {
     public class KOTH : ChallengeBase
     {
-        private readonly int MaxBoxTimer = 20 * 60;
+        private readonly int MaxBoxTimer = 15 * 60;
 
-        public override List<string> MapPaths => new() { "custom-defend" };
+        public override List<string> MapPaths => new() { "custom-defend", "custom-defend2" };
 
-        public override List<string> MusicTracks => new() { "VolcanoMines" };
+        public override List<string> GetMusicTracks(MineShaft mine)
+        {
+            string loadedMap = mine.get_MineShaftLoadedMap().Value;
+            if (loadedMap == "custom-defend")
+                return new() { "VolcanoMines" };
+            else if (loadedMap == "custom-defend2")
+                return null;
+            else
+                return null;
+        }
 
-        public override Vector2? SpawnLocation => new(44, 38);
+        public override Vector2? GetSpawnLocation(MineShaft mine)
+        {
+            string loadedMap = mine.get_MineShaftLoadedMap().Value;
+            if (loadedMap == "custom-defend")
+                return new Vector2(44, 38);
+            else if (loadedMap == "custom-defend2")
+                return new Vector2(6, 4);
+            else
+                return null;
+        }
 
-        private readonly NetString state = new("initialize");
+        private readonly NetString state = new("active");
 
         private readonly NetInt boxTimer = new(0);
-
-        private string oldState;
 
         private int stateTimer = 0;
 
         private bool ladderSpawned = false;
 
-        private Rectangle kothBox = Rectangle.Empty;
+        private readonly NetRectangle kothBox = new(Rectangle.Empty);
 
         private Texture2D kothBoxProgressTexture;
 
         private readonly Texture2D kothBoxTexture;
 
-        private readonly List<string> possibleBoxes = new() { "box1", "box2", "box3" };
+        private readonly List<Rectangle> possibleBoxes = new() { };
 
         private int ticksToSpawnEnemies = -1;
 
@@ -57,12 +74,39 @@ namespace StardewRoguelike.ChallengeFloors
         {
             base.initNetFields();
 
-            NetFields.AddFields(state, boxTimer);
+            NetFields.AddFields(state, boxTimer, kothBox);
+        }
+
+        public override void Initialize(MineShaft mine)
+        {
+            string loadedMap = mine.get_MineShaftLoadedMap().Value;
+            if (loadedMap == "custom-defend")
+            {
+                possibleBoxes.Add(new(50 * 64, 21 * 64, 7 * 64, 6 * 64));
+                possibleBoxes.Add(new(55 * 64, 45 * 64, 7 * 64, 8 * 64));
+                possibleBoxes.Add(new(21 * 64, 34 * 64, 6 * 64, 6 * 64));
+
+                possibleBoxes.Shuffle(Roguelike.FloorRng);
+            }
+            else if (loadedMap == "custom-defend2")
+            {
+                possibleBoxes.Add(new(4 * 64, 7 * 64, 7 * 64, 5 * 64));
+                possibleBoxes.Add(new(18 * 64, 19 * 64, 7 * 64, 7 * 64));
+                possibleBoxes.Add(new(30 * 64, 30 * 64, 5 * 64, 5 * 64));
+
+                int level = Roguelike.GetLevelFromMineshaft(mine);
+                bool isDangerous = level % 48 > Roguelike.DangerousThreshold;
+
+                mine.mapImageSource.Value = isDangerous ? "Maps\\Mines\\mine_slime_dangerous" : "Maps\\Mines\\mine_slime";
+            }
+
+            kothBox.Value = possibleBoxes[0];
+            possibleBoxes.RemoveAt(0);
         }
 
         public void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
         {
-            if (kothBox == Rectangle.Empty || stateTimer % 90 > 45 || kothBox.Contains(Game1.player.Position))
+            if (kothBox.Value == Rectangle.Empty || stateTimer % 90 > 45 || kothBox.Value.Contains(Game1.player.Position))
                 return;
 
             e.SpriteBatch.Draw(
@@ -90,7 +134,7 @@ namespace StardewRoguelike.ChallengeFloors
                 else if (data.Length - i < kothBoxProgressTexture.Width || i % kothBoxProgressTexture.Width == 0)
                     data[i] = new Color(0.5f, 0, 0);
                 else if (i % kothBoxProgressTexture.Width / (float)kothBoxProgressTexture.Width < (float)Progress / MaxProgress)
-                    data[i] = Color.LimeGreen;
+                    data[i] = Color.Green;
                 else
                     data[i] = Color.Black;
             }
@@ -119,14 +163,69 @@ namespace StardewRoguelike.ChallengeFloors
             e.SpriteBatch.Draw(kothBoxProgressTexture, new Vector2((Game1.uiViewport.Width / 2) - kothBoxProgressTexture.Width / 2, drawHeight), null, Color.White);
         }
 
-        public static void SpawnRewardChest(MineShaft mine)
+        public void SpawnRewardChest(MineShaft mine)
         {
-            mine.SpawnLocalChest(new(44, 35));
+            string loadedMap = mine.get_MineShaftLoadedMap().Value;
+
+            if (loadedMap == "custom-defend")
+            {
+                mine.createLadderAt(GetSpawnLocation(mine).Value);
+                mine.SpawnLocalChest(new(44, 35));
+            }
+            else if (loadedMap == "custom-defend2")
+            {
+                mine.createLadderAt(new(35, 33));
+                mine.SpawnLocalChest(new(35, 31));
+            }
+
+            ladderSpawned = true;
+        }
+
+        public Monster GetMonsterForKOTH(MineShaft mine, Vector2 spawnTile)
+        {
+            double monsterChance = Game1.random.NextDouble();
+            string loadedMap = mine.get_MineShaftLoadedMap().Value;
+            int level = Roguelike.GetLevelFromMineshaft(mine);
+            float difficulty = BossFloor.GetLevelDifficulty(level);
+
+            if (loadedMap == "custom-defend")
+            {
+                Monster monster;
+                if (monsterChance < 0.2)
+                    monster = new HotHead(spawnTile * 64f);
+                else if (monsterChance < 0.4)
+                {
+                    monster = new GreenSlime(spawnTile * 64f, 0);
+                    (monster as GreenSlime).makeTigerSlime();
+                }
+                else if (monsterChance < 0.6)
+                    monster = new Bat(spawnTile * 64f, -556);
+                else if (monsterChance < 0.9)
+                    monster = new Bat(spawnTile * 64f, -555);
+                else
+                    monster = new DwarvishSentry(spawnTile * 64f);
+
+                monster.DamageToFarmer = (int)Math.Round(8 * difficulty);
+                monster.MaxHealth = (int)Math.Round(level * 3 * difficulty);
+                monster.Health = monster.MaxHealth;
+                monster.resilience.Value = 2;
+
+                return monster;
+            }
+            else if (loadedMap == "custom-defend2")
+            {
+                Monster monster = mine.BuffMonsterIfNecessary(new GreenSlime(spawnTile * 64f));
+                Roguelike.AdjustMonster(mine, ref monster);
+                return monster;
+            }
+
+            return null;
+
         }
 
         public void SpawnEnemies(MineShaft mine)
         {
-            if (kothBox == Rectangle.Empty)
+            if (kothBox.Value == Rectangle.Empty)
                 return;
 
             float difficulty = BossFloor.GetLevelDifficulty(mine);
@@ -146,33 +245,11 @@ namespace StardewRoguelike.ChallengeFloors
                     Game1.random.Next(spawnRect.X, spawnRect.X + spawnRect.Width),
                     Game1.random.Next(spawnRect.Y, spawnRect.Y + spawnRect.Height)
                 );
-                if (!mine.isTileLocationTotallyClearAndPlaceable((int)randomTile.X, (int)randomTile.Y) || kothBox.Contains(randomTile * 64f))
+                if (!mine.isTileLocationTotallyClearAndPlaceable((int)randomTile.X, (int)randomTile.Y) || kothBox.Value.Contains(randomTile * 64f))
                     continue;
 
                 // spawn enemy
-                Monster monster;
-                double monsterChance = Game1.random.NextDouble();
-
-                if (monsterChance < 0.2)
-                    monster = new HotHead(randomTile * 64f);
-                else if (monsterChance < 0.4)
-                {
-                    monster = new GreenSlime(randomTile * 64f, 0);
-                    (monster as GreenSlime).makeTigerSlime();
-                }
-                else if (monsterChance < 0.6)
-                    monster = new Bat(randomTile * 64f, -556);
-                else if (monsterChance < 0.9)
-                    monster = new Bat(randomTile * 64f, -555);
-                else
-                    monster = new DwarvishSentry(randomTile * 64f);
-
-                monster.DamageToFarmer = (int)Math.Round(8 * difficulty);
-                monster.MaxHealth = (int)Math.Round(level * 3 * difficulty);
-                monster.Health = monster.MaxHealth;
-                monster.resilience.Value = 2;
-
-                Roguelike.AdjustMonster(mine, ref monster);
+                Monster monster = GetMonsterForKOTH(mine, randomTile);
 
                 mine.characters.Add(monster);
 
@@ -210,20 +287,6 @@ namespace StardewRoguelike.ChallengeFloors
 
             stateTimer++;
 
-            if (state.Value == "box1" && kothBox == Rectangle.Empty)
-                kothBox = new(50 * 64, 21 * 64, 7 * 64, 6 * 64);
-            else if (state.Value == "box2" && kothBox == Rectangle.Empty)
-                kothBox = new(55 * 64, 45 * 64, 7 * 64, 8 * 64);
-            else if (state.Value == "box3" && kothBox == Rectangle.Empty)
-                kothBox = new(21 * 64, 34 * 64, 6 * 64, 6 * 64);
-
-            if (state != oldState)
-            {
-                kothBox = Rectangle.Empty;
-                oldState = state;
-                stateTimer = 0;
-            }
-
             if (!Context.IsMainPlayer)
                 return;
 
@@ -238,18 +301,10 @@ namespace StardewRoguelike.ChallengeFloors
                 }
             }
 
-            if (state.Value == "initialize")
-            {
-                int randomBoxIdx = Game1.random.Next(possibleBoxes.Count);
-                state.Value = possibleBoxes[randomBoxIdx];
-                possibleBoxes.RemoveAt(randomBoxIdx);
-            }
-
             if (state.Value == "over" && !ladderSpawned)
             {
-                mine.createLadderAt((Vector2)SpawnLocation);
+                kothBox.Value = Rectangle.Empty;
                 SpawnRewardChest(mine);
-                ladderSpawned = true;
             }
             else if (state.Value == "over" && ladderSpawned)
                 return;
@@ -257,7 +312,7 @@ namespace StardewRoguelike.ChallengeFloors
             bool contains = false;
             foreach (Farmer farmer in mine.farmers)
             {
-                if (kothBox.Contains(farmer.Position))
+                if (kothBox.Value.Contains(farmer.Position))
                 {
                     contains = true;
                     break;
@@ -267,7 +322,7 @@ namespace StardewRoguelike.ChallengeFloors
             if (contains && ticksToSpawnEnemies == -1)
                 ticksToSpawnEnemies = 30;
 
-            if (kothBox != Rectangle.Empty && contains && stateTimer % 15 == 0)
+            if (kothBox.Value != Rectangle.Empty && contains && stateTimer % 15 == 0)
             {
                 boxTimer.Value += 15;
 
@@ -283,9 +338,8 @@ namespace StardewRoguelike.ChallengeFloors
                     state.Value = "over";
                 else
                 {
-                    int randomBoxIdx = Game1.random.Next(possibleBoxes.Count);
-                    state.Value = possibleBoxes[randomBoxIdx];
-                    possibleBoxes.RemoveAt(randomBoxIdx);
+                    kothBox.Value = possibleBoxes[0];
+                    possibleBoxes.RemoveAt(0);
                 }
             }
         }

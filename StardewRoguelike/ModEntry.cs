@@ -46,7 +46,7 @@ namespace StardewRoguelike
         /// </summary>
         public static readonly Stats Stats = new();
 
-        public static readonly bool DebugMode = false;
+        public static readonly bool DebugMode = true;
 
         public static bool Invincible = false;
 
@@ -76,6 +76,7 @@ namespace StardewRoguelike
             { "Maps/Mines/custom-merchant-curses-hard", "assets/Maps/custom-merchant-curses-hard.tmx" },
             { "Maps/Mines/custom-forge", "assets/Maps/custom-forge.tmx" },
             { "Maps/Mines/custom-defend", "assets/Maps/custom-defend.tmx" },
+            { "Maps/Mines/custom-defend2", "assets/Maps/custom-defend2.tmx" },
             { "Maps/Mines/custom-egg", "assets/Maps/custom-egg.tmx" },
             { "Maps/Mines/custom-hotspring", "assets/Maps/custom-hotspring.tmx" },
             { "Maps/Mines/custom-jotpk", "assets/Maps/custom-jotpk.tmx" },
