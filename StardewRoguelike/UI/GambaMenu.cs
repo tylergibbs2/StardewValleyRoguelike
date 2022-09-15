@@ -303,8 +303,11 @@ namespace StardewValley.Menus
         {
             Keys menuKey = Game1.options.getFirstKeyboardKeyFromInputButtonList(Game1.options.menuButton);
             Keys journalKey = Game1.options.getFirstKeyboardKeyFromInputButtonList(Game1.options.journalButton);
-            if ((key == menuKey || key == journalKey) && (CanSpin() || spinsLeft == 0))
+            if ((key == menuKey || key == journalKey || key == Keys.Escape) && (CanSpin() || spinsLeft == 0))
+            {
+                Game1.playSound("smallSelect");
                 Game1.exitActiveMenu();
+            }
         }
 
         public override void receiveGamePadButton(Buttons b)
