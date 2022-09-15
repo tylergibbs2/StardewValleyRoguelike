@@ -391,7 +391,7 @@ namespace StardewRoguelike.Bosses
             for (int angle = 0; angle <= 360; angle += 30)
             {
                 int fireAngle = angle + (offset ? 15 : 0) % 360;
-                Vector2 shot_velocity = new((float)Math.Cos(BossManager.DegreesToRadians(fireAngle)), -(float)Math.Sin(BossManager.DegreesToRadians(fireAngle)));
+                Vector2 shot_velocity = new((float)Math.Cos(RoguelikeUtility.DegreesToRadians(fireAngle)), -(float)Math.Sin(RoguelikeUtility.DegreesToRadians(fireAngle)));
                 shot_velocity *= 10f;
                 BasicProjectile projectile = new((int)Math.Round(35 * Difficulty), 10, 0, 1, (float)Math.PI / 16f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", false, false, currentLocation, this, false, null);
                 projectile.ignoreTravelGracePeriod.Value = true;
@@ -410,11 +410,11 @@ namespace StardewRoguelike.Bosses
             currentLocation.playSound("furnace");
 
             Vector2 shot_origin = new(GetBoundingBox().Center.X - 32f, GetBoundingBox().Center.Y - 32f);
-            float fire_angle = BossManager.VectorToDegrees(Player.Position - Position);
+            float fire_angle = RoguelikeUtility.VectorToDegrees(Player.Position - Position);
 
             for (int angleOffset = -20; angleOffset <= 20; angleOffset += 20)
             {
-                Vector2 shot_velocity = new((float)Math.Cos(BossManager.DegreesToRadians(fire_angle + angleOffset)), (float)Math.Sin(BossManager.DegreesToRadians(fire_angle + angleOffset)));
+                Vector2 shot_velocity = new((float)Math.Cos(RoguelikeUtility.DegreesToRadians(fire_angle + angleOffset)), (float)Math.Sin(RoguelikeUtility.DegreesToRadians(fire_angle + angleOffset)));
                 shot_velocity *= 10f;
 
                 BasicProjectile projectile = new((int)Math.Round(35 * Difficulty), 10, 0, 1, (float)Math.PI / 16f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", false, false, currentLocation, this, false, null);
@@ -437,10 +437,10 @@ namespace StardewRoguelike.Bosses
 
             Vector2 shot_origin = new(GetBoundingBox().Center.X - 32f, GetBoundingBox().Center.Y - 32f);
 
-            float fire_angle = BossManager.VectorToDegrees(Player.Position - Position);
-            fire_angle += (float)Math.Sin(BossManager.DegreesToRadians(ticksOfTotalFireBreath * 60 / 1000f * 180f)) * 25f;
+            float fire_angle = RoguelikeUtility.VectorToDegrees(Player.Position - Position);
+            fire_angle += (float)Math.Sin(RoguelikeUtility.DegreesToRadians(ticksOfTotalFireBreath * 60 / 1000f * 180f)) * 25f;
 
-            Vector2 shot_velocity = new((float)Math.Cos(BossManager.DegreesToRadians(fire_angle)), (float)Math.Sin(BossManager.DegreesToRadians(fire_angle)));
+            Vector2 shot_velocity = new((float)Math.Cos(RoguelikeUtility.DegreesToRadians(fire_angle)), (float)Math.Sin(RoguelikeUtility.DegreesToRadians(fire_angle)));
             shot_velocity *= 10f;
 
             BasicProjectile projectile = new(25, 10, 0, 1, (float)Math.PI / 16f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", explode: false, damagesMonsters: false, currentLocation, this);

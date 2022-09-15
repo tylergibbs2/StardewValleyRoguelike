@@ -431,7 +431,7 @@ namespace StardewRoguelike.Bosses
             Vector2 shot_origin = new(GetBoundingBox().X, GetBoundingBox().Y);
             float fire_angle = 0f;
             if (Roguelike.HardMode)
-                fire_angle = BossManager.VectorToDegrees(Player.Position - Position) - 90;
+                fire_angle = RoguelikeUtility.VectorToDegrees(Player.Position - Position) - 90;
             else
             {
                 switch (facingDirection.Value)
@@ -457,10 +457,10 @@ namespace StardewRoguelike.Bosses
             currentLocation.playSound("Cowboy_gunshot");
             for (int angleOffset = -45; angleOffset <= 45; angleOffset += 18)
             {
-                Vector2 shot_velocity = new((float)Math.Cos(BossManager.DegreesToRadians(fire_angle + angleOffset)), -(float)Math.Sin(BossManager.DegreesToRadians(fire_angle + angleOffset)));
+                Vector2 shot_velocity = new((float)Math.Cos(RoguelikeUtility.DegreesToRadians(fire_angle + angleOffset)), -(float)Math.Sin(RoguelikeUtility.DegreesToRadians(fire_angle + angleOffset)));
                 shot_velocity *= 10f;
                 BasicProjectile projectile = new((int)Math.Round(35 * Difficulty), 12, 0, 1, 0f, shot_velocity.X, shot_velocity.Y, shot_origin, "", "", false, false, currentLocation, this, false, null);
-                projectile.startingRotation.Value = BossManager.VectorToRadians(shot_velocity) + (float)BossManager.DegreesToRadians(90);
+                projectile.startingRotation.Value = RoguelikeUtility.VectorToRadians(shot_velocity) + (float)RoguelikeUtility.DegreesToRadians(90);
                 projectile.ignoreTravelGracePeriod.Value = true;
                 projectile.ignoreMeleeAttacks.Value = true;
                 currentLocation.projectiles.Add(projectile);
@@ -475,7 +475,7 @@ namespace StardewRoguelike.Bosses
             float fire_angle = 0f;
             for (int angleOffset = 0; angleOffset <= 360; angleOffset += 45)
             {
-                Vector2 shot_velocity = new((float)Math.Cos(BossManager.DegreesToRadians(fire_angle + angleOffset)), -(float)Math.Sin(BossManager.DegreesToRadians(fire_angle + angleOffset)));
+                Vector2 shot_velocity = new((float)Math.Cos(RoguelikeUtility.DegreesToRadians(fire_angle + angleOffset)), -(float)Math.Sin(RoguelikeUtility.DegreesToRadians(fire_angle + angleOffset)));
                 shot_velocity *= 10f;
                 DebuffingProjectile projectile = new(14, 7, 1, 4, (float)Math.PI / 16f, shot_velocity.X, shot_velocity.Y, new Vector2(GetBoundingBox().X, GetBoundingBox().Y), currentLocation, this);
                 projectile.maxTravelDistance.Value = 64 * 5;

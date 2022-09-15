@@ -52,27 +52,6 @@ namespace StardewRoguelike.Bosses
             typeof(LoopedSlime)
         };
 
-        public static Vector2 VectorFromDegree(int degrees)
-        {
-            double radians = DegreesToRadians(degrees);
-            return new((float)Math.Cos(radians), (float)Math.Sin(radians));
-        }
-
-        public static float VectorToRadians(Vector2 vector)
-        {
-            return (float)Math.Atan2(vector.Y, vector.X);
-        }
-
-        public static int VectorToDegrees(Vector2 vector)
-        {
-            return (int)(VectorToRadians(vector) * (180f / Math.PI));
-        }
-
-        public static float DegreesToRadians(float degrees)
-        {
-            return (float)(degrees * (Math.PI / 180));
-        }
-
         public static void MakeBossHealthBar(int Health, int MaxHealth)
         {
             healthBarTexture = new Texture2D(Game1.graphics.GraphicsDevice, 1000.ToUIScale(), 30.ToUIScale());

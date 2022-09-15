@@ -236,7 +236,7 @@ namespace StardewRoguelike.Bosses
                                 Vector2 shot_origin = Position + new Vector2(0f, -32f);
 
                                 Vector2 shot_velocity;
-                                shot_velocity = BossManager.VectorFromDegree(fireWallAngle);
+                                shot_velocity = RoguelikeUtility.VectorFromDegrees(fireWallAngle);
                                 shot_velocity *= 7f;
 
                                 currentLocation.playSound("furnace");

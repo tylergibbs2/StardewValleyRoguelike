@@ -56,7 +56,7 @@ namespace StardewRoguelike.Bosses
                             {
                                 shot_velocity = Player.Position - Position;
                                 shot_velocity.Normalize();
-                                starting_rotation = BossManager.VectorToRadians(shot_velocity) + BossManager.DegreesToRadians(90);
+                                starting_rotation = RoguelikeUtility.VectorToRadians(shot_velocity) + RoguelikeUtility.DegreesToRadians(90);
                             }
                             else
                             {

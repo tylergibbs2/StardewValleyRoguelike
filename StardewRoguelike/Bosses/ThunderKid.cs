@@ -283,7 +283,7 @@ namespace StardewRoguelike.Bosses
 
                 if (lastIceBall == 0f)
                 {
-                    Vector2 trajectory = BossManager.VectorFromDegree(Game1.random.Next(0, 360)) * 10f;
+                    Vector2 trajectory = RoguelikeUtility.VectorFromDegrees(Game1.random.Next(0, 360)) * 10f;
                     BasicProjectile projectile = new(DamageToFarmer, 9, 3, 4, 0f, trajectory.X, trajectory.Y, GetProjectileOrigin(), "", "", false, false, currentLocation, this, false, null);
                     projectile.ignoreMeleeAttacks.Value = true;
                     projectile.debuff.Value = 19;

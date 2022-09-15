@@ -179,7 +179,7 @@ namespace StardewRoguelike.Bosses
             if (midCharge)
             {
                 Position += chargeVector;
-                rotation = BossManager.VectorToRadians(chargeVector) + BossManager.DegreesToRadians(90);
+                rotation = RoguelikeUtility.VectorToRadians(chargeVector) + RoguelikeUtility.DegreesToRadians(90);
                 chargeDurationTicks--;
                 if (chargeDurationTicks == 0)
                 {
@@ -189,7 +189,7 @@ namespace StardewRoguelike.Bosses
             }
             else if (chargingWarmup && ticksToChargeWarmup > 0)
             {
-                rotation = BossManager.VectorToRadians(chargeVector) + BossManager.DegreesToRadians(90);
+                rotation = RoguelikeUtility.VectorToRadians(chargeVector) + RoguelikeUtility.DegreesToRadians(90);
                 ticksToChargeWarmup--;
             }
             else if (chargingWarmup && ticksToChargeWarmup == 0)
@@ -221,9 +221,9 @@ namespace StardewRoguelike.Bosses
             v.Normalize();
             v *= projectileSpeed;
 
-            BossManager.VectorToRadians(v);
+            RoguelikeUtility.VectorToRadians(v);
             StingerProjectile proj = new(DamageToFarmer, v.X, v.Y, new Vector2(Position.X, Position.Y), "", "Cowboy_gunshot", currentLocation, this);
-            proj.startingRotation.Value = BossManager.VectorToRadians(v) + BossManager.DegreesToRadians(90);
+            proj.startingRotation.Value = RoguelikeUtility.VectorToRadians(v) + RoguelikeUtility.DegreesToRadians(90);
             currentLocation.projectiles.Add(proj);
         }
 

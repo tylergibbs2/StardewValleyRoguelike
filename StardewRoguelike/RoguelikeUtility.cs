@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
+using System;
 using System.Collections.Generic;
 
 namespace StardewRoguelike
@@ -30,6 +31,27 @@ namespace StardewRoguelike
                 Duration = duration;
                 DrawPosition = drawPosition;
             }
+        }
+
+        public static Vector2 VectorFromDegrees(int degrees)
+        {
+            double radians = DegreesToRadians(degrees);
+            return new((float)Math.Cos(radians), (float)Math.Sin(radians));
+        }
+
+        public static float VectorToRadians(Vector2 vector)
+        {
+            return (float)Math.Atan2(vector.Y, vector.X);
+        }
+
+        public static int VectorToDegrees(Vector2 vector)
+        {
+            return (int)(VectorToRadians(vector) * (180f / Math.PI));
+        }
+
+        public static float DegreesToRadians(float degrees)
+        {
+            return (float)(degrees * (Math.PI / 180));
         }
     }
 }

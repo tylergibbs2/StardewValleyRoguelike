@@ -39,7 +39,7 @@ namespace StardewRoguelike.Projectiles
             newVelocity.Normalize();
             newVelocity *= ReturningVelocityMultiplier.Value;
 
-            rotation = BossManager.VectorToRadians(newVelocity) + BossManager.DegreesToRadians(90);
+            rotation = RoguelikeUtility.VectorToRadians(newVelocity) + RoguelikeUtility.DegreesToRadians(90);
 
             xVelocity.Value = newVelocity.X;
             yVelocity.Value = newVelocity.Y;

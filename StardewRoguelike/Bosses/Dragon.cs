@@ -215,10 +215,10 @@ namespace StardewRoguelike.Bosses
                                 playerAngle.Normalize();
                                 faceGeneralDirection(Player.Position, 0, false);
 
-                                float fire_angle = BossManager.VectorToRadians(playerAngle);
+                                float fire_angle = RoguelikeUtility.VectorToRadians(playerAngle);
                                 fire_angle *= (float)(180 / Math.PI);
-                                fire_angle += (float)Math.Sin(totalFireTime / 1000f * BossManager.DegreesToRadians(200)) * 30f;
-                                fire_angle = BossManager.DegreesToRadians(fire_angle);
+                                fire_angle += (float)Math.Sin(totalFireTime / 1000f * RoguelikeUtility.DegreesToRadians(200)) * 30f;
+                                fire_angle = RoguelikeUtility.DegreesToRadians(fire_angle);
 
                                 Vector2 shot_velocity = new((float)Math.Cos(fire_angle), (float)Math.Sin(fire_angle));
                                 shot_velocity *= 11f;
@@ -238,8 +238,8 @@ namespace StardewRoguelike.Bosses
                             else if (currentAttack.Value == AttackType.RandomFire)
                             {
                                 Vector2 shot_origin = new(GetBoundingBox().Center.X, GetBoundingBox().Center.Y);
-                                int degreesToPlayer = BossManager.VectorToDegrees(Player.Position - Position);
-                                Vector2 trajectory = BossManager.VectorFromDegree(degreesToPlayer + Game1.random.Next(-65, 66));
+                                int degreesToPlayer = RoguelikeUtility.VectorToDegrees(Player.Position - Position);
+                                Vector2 trajectory = RoguelikeUtility.VectorFromDegrees(degreesToPlayer + Game1.random.Next(-65, 66));
                                 if (Roguelike.HardMode)
                                     trajectory *= 12f;
                                 else
@@ -285,7 +285,7 @@ namespace StardewRoguelike.Bosses
                 chargeVector.Normalize();
                 chargeVector *= this.AdjustRangeForHealth(15f, 21f);
                 Position += chargeVector;
-                rotation = BossManager.VectorToRadians(chargeVector) + BossManager.DegreesToRadians(90);
+                rotation = RoguelikeUtility.VectorToRadians(chargeVector) + RoguelikeUtility.DegreesToRadians(90);
 
                 currentChargeDuration += time.ElapsedGameTime.Milliseconds;
                 if (currentChargeDuration >= 5000)

@@ -235,7 +235,7 @@ namespace StardewRoguelike.Bosses
                 moveVector *= Roguelike.HardMode ? 11f : 8f;
 
                 Position += moveVector;
-                rotation = BossManager.VectorToRadians(moveVector) + BossManager.DegreesToRadians(90);
+                rotation = RoguelikeUtility.VectorToRadians(moveVector) + RoguelikeUtility.DegreesToRadians(90);
             }
             else if (currentState == State.LayingEgg)
             {

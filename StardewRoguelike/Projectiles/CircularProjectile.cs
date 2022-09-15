@@ -31,7 +31,7 @@ namespace StardewRoguelike.Projectiles
             Distance.Value = Vector2.Distance(pointOfRotation, startingPosition);
             PointOfRotation.Value = pointOfRotation;
 
-            angle.Value = BossManager.VectorToRadians(pointOfRotation - startingPosition);
+            angle.Value = RoguelikeUtility.VectorToRadians(pointOfRotation - startingPosition);
         }
 
         private void InitNetFields()
