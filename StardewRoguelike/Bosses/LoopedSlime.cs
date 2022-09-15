@@ -50,7 +50,7 @@ namespace StardewRoguelike.Bosses
             set { _difficulty = value; }
         }
 
-        private int totalSlimes;
+        private readonly int totalSlimes;
 
         private int nextBreakHP;
 
@@ -65,10 +65,6 @@ namespace StardewRoguelike.Bosses
             Sprite.LoadTexture(TextureName);
             Scale = 3f;
             color.Value = new Color(Game1.random.Next(180, 250), 20, 120);
-
-            Health = (int)Math.Round(3000 * Difficulty);
-            MaxHealth = Health;
-            DamageToFarmer = (int)Math.Round(20 * Difficulty);
 
             moveTowardPlayerThreshold.Value = 20;
 

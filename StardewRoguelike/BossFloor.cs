@@ -1,4 +1,4 @@
-﻿using StardewRoguelike.Bosses;
+using StardewRoguelike.Bosses;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
@@ -87,6 +87,9 @@ namespace StardewRoguelike
                 bossType = typeof(LoopedSlime);
 
             Monster boss = (Monster)Activator.CreateInstance(bossType, new object[] { difficulty });
+            boss.MaxHealth = (int)(BossManager.GetBaseHealth(bossType) * difficulty);
+            boss.Health = boss.MaxHealth;
+            boss.DamageToFarmer = (int)(BossManager.GetBaseDamageToFarmer(bossType) * difficulty);
             mine.characters.Add(boss);
         }
 
@@ -100,6 +103,9 @@ namespace StardewRoguelike
             float difficulty = GetLevelDifficulty(mine);
 
             Monster boss = (Monster)Activator.CreateInstance(whichBoss, new object[] { difficulty });
+            boss.MaxHealth = (int)(BossManager.GetBaseHealth(whichBoss) * difficulty);
+            boss.Health = boss.MaxHealth;
+            boss.DamageToFarmer = (int)(BossManager.GetBaseDamageToFarmer(whichBoss) * difficulty);
             mine.characters.Add(boss);
         }
 

@@ -52,6 +52,58 @@ namespace StardewRoguelike.Bosses
             typeof(LoopedSlime)
         };
 
+        internal static int GetBaseDamageToFarmer(Type boss)
+        {
+            if (boss == typeof(TutorialSlime))
+                return 6;
+            else if (boss == typeof(Skelly))
+                return 10;
+            else if (boss == typeof(ThunderKid))
+                return 10;
+            else if (boss == typeof(Dragon))
+                return 25;
+            else if (boss == typeof(BigBug))
+                return 25;
+            else if (boss == typeof(QueenBee))
+                return 25;
+            else if (boss == typeof(ShadowKing))
+                return 30;
+            else if (boss == typeof(Modulosaurus))
+                return 25;
+            else if (boss == typeof(HiddenLurker))
+                return 17;
+            else if (boss == typeof(LoopedSlime))
+                return 20;
+            else
+                throw new Exception("Invalid boss passed.");
+        }
+
+        internal static int GetBaseHealth(Type boss)
+        {
+            if (boss == typeof(TutorialSlime))
+                return 475;
+            else if (boss == typeof(Skelly))
+                return 900;
+            else if (boss == typeof(ThunderKid))
+                return 1150;
+            else if (boss == typeof(Dragon))
+                return 900;
+            else if (boss == typeof(BigBug))
+                return 1680;
+            else if (boss == typeof(QueenBee))
+                return 1700;
+            else if (boss == typeof(ShadowKing))
+                return 5000;
+            else if (boss == typeof(Modulosaurus))
+                return 2850;
+            else if (boss == typeof(HiddenLurker))
+                return GetBaseDamageToFarmer(boss) * (Roguelike.HardMode ? 10 : 7);
+            else if (boss == typeof(LoopedSlime))
+                return 3000;
+            else
+                throw new Exception("Invalid boss passed.");
+        }
+
         public static void MakeBossHealthBar(int Health, int MaxHealth)
         {
             healthBarTexture = new Texture2D(Game1.graphics.GraphicsDevice, 1000.ToUIScale(), 30.ToUIScale());

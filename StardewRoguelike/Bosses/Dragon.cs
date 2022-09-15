@@ -100,10 +100,7 @@ namespace StardewRoguelike.Bosses
             Sprite.LoadTexture(TextureName);
             Scale = 2f;
 
-            Health = (int)Math.Round(900 * Difficulty);
-            MaxHealth = Health;
-            DamageToFarmer = (int)Math.Round(25 * Difficulty);
-            originalDamageToFarmer = DamageToFarmer;
+            originalDamageToFarmer = (int)(BossManager.GetBaseDamageToFarmer(GetType()) * Difficulty);
             timeUntilNextAttack = 6000;
             moveTowardPlayerThreshold.Value = 20;
         }
