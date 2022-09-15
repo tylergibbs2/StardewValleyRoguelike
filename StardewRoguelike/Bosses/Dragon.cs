@@ -81,11 +81,9 @@ namespace StardewRoguelike.Bosses
 
         private int currentChargeDuration;
 
-        private int width;
+        private readonly int width;
 
-        private int height;
-
-        private int originalDamageToFarmer;
+        private readonly int height;
 
         public Dragon() { }
 
@@ -276,7 +274,7 @@ namespace StardewRoguelike.Bosses
             }
             else if (currentState == State.Charging)
             {
-                if (DamageToFarmer == originalDamageToFarmer)
+                if (DamageToFarmer == (int)(BossManager.GetBaseDamageToFarmer((currentLocation as MineShaft), GetType()) * Difficulty))
                     DamageToFarmer = (int)Math.Round(DamageToFarmer * 1.5f);
 
                 Vector2 chargeVector = Player.GetBoundingBox().Center.ToVector2() - GetBoundingBox().Center.ToVector2();
