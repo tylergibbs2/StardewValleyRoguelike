@@ -584,6 +584,8 @@ namespace StardewRoguelike
                 boots.onUnequip();
             }
 
+            Game1.player.resilience = 0;
+
             Game1.player.leftRing.Set(null);
             Game1.player.rightRing.Set(null);
             Game1.player.boots.Set(null);
