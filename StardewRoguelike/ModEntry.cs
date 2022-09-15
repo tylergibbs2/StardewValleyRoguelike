@@ -46,7 +46,7 @@ namespace StardewRoguelike
         /// </summary>
         public static readonly Stats Stats = new();
 
-        public static readonly bool DebugMode = true;
+        public static readonly bool DebugMode = false;
 
         public static bool Invincible = false;
 
