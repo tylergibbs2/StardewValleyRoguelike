@@ -1,4 +1,4 @@
-using StardewRoguelike.Bosses;
+﻿using StardewRoguelike.Bosses;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
@@ -66,7 +66,15 @@ namespace StardewRoguelike
                 return DebugCommands.ForcedDifficulty;
 
             float modifier = 1f + (Roguelike.HardMode ? 0.25f : 0f);
-            return (float)Math.Round(level / (float)Roguelike.ScalingOrder[^1], 2) + modifier;
+            float difficulty = (float)Math.Round(level / (float)Roguelike.ScalingOrder[^1], 2) + modifier;
+
+            if (level > Roguelike.ScalingOrder[^1])
+            {
+                int levelsPostLoop = Roguelike.ScalingOrder[^1] - level;
+                difficulty += 0.25f * (levelsPostLoop / 6f);
+            }
+
+            return difficulty;
         }
 
         /// <summary>
@@ -87,9 +95,9 @@ namespace StardewRoguelike
                 bossType = typeof(LoopedSlime);
 
             Monster boss = (Monster)Activator.CreateInstance(bossType, new object[] { difficulty });
-            boss.MaxHealth = (int)(BossManager.GetBaseHealth(bossType) * difficulty);
+            boss.MaxHealth = (int)(BossManager.GetBaseHealth(mine, bossType) * difficulty);
             boss.Health = boss.MaxHealth;
-            boss.DamageToFarmer = (int)(BossManager.GetBaseDamageToFarmer(bossType) * difficulty);
+            boss.DamageToFarmer = (int)(BossManager.GetBaseDamageToFarmer(mine, bossType) * difficulty);
             mine.characters.Add(boss);
         }
 
@@ -103,9 +111,9 @@ namespace StardewRoguelike
             float difficulty = GetLevelDifficulty(mine);
 
             Monster boss = (Monster)Activator.CreateInstance(whichBoss, new object[] { difficulty });
-            boss.MaxHealth = (int)(BossManager.GetBaseHealth(whichBoss) * difficulty);
+            boss.MaxHealth = (int)(BossManager.GetBaseHealth(mine, whichBoss) * difficulty);
             boss.Health = boss.MaxHealth;
-            boss.DamageToFarmer = (int)(BossManager.GetBaseDamageToFarmer(whichBoss) * difficulty);
+            boss.DamageToFarmer = (int)(BossManager.GetBaseDamageToFarmer(mine, whichBoss) * difficulty);
             mine.characters.Add(boss);
         }
 

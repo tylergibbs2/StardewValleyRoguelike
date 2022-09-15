@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Netcode;
 using StardewRoguelike.Extensions;
 using StardewValley;
+using StardewValley.Locations;
 using StardewValley.Monsters;
 using StardewValley.Projectiles;
 using System;
@@ -100,7 +101,6 @@ namespace StardewRoguelike.Bosses
             Sprite.LoadTexture(TextureName);
             Scale = 2f;
 
-            originalDamageToFarmer = (int)(BossManager.GetBaseDamageToFarmer(GetType()) * Difficulty);
             timeUntilNextAttack = 6000;
             moveTowardPlayerThreshold.Value = 20;
         }
@@ -144,7 +144,8 @@ namespace StardewRoguelike.Bosses
             if (currentState.Value == State.Normal)
             {
                 base.behaviorAtGameTick(time);
-                DamageToFarmer = originalDamageToFarmer;
+                if (currentLocation is MineShaft mine)
+                    DamageToFarmer = (int)(BossManager.GetBaseDamageToFarmer(mine, GetType()) * Difficulty);
             }
 
             if (currentState.Value == State.ChargingUp || currentState.Value == State.Attacking)

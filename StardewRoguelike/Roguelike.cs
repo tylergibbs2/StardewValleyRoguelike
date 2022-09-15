@@ -90,7 +90,14 @@ namespace StardewRoguelike
             int level = GetLevelFromMineshaft(mine);
 
             if (level >= ScalingOrder[^1])
-                monster.DamageToFarmer = (int)(monster.DamageToFarmer * BossFloor.GetLevelDifficulty(level));
+            {
+                int levelsPostLoop = ScalingOrder[^1] - level;
+                int postLoopHealth = Math.Min((int)(Game1.random.Next(550, 650) * (1 + (levelsPostLoop / 48f))), 1000);
+                monster.MaxHealth = Math.Max(monster.MaxHealth, postLoopHealth);
+                monster.Health = monster.MaxHealth;
+                monster.DamageToFarmer = Math.Max(monster.DamageToFarmer, (int)(25 * BossFloor.GetLevelDifficulty(level)));
+            }
+
             if (HardMode)
                 monster.DamageToFarmer += (int)Math.Round(monster.DamageToFarmer * 0.25f);
 

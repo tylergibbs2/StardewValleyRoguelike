@@ -52,8 +52,12 @@ namespace StardewRoguelike.Bosses
             typeof(LoopedSlime)
         };
 
-        internal static int GetBaseDamageToFarmer(Type boss)
+        internal static int GetBaseDamageToFarmer(MineShaft mine, Type boss)
         {
+            int level = Roguelike.GetLevelFromMineshaft(mine);
+            if (level > Roguelike.ScalingOrder[^1] + 6)
+                return 27;
+
             if (boss == typeof(TutorialSlime))
                 return 6;
             else if (boss == typeof(Skelly))
@@ -78,8 +82,12 @@ namespace StardewRoguelike.Bosses
                 throw new Exception("Invalid boss passed.");
         }
 
-        internal static int GetBaseHealth(Type boss)
+        internal static int GetBaseHealth(MineShaft mine, Type boss)
         {
+            int level = Roguelike.GetLevelFromMineshaft(mine);
+            if (level > Roguelike.ScalingOrder[^1] + 6)
+                return 3000;
+
             if (boss == typeof(TutorialSlime))
                 return 475;
             else if (boss == typeof(Skelly))
@@ -97,7 +105,7 @@ namespace StardewRoguelike.Bosses
             else if (boss == typeof(Modulosaurus))
                 return 2850;
             else if (boss == typeof(HiddenLurker))
-                return GetBaseDamageToFarmer(boss) * (Roguelike.HardMode ? 10 : 7);
+                return GetBaseDamageToFarmer(mine, boss) * (Roguelike.HardMode ? 10 : 7);
             else if (boss == typeof(LoopedSlime))
                 return 3000;
             else
