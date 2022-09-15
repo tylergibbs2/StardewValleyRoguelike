@@ -148,6 +148,8 @@ namespace StardewRoguelike.ChallengeFloors
 
         }
 
+        public override bool ShouldSpawnLadder(MineShaft mine) => false;
+
         public void RenderTimer(object sender, RenderedHudEventArgs e)
         {
             string timeText = $"{SecondsTaken}.{Math.Min((int)(msCounter / 100), 9)}s";
