@@ -81,6 +81,15 @@ namespace StardewRoguelike
                     dialogueLocation.X += 32;
                     dialogueLocation.Y -= 16;
                     mine.DrawSpeechBubble(dialogueLocation, "Welcome to The Abyss", 400);
+
+                    if (!Roguelike.HardMode)
+                    {
+                        Vector2 signTile = new(38, 14);
+                        Sign sign = new(signTile, 38);
+                        sign.displayItem.Value = new StardewValley.Object(773, 1);
+                        sign.displayType.Value = 1;
+                        mine.Objects.Add(signTile, sign);
+                    }
                 }
                 else if (level == Roguelike.ScalingOrder[0])
                 {
