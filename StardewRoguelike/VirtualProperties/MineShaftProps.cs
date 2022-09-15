@@ -134,6 +134,18 @@ namespace StardewRoguelike.VirtualProperties
         }
     }
 
+    public static class MineShaftLoadedMap
+    {
+        internal class Holder { public readonly NetString Value = new(); }
+
+        internal static ConditionalWeakTable<MineShaft, Holder> values = new();
+
+        public static NetString get_MineShaftLoadedMap(this MineShaft mine)
+        {
+            return values.GetOrCreateValue(mine).Value;
+        }
+    }
+
     public static class MineShaftDwarfGates
     {
         internal class Holder { public readonly NetObjectList<DwarfGate> Value = new(); }

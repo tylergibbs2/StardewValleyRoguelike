@@ -20,7 +20,8 @@ namespace StardewRoguelike.Patches
                 __instance.get_MineShaftChallengeFloor(),
                 __instance.get_MineShaftIsChallengeFloor(),
                 __instance.get_MineShaftDwarfGates(),
-                __instance.get_MineShaftNetChests()
+                __instance.get_MineShaftNetChests(),
+                __instance.get_MineShaftLoadedMap()
             );
         }
     }

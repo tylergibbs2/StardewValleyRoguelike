@@ -22,7 +22,9 @@ namespace StardewRoguelike.Patches
             bool isQuarryArea = false;
             bool isDinoArea = false;
 
-            __instance.mapPath.Value = "Maps\\Mines\\" + Roguelike.GetMapPath(__instance, avoidWater: __instance.get_MineShaftIsDarkArea());
+            string mapToLoad = Roguelike.GetMapPath(__instance, avoidWater: __instance.get_MineShaftIsDarkArea());
+            __instance.mapPath.Value = "Maps\\Mines\\" + mapToLoad;
+            __instance.get_MineShaftLoadedMap().Value = mapToLoad;
             __instance.updateMap();
 
             if (__instance.getMineArea(level) < 40 && !BossFloor.IsBossFloor(__instance))
