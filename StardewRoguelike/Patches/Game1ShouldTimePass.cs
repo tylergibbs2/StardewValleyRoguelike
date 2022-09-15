@@ -19,7 +19,7 @@ namespace StardewRoguelike.Patches
                 __result = false;
                 return false;
             }
-            if (Game1.activeClickableMenu is DialogueBox || Game1.player.isEating)
+            if (Game1.activeClickableMenu is DialogueBox || Game1.activeClickableMenu is ItemGrabMenu || Game1.player.isEating)
             {
                 __result = false;
                 return false;
