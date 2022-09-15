@@ -2,6 +2,7 @@
 using Netcode;
 using StardewModdingAPI;
 using StardewRoguelike.Extensions;
+using StardewRoguelike.Patches;
 using StardewRoguelike.TerrainFeatures;
 using StardewRoguelike.VirtualProperties;
 using StardewValley;
@@ -31,11 +32,13 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override Vector2? SpawnLocation => new(6, 49);
 
-        private NetInt InitializedRoomType = new(-1);
+        private readonly NetEnum<RoomType> InitializedRoomType = new();
 
-        private NetInt InaccessibleRoomType = new(-1);
+        private readonly NetEnum<RoomType> InaccessibleRoomType = new();
 
-        private NetBool IsLeftSide = new();
+        private readonly NetBool IsLeftSide = new();
+
+        private readonly NetBool ShouldSpawnRooms = new();
 
         private MineShaft Location;
 
@@ -55,12 +58,16 @@ namespace StardewRoguelike.ChallengeFloors
 
         private int tickCounter = 0;
 
+        public CurseType? CurseToAdd { get; private set; }
+
+        public ShopMenu CurrentShop { get; private set; }
+
         public PickAPath() : base() { }
 
         protected override void initNetFields()
         {
             base.initNetFields();
-            NetFields.AddFields(InitializedRoomType, InaccessibleRoomType, IsLeftSide);
+            NetFields.AddFields(InitializedRoomType, InaccessibleRoomType, IsLeftSide, ShouldSpawnRooms);
         }
 
         public void OnGateOpen(Point point)
@@ -72,6 +79,24 @@ namespace StardewRoguelike.ChallengeFloors
         public override void Initialize(MineShaft mine)
         {
             Location = mine;
+
+            var validRoomTypes = new List<RoomType>((IEnumerable<RoomType>)Enum.GetValues(typeof(RoomType)));
+
+            RoomType otherRoom = validRoomTypes[Roguelike.FloorRng.Next(validRoomTypes.Count)];
+
+            if (!Context.IsMultiplayer && Game1.player.health == Game1.player.maxHealth)
+                validRoomTypes.Remove(RoomType.HealingStatue);
+            if (!Context.IsMultiplayer && !Curse.HasAnyCurse())
+                validRoomTypes.Remove(RoomType.Cauldron);
+
+            RoomType roomType;
+            do
+            {
+                roomType = validRoomTypes[Roguelike.FloorRng.Next(validRoomTypes.Count)];
+            } while (roomType == otherRoom);
+
+            InitializedRoomType.Value = roomType;
+            InaccessibleRoomType.Value = otherRoom;
 
             gateLeft = mine.CreateDwarfGate(1, new(15, 37), new(15, 40));
             gateRight = mine.CreateDwarfGate(1, new(24, 37), new(24, 40));
@@ -86,6 +111,10 @@ namespace StardewRoguelike.ChallengeFloors
         {
             base.PlayerEntered(mine);
             Location = mine;
+
+            CurseToAdd = Curse.GetRandomUniqueCurse(Roguelike.FloorRng);
+            CurrentShop = new(Merchant.GetMerchantStock(0.5f, Roguelike.FloorRng), context: "Blacksmith", on_purchase: OpenShopPatch.OnPurchase);
+            CurrentShop.setUpStoreForContext();
         }
 
         private void SpawnRoomType(RoomType roomType, MineShaft mine, Point originPoint)
@@ -114,21 +143,17 @@ namespace StardewRoguelike.ChallengeFloors
 
         public override void Update(MineShaft mine, GameTime time)
         {
-            if (!initialized && InitializedRoomType.Value >= 0)
+            if (!initialized && ShouldSpawnRooms.Value)
             {
                 Point originPoint = IsLeftSide.Value ? new(8, 7) : new(27, 7);
-
-                RoomType roomType = (RoomType)InitializedRoomType.Value;
-                SpawnRoomType(roomType, mine, originPoint);
+                SpawnRoomType(InitializedRoomType.Value, mine, originPoint);
 
                 initialized = true;
             }
-            else if (!initializedOtherRoom && InaccessibleRoomType.Value >= 0)
+            else if (!initializedOtherRoom && ShouldSpawnRooms.Value)
             {
                 Point originPoint = !IsLeftSide.Value ? new(8, 7) : new(27, 7);
-
-                RoomType roomType = (RoomType)InaccessibleRoomType.Value;
-                SpawnRoomType(roomType, mine, originPoint);
+                SpawnRoomType(InaccessibleRoomType.Value, mine, originPoint);
 
                 initializedOtherRoom = true;
             }
@@ -140,12 +165,12 @@ namespace StardewRoguelike.ChallengeFloors
             if (tickCounter > 60)
                 tickCounter = 0;
 
-            if (InitializedRoomType.Value == (int)RoomType.Monsters && !spawnedLadder && tickCounter == 0)
+            if (InitializedRoomType.Value == RoomType.Monsters && !spawnedLadder && tickCounter == 0)
             {
                 if (mine.EnemyCount == 0)
                     SpawnLadder();
             }
-            else if (InitializedRoomType.Value != (int)RoomType.Monsters && !spawnedLadder)
+            else if (InitializedRoomType.Value != RoomType.Monsters && !spawnedLadder)
                 SpawnLadder();
         }
 
@@ -165,6 +190,68 @@ namespace StardewRoguelike.ChallengeFloors
                     Game1.player.health = Game1.player.maxHealth;
                     Game1.playSound("yoba");
                     return true;
+                }
+                else if (actionParams[0] == "CursesDiscounted" && !mine.get_MineShaftUsedFortune())
+                {
+                    if (Curse.HasAllCurses() || !CurseToAdd.HasValue)
+                    {
+                        Game1.drawObjectDialogue("You have every otherworldly power known to mankind.");
+                        return true;
+                    }
+
+                    int hpNeeded = 10;
+                    int goldNeeded = 350;
+
+                    var responses = new Response[3]
+                    {
+                    new Response("YesGold", $"Yes [{goldNeeded}G]"),
+                    new Response("YesHP", $"Yes [{hpNeeded} Max HP]"),
+                    new Response("No", Game1.content.LoadString("Strings\\Lexicon:QuestionDialogue_No"))
+                    };
+
+                    mine.createQuestionDialogue("Would you like me to grant you an otherworldly ability for a *super* low price?", responses, "discountedCursePurchase");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public override bool AnswerDialogueAction(MineShaft mine, string questionAndAnswer, string[] questionParams)
+        {
+            if (questionAndAnswer.StartsWith("discountedCursePurchase"))
+            {
+                int hpNeeded = 10;
+                int goldNeeded = 350;
+
+                bool paid = false;
+
+                if (questionAndAnswer == "discountedCursePurchase_YesHP")
+                {
+                    if (Game1.player.maxHealth > hpNeeded)
+                    {
+                        Roguelike.TrueMaxHP -= hpNeeded;
+                        paid = true;
+                    }
+                    else
+                        Game1.drawObjectDialogue("You do not have enough HP.");
+                }
+                else if (questionAndAnswer == "discountedCursePurchase_YesGold")
+                {
+                    if (Game1.player.Money >= goldNeeded)
+                    {
+                        Game1.player.Money -= goldNeeded;
+                        paid = true;
+                    }
+                    else
+                        Game1.drawObjectDialogue("You do not have enough money.");
+                }
+
+                if (paid)
+                {
+                    Curse.AddCurse(CurseToAdd.Value);
+                    Game1.playSound("debuffSpell");
+                    mine.set_MineShaftUsedFortune(true);
                 }
             }
 
@@ -196,33 +283,17 @@ namespace StardewRoguelike.ChallengeFloors
 
         public void InitializeRooms()
         {
-            var validRoomTypes = new List<RoomType>((IEnumerable<RoomType>)Enum.GetValues(typeof(RoomType)));
-
-            RoomType otherRoom = validRoomTypes[Roguelike.FloorRng.Next(validRoomTypes.Count)];
-
-            if (!Context.IsMultiplayer && Game1.player.health == Game1.player.maxHealth)
-                validRoomTypes.Remove(RoomType.HealingStatue);
-            if (!Context.IsMultiplayer && !Curse.HasAnyCurse())
-                validRoomTypes.Remove(RoomType.Cauldron);
-
-            RoomType roomType;
-            do
-            {
-                roomType = validRoomTypes[Roguelike.FloorRng.Next(validRoomTypes.Count)];
-            } while (roomType == otherRoom);
-
-            InitializedRoomType.Value = (int)roomType;
-            InaccessibleRoomType.Value = (int)otherRoom;
-
-            if (roomType == RoomType.Monsters)
+            if (InitializedRoomType.Value == RoomType.Monsters)
                 SpawnMonsters(Location, IsLeftSide.Value ? new(8, 7) : new(27, 7));
-            else if (otherRoom == RoomType.Monsters)
+            else if (InaccessibleRoomType.Value == RoomType.Monsters)
                 SpawnMonsters(Location, !IsLeftSide.Value ? new(8, 7) : new(27, 7));
 
-            if (roomType == RoomType.Cauldron)
+            if (InitializedRoomType.Value == RoomType.Cauldron)
                 SpawnCauldron(Location, IsLeftSide.Value ? new(8, 7) : new(27, 7));
-            else if (otherRoom == RoomType.Cauldron)
+            else if (InaccessibleRoomType.Value == RoomType.Cauldron)
                 SpawnCauldron(Location, !IsLeftSide.Value ? new(8, 7) : new(27, 7));
+
+            ShouldSpawnRooms.Value = true;
         }
 
         public void SpawnMerchant(MineShaft mine, Point topLeftTile)
@@ -304,8 +375,6 @@ namespace StardewRoguelike.ChallengeFloors
 
         public void SpawnCurseTeller(MineShaft mine, Point topLeftTile)
         {
-            Merchant.CurseToAdd = Curse.GetRandomUniqueCurse();
-
             var (xOrigin, yOrigin) = topLeftTile;
 
             mine.SetTile(xOrigin + 2, yOrigin + 1, "Front", "z_Festivals", 473);
@@ -313,8 +382,8 @@ namespace StardewRoguelike.ChallengeFloors
             mine.SetTile(xOrigin + 2, yOrigin + 2, "Buildings", "z_Festivals", 505);
             mine.SetTile(xOrigin + 3, yOrigin + 2, "Buildings", "z_Festivals", 506);
 
-            mine.setTileProperty(xOrigin + 2, yOrigin + 2, "Buildings", "Action", "Curses");
-            mine.setTileProperty(xOrigin + 3, yOrigin + 2, "Buildings", "Action", "Curses");
+            mine.setTileProperty(xOrigin + 2, yOrigin + 2, "Buildings", "Action", "CursesDiscounted");
+            mine.setTileProperty(xOrigin + 3, yOrigin + 2, "Buildings", "Action", "CursesDiscounted");
         }
 
         public void SpawnWheel(MineShaft mine, Point topLeftTile)

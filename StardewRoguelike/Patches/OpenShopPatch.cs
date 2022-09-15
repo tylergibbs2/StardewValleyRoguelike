@@ -1,6 +1,8 @@
-﻿using StardewRoguelike.UI;
+﻿using StardewRoguelike.ChallengeFloors;
+using StardewRoguelike.UI;
+using StardewRoguelike.VirtualProperties;
 using StardewValley;
-using StardewValley.Menus;
+using StardewValley.Locations;
 using System.Linq;
 using System.Reflection;
 
@@ -18,8 +20,11 @@ namespace StardewRoguelike.Patches
             return false;
         }
 
-        public static bool Prefix(ref bool __result, string which)
+        public static bool Prefix(GameLocation __instance, ref bool __result, string which)
         {
+            if (__instance is not MineShaft mine)
+                return true;
+
             if (which.Equals("Roguelike"))
             {
                 if (Merchant.CurrentShop is not RefreshableShopMenu && Perks.HasPerk(Perks.PerkType.Indecisive))
@@ -41,15 +46,10 @@ namespace StardewRoguelike.Patches
                 __result = true;
                 return false;
             }
-            else if (which.Equals("RoguelikeDiscounted"))
+            else if (which.Equals("RoguelikeDiscounted") && ChallengeFloor.IsChallengeFloor(mine))
             {
-                if (Merchant.CurrentShop is null)
-                {
-                    ShopMenu menu = new(Merchant.GetMerchantStock(0.5f, Roguelike.FloorRng), context: "Blacksmith", on_purchase: OnPurchase);
-                    menu.setUpStoreForContext();
-                    Merchant.CurrentShop = menu;
-                }
-                Game1.activeClickableMenu = Merchant.CurrentShop;
+                PickAPath pickAPath = (PickAPath)mine.get_MineShaftChallengeFloor().Value;
+                Game1.activeClickableMenu = pickAPath.CurrentShop;
 
                 __result = true;
                 return false;
