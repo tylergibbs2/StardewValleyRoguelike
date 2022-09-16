@@ -71,6 +71,23 @@ namespace StardewRoguelike.Patches
 
             int monstersSpawned = 0;
 
+            if (level == 8)
+            {
+                bool spawnedTimedChest = false;
+                while (!spawnedTimedChest)
+                {
+                    Vector2 tile = new(Roguelike.FloorRng.Next(__instance.Map.Layers[0].LayerWidth), Roguelike.FloorRng.Next(__instance.Map.Layers[0].LayerHeight));
+                    if (!__instance.isTileClearForMineObjects(tile))
+                        continue;
+
+                    // 5 minutes into the run
+                    long openBy = ((DateTimeOffset)ModEntry.Stats.StartTime).ToUnixTimeSeconds() + 300;
+                    __instance.SpawnLocalChest(tile, openBy);
+
+                    spawnedTimedChest = true;
+                }
+            }
+
             int barrelsAdded = 0;
             bool firstTime = true;
             if (mineRandom.NextDouble() < 0.55 + (Game1.player.team.AverageLuckLevel() / 100))
@@ -194,7 +211,7 @@ namespace StardewRoguelike.Patches
 
                             if (level % 48 >= Roguelike.DangerousThreshold)
                                 monsterToAdd.DamageToFarmer = (int)Math.Round(monsterToAdd.DamageToFarmer * 1.75f);
-                            
+
                             monstersSpawned++;
                             __instance.characters.Add(monsterToAdd);
                         }

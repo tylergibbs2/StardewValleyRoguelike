@@ -99,6 +99,9 @@ namespace StardewRoguelike
             if (DebugCommands.ForcedChallengeIndex != -1)
                 return true;
 
+            if (level == 8)
+                return false;
+
             if (HadChallengeFloorSinceLastMerchant(level))
                 return false;
 
