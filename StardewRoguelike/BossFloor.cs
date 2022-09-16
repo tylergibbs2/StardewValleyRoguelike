@@ -85,10 +85,21 @@ namespace StardewRoguelike
         public static void SpawnBoss(MineShaft mine)
         {
             Type bossType;
-            int level = Roguelike.GetLevelFromMineshaft(mine);
-            int index = GetBossIndexForFloor(level);
 
-            bossType = BossManager.mainBossTypes[index];
+            if (DebugCommands.ForcedBossIndex != -1)
+            {
+                var bosses = BossManager.GetFlattenedBosses();
+                bossType = bosses[DebugCommands.ForcedBossIndex];
+            }
+            else
+            {
+                int level = Roguelike.GetLevelFromMineshaft(mine);
+                int index = GetBossIndexForFloor(level);
+
+                var bossOptions = BossManager.mainBossTypes[index];
+                bossType = bossOptions[Roguelike.FloorRng.Next(bossOptions.Count)];
+            }
+
             float difficulty = GetLevelDifficulty(mine);
 
             if (bossType == typeof(TutorialSlime) && difficulty >= 2f)
@@ -126,8 +137,8 @@ namespace StardewRoguelike
         {
             foreach (NPC character in location.characters)
             {
-                if (BossManager.mainBossTypes.Contains(character.GetType()) || BossManager.miscBossTypes.Contains(character.GetType()))
-                    return ((IBossMonster)character).MapPath;
+                if (character is IBossMonster boss)
+                    return boss.MapPath;
             }
 
             return "";
@@ -142,8 +153,8 @@ namespace StardewRoguelike
         {
             foreach (NPC character in location.characters)
             {
-                if (BossManager.mainBossTypes.Contains(character.GetType()) || BossManager.miscBossTypes.Contains(character.GetType()))
-                    return ((IBossMonster)character).MusicTracks;
+                if (character is IBossMonster boss)
+                    return boss.MusicTracks;
             }
 
             return new() { "none" };

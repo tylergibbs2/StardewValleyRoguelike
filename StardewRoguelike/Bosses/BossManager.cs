@@ -34,16 +34,16 @@ namespace StardewRoguelike.Bosses
 
         private static int previousHealth;
 
-        public static readonly List<Type> mainBossTypes = new()
+        public static readonly List<List<Type>> mainBossTypes = new()
         {
-            typeof(TutorialSlime),
-            typeof(Skelly),
-            typeof(ThunderKid),
-            typeof(Dragon),
-            typeof(BigBug),
-            typeof(QueenBee),
-            typeof(ShadowKing),
-            typeof(Modulosaurus)
+            new() { typeof(TutorialSlime) },
+            new() { typeof(Skelly) },
+            new() { typeof(ThunderKid) },
+            new() { typeof(Dragon) },
+            new() { typeof(BigBug) },
+            new() { typeof(QueenBee) },
+            new() { typeof(ShadowKing) },
+            new() { typeof(Modulosaurus) }
         };
 
         public static readonly List<Type> miscBossTypes = new()
@@ -51,6 +51,15 @@ namespace StardewRoguelike.Bosses
             typeof(HiddenLurker),
             typeof(LoopedSlime)
         };
+
+        public static List<Type> GetFlattenedBosses()
+        {
+            var flattened = new List<Type>();
+            foreach (var bossList in mainBossTypes)
+                flattened.AddRange(bossList);
+
+            return flattened;
+        }
 
         internal static int GetBaseDamageToFarmer(MineShaft mine, Type boss)
         {
@@ -179,22 +188,20 @@ namespace StardewRoguelike.Bosses
 
         public static void PlayerWarped(object sender, WarpedEventArgs e)
         {
-            IBossMonster boss = null;
+            bool foundBoss = false;
             foreach (NPC character in Game1.player.currentLocation.characters)
             {
-                if (mainBossTypes.Contains(character.GetType()) || miscBossTypes.Contains(character.GetType()))
+                if (character is IBossMonster boss)
                 {
-                    boss = (IBossMonster)character;
+                    foundBoss = true;
+                    if (boss.InitializeWithHealthbar)
+                        StartRenderHealthBar();
+
                     break;
                 }
             }
 
-            if (boss is not null)
-            {
-                if (boss.InitializeWithHealthbar)
-                    StartRenderHealthBar();
-            }
-            else
+            if (!foundBoss)
             {
                 StopRenderHealthBar();
                 if (e.NewLocation is not null)
@@ -216,20 +223,15 @@ namespace StardewRoguelike.Bosses
 
         public static void WindowResized(object sender, WindowResizedEventArgs e)
         {
-            Monster boss = null;
             foreach (NPC character in Game1.player.currentLocation.characters)
             {
-                if (mainBossTypes.Contains(character.GetType()) || miscBossTypes.Contains(character.GetType()))
+                if (character is IBossMonster boss)
                 {
-                    boss = (Monster)character;
+                    MakeBossHealthBar((boss as Monster).Health, (boss as Monster).MaxHealth);
                     break;
                 }
             }
 
-            if (boss is null)
-                return;
-
-            MakeBossHealthBar(boss.Health, boss.MaxHealth);
         }
 
         public static void RenderHealthBar(object sender, RenderedHudEventArgs e)
@@ -237,7 +239,7 @@ namespace StardewRoguelike.Bosses
             Monster boss = null;
             foreach (NPC character in Game1.player.currentLocation.characters)
             {
-                if (mainBossTypes.Contains(character.GetType()) || miscBossTypes.Contains(character.GetType()))
+                if (character is IBossMonster)
                 {
                     boss = (Monster)character;
                     break;

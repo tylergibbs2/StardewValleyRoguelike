@@ -171,8 +171,9 @@ namespace StardewRoguelike
                     if (args.Length == 1)
                     {
                         ModEntry.ModMonitor.Log($"-1 = disabled", LogLevel.Info);
-                        for (int i = 0; i < BossManager.mainBossTypes.Count; i++)
-                            ModEntry.ModMonitor.Log($"{i} = {BossManager.mainBossTypes[i]}", LogLevel.Info);
+                        var bosses = BossManager.GetFlattenedBosses();
+                        for (int i = 0; i < bosses.Count; i++)
+                            ModEntry.ModMonitor.Log($"{i} = {bosses[i]}", LogLevel.Info);
                     }
                     else
                         ForcedBossIndex = int.Parse(args[1]);
