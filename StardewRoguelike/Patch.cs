@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -23,6 +24,21 @@ namespace StardewRoguelike
             public PatchDescriptor(Type targetType, string targetMethodName, Type[] targetMethodArguments = null)
             {
                 this.targetType = targetType;
+                this.targetMethodName = targetMethodName;
+                this.targetMethodArguments = targetMethodArguments;
+            }
+
+            public PatchDescriptor(List<string> possibleTypes, string targetMethodName, Type[] targetMethodArguments = null)
+            {
+                foreach (var type in possibleTypes)
+                {
+                    if (AccessTools.TypeByName(type) is Type foundType)
+                    {
+                        targetType = foundType;
+                        break;
+                    }
+                }
+
                 this.targetMethodName = targetMethodName;
                 this.targetMethodArguments = targetMethodArguments;
             }

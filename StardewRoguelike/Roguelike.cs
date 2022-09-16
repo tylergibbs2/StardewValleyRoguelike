@@ -315,6 +315,7 @@ namespace StardewRoguelike
             ModEntry.Stats.FloorsDescended = GetHighestMineShaftLevel();
             Merchant.CurrentShop = null;
             Perks.CurrentMenu = null;
+            ForgeFloor.CurrentForge = null;
 
             if (FloorsIncreaseGoldMax.Contains(CurrentLevel))
                 GoldDropMax++;

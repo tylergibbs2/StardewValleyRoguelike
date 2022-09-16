@@ -1,4 +1,5 @@
-﻿using StardewValley;
+﻿using StardewRoguelike.UI;
+using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using System.Collections.Generic;
@@ -33,7 +34,8 @@ namespace StardewRoguelike.Patches
 				}
 				else if (ForgeFloor.IsForgeFloor(__instance) && ((uint)(tile.TileIndex - 123) <= 1u || (uint)(tile.TileIndex - 133) <= 1u || (uint)(tile.TileIndex - 156) <= 1u))
 				{
-					Game1.activeClickableMenu = new ForgeMenu();
+					ForgeFloor.CurrentForge ??= new();
+					Game1.activeClickableMenu = ForgeFloor.CurrentForge;
 					__result = true;
 					return false;
 				}

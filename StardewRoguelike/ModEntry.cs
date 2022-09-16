@@ -104,6 +104,7 @@ namespace StardewRoguelike
             { "Maps/Festivals", "assets/Maps/Festivals.png" },
             { "TileSheets/Projectiles", "assets/TileSheets/Projectiles.png" },
             { "LooseSprites/Cursors", "assets/TileSheets/Cursors.png" },
+            { "LooseSprites/ForgeMenu", "assets/TileSheets/ForgeMenu.png" },
             { "TerrainFeatures/CleansingCauldron", "assets/TileSheets/Cauldron.png" },
             { "TerrainFeatures/CleansingCauldronEmpty", "assets/TileSheets/CauldronEmpty.png" },
             { "TerrainFeatures/SpeedPad", "assets/TileSheets/speedrun_pads.png" },
