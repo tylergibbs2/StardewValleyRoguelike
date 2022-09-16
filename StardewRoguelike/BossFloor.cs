@@ -85,6 +85,7 @@ namespace StardewRoguelike
         public static void SpawnBoss(MineShaft mine)
         {
             Type bossType;
+            int level = Roguelike.GetLevelFromMineshaft(mine);
 
             if (DebugCommands.ForcedBossIndex != -1)
             {
@@ -93,7 +94,6 @@ namespace StardewRoguelike
             }
             else
             {
-                int level = Roguelike.GetLevelFromMineshaft(mine);
                 int index = GetBossIndexForFloor(level);
 
                 var bossOptions = BossManager.mainBossTypes[index];
@@ -102,7 +102,7 @@ namespace StardewRoguelike
 
             float difficulty = GetLevelDifficulty(mine);
 
-            if (bossType == typeof(TutorialSlime) && difficulty >= 2f)
+            if (bossType == typeof(TutorialSlime) && level > Roguelike.ScalingOrder[^1])
                 bossType = typeof(LoopedSlime);
 
             Monster boss = (Monster)Activator.CreateInstance(bossType, new object[] { difficulty });
