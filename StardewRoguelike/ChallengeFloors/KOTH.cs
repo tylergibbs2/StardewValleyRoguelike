@@ -18,15 +18,13 @@ namespace StardewRoguelike.ChallengeFloors
     {
         private readonly int MaxBoxTimer = 15 * 60;
 
-        public override List<string> MapPaths => new() { "custom-defend", "custom-defend2" };
+        public override List<string> MapPaths => new() { "custom-defend", "custom-defend2", "custom-egg" };
 
         public override List<string> GetMusicTracks(MineShaft mine)
         {
             string loadedMap = mine.get_MineShaftLoadedMap().Value;
             if (loadedMap == "custom-defend")
                 return new() { "VolcanoMines" };
-            else if (loadedMap == "custom-defend2")
-                return null;
             else
                 return null;
         }
@@ -35,9 +33,11 @@ namespace StardewRoguelike.ChallengeFloors
         {
             string loadedMap = mine.get_MineShaftLoadedMap().Value;
             if (loadedMap == "custom-defend")
-                return new Vector2(44, 38);
+                return new(44, 38);
             else if (loadedMap == "custom-defend2")
-                return new Vector2(6, 4);
+                return new(6, 4);
+            else if (loadedMap == "custom-egg")
+                return new(37, 8);
             else
                 return null;
         }
@@ -99,6 +99,14 @@ namespace StardewRoguelike.ChallengeFloors
 
                 mine.mapImageSource.Value = isDangerous ? "Maps\\Mines\\mine_slime_dangerous" : "Maps\\Mines\\mine_slime";
             }
+            else if (loadedMap == "custom-egg")
+            {
+                possibleBoxes.Add(new(32 * 64, 38 * 64, 6 * 64, 6 * 64));
+                possibleBoxes.Add(new(49 * 64, 18 * 64, 7 * 64, 4 * 64));
+                possibleBoxes.Add(new(26 * 64, 16 * 64, 3 * 64, 3 * 64));
+
+                possibleBoxes.Shuffle(Roguelike.FloorRng);
+            }
 
             kothBox.Value = possibleBoxes[0];
             possibleBoxes.RemoveAt(0);
@@ -113,7 +121,7 @@ namespace StardewRoguelike.ChallengeFloors
                 kothBoxTexture,
                 Game1.GlobalToLocal(Game1.viewport, new Vector2(kothBox.X, kothBox.Y)),
                 kothBox,
-                Color.Aqua * 0.2f,
+                Color.DarkGray * 0.4f,
                 0f,
                 Vector2.Zero,
                 1f,
@@ -177,6 +185,11 @@ namespace StardewRoguelike.ChallengeFloors
                 mine.createLadderAt(new(35, 33));
                 mine.SpawnLocalChest(new(35, 31));
             }
+            else if (loadedMap == "custom-egg")
+            {
+                mine.createLadderAt(new(39, 32));
+                mine.SpawnLocalChest(new(39, 30));
+            }
 
             ladderSpawned = true;
         }
@@ -215,6 +228,12 @@ namespace StardewRoguelike.ChallengeFloors
             else if (loadedMap == "custom-defend2")
             {
                 Monster monster = mine.BuffMonsterIfNecessary(new GreenSlime(spawnTile * 64f));
+                Roguelike.AdjustMonster(mine, ref monster);
+                return monster;
+            }
+            else if (loadedMap == "custom-egg")
+            {
+                Monster monster = mine.BuffMonsterIfNecessary(mine.getMonsterForThisLevel(mine.mineLevel, (int)spawnTile.X, (int)spawnTile.Y));
                 Roguelike.AdjustMonster(mine, ref monster);
                 return monster;
             }
