@@ -44,7 +44,7 @@ namespace StardewRoguelike.Bosses
             set { _difficulty = value; }
         }
 
-        private double splitChance = 0.25;
+        private double splitChance = 0.225;
 
         private readonly int width;
         private readonly int height;

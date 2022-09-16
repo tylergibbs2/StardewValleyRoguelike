@@ -98,7 +98,7 @@ namespace StardewRoguelike.Bosses
                 return 3000;
 
             if (boss == typeof(TutorialSlime))
-                return 475;
+                return 400;
             else if (boss == typeof(Skelly))
                 return 900;
             else if (boss == typeof(ThunderKid))
