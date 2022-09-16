@@ -92,7 +92,7 @@ namespace StardewRoguelike
             if (level >= ScalingOrder[^1])
             {
                 int levelsPostLoop = ScalingOrder[^1] - level;
-                int postLoopHealth = Math.Min((int)(Game1.random.Next(550, 650) * (1 + (levelsPostLoop / 48f))), 1000);
+                int postLoopHealth = Math.Min((int)(Game1.random.Next(450, 550) * (1 + (levelsPostLoop / 48f))), 1000);
                 monster.MaxHealth = Math.Max(monster.MaxHealth, postLoopHealth);
                 monster.Health = monster.MaxHealth;
                 monster.DamageToFarmer = Math.Max(monster.DamageToFarmer, (int)(25 * BossFloor.GetLevelDifficulty(level)));
