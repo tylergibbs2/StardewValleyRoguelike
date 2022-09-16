@@ -32,6 +32,9 @@ namespace StardewRoguelike
             if (DebugCommands.ForcedChestFloor)
                 return true;
 
+            if (level > 6 && level < 12)
+                return false;
+
             bool previousFloorWasChestFloor = false;
             foreach (MineShaft mine in MineShaft.activeMines)
             {
