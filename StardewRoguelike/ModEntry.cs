@@ -114,6 +114,11 @@ namespace StardewRoguelike
             { "OptionsPage.cs.11281", "Access Perks" }
         };
 
+        private readonly Dictionary<int, string> modifiedObjectInformation = new()
+        {
+            { 896, "Galaxy Soul/2000/-300/Crafting -2/Galaxy Soul/Forge 3 of these into a Galaxy weapon to unleash its final form." }
+        };
+
         /// <summary>
         /// Custom audio files that get loaded into the game.
         /// </summary>
@@ -410,6 +415,15 @@ namespace StardewRoguelike
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
                     foreach (var (key, value) in modifiedStrings)
+                        data[key] = value;
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data\\ObjectInformation"))
+            {
+                e.Edit(editor =>
+                {
+                    IDictionary<int, string> data = editor.AsDictionary<int, string>().Data;
+                    foreach (var (key, value) in modifiedObjectInformation)
                         data[key] = value;
                 });
             }
