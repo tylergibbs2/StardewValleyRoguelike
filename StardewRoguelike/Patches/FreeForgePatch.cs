@@ -91,6 +91,21 @@ namespace StardewRoguelike.Patches
                 usesColor
             );
 
+            if (!__instance.hoverText.Equals(""))
+            {
+                IClickableMenu.drawHoverText(b, __instance.hoverText, Game1.smallFont, (__instance.heldItem != null) ? 32 : 0, (__instance.heldItem != null) ? 32 : 0);
+            }
+            else if (__instance.hoveredItem != null)
+            {
+                if (__instance.hoveredItem == __instance.craftResultDisplay.item && Utility.IsNormalObjectAtParentSheetIndex(__instance.rightIngredientSpot.item, 74))
+                    BaseEnchantment.hideEnchantmentName = true;
+
+                IClickableMenu.drawToolTip(b, __instance.hoveredItem.getDescription(), __instance.hoveredItem.DisplayName, __instance.hoveredItem, __instance.heldItem != null);
+                BaseEnchantment.hideEnchantmentName = false;
+            }
+            if (__instance.heldItem != null)
+                __instance.heldItem.drawInMenu(b, new Vector2(Game1.getOldMouseX() + 8, Game1.getOldMouseY() + 8), 1f);
+
             __instance.drawMouse(b);
         }
     }
