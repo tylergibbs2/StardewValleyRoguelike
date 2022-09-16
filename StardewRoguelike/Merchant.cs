@@ -346,8 +346,8 @@ namespace StardewRoguelike
             int foodPriceOffset = Curse.HasCurse(CurseType.CheaperMerchant) ? -100 : 0;
 
             Utility.AddStock(stock, new StardewValley.Object(194, foodQuantity), buyPrice: (int)((200 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Fried Egg
-            Utility.AddStock(stock, new StardewValley.Object(196, foodQuantity), buyPrice: (int)((250 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Salad
-            Utility.AddStock(stock, new StardewValley.Object(773, foodQuantity), buyPrice: (int)((300 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Life Elixir
+            Utility.AddStock(stock, new StardewValley.Object(196, foodQuantity), buyPrice: (int)((300 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Salad
+            Utility.AddStock(stock, new StardewValley.Object(773, foodQuantity), buyPrice: (int)((500 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Life Elixir
 
             int totalMilksInGame = (Roguelike.MaxHP - Roguelike.StartingHP) / 25;
             int milkQuantity = totalMilksInGame - Roguelike.MilksBought;
