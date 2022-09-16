@@ -171,7 +171,7 @@ namespace StardewRoguelike.Bosses
                     new StardewValley.Object(384, 20 + additionalGold),
                 };
                 if (allFarmersNoHit)
-                    chestItems.Add(new StardewValley.Object(72, 1));
+                    chestItems.Add(new StardewValley.Object(896, 1));
 
                 mine.SpawnLocalChest(chestLocation.Value, chestItems);
             }
