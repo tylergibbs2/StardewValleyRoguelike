@@ -174,7 +174,7 @@ namespace StardewRoguelike
         public static bool ShouldSpawnBackpack(MineShaft mine)
         {
             int level = Roguelike.GetLevelFromMineshaft(mine);
-            return Game1.player.MaxItems == 12 && level >= 48;
+            return Game1.player.MaxItems == 12;
         }
 
         public static bool ShouldSpawnGil(int level)
@@ -245,7 +245,7 @@ namespace StardewRoguelike
             }
             else if (questionAndAnswer == "roguelikeBackpackPurchase_Yes")
             {
-                int goldNeeded = 2500;
+                int goldNeeded = 2000;
 
                 if (Game1.player.Money < goldNeeded)
                     Game1.drawObjectDialogue("You do not have enough money.");
@@ -296,7 +296,7 @@ namespace StardewRoguelike
             else if (action == "RoguelikeBackpack")
             {
                 var responses = mine.createYesNoResponses();
-                mine.createQuestionDialogue("Upgrade backpack for 2500g?", responses, "roguelikeBackpackPurchase");
+                mine.createQuestionDialogue("Upgrade backpack for 2000g?", responses, "roguelikeBackpackPurchase");
                 return true;
             }
             else if (action == "Arcade_Minecart")
