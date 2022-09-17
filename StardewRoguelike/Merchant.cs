@@ -1,6 +1,7 @@
 using Force.DeepCloner;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewRoguelike.Extensions;
 using StardewRoguelike.Patches;
@@ -82,7 +83,7 @@ namespace StardewRoguelike
                     dialogueLocation.Y -= 16;
                     mine.DrawSpeechBubble(dialogueLocation, "Welcome to The Abyss", 400);
 
-                    if (!Roguelike.HardMode)
+                    if (!Roguelike.HardMode && Context.IsMainPlayer)
                     {
                         Vector2 signTile = new(38, 14);
                         Sign sign = new(signTile, 38);
