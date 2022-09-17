@@ -84,8 +84,6 @@ namespace StardewRoguelike.Bosses
         private bool startedLightning = false;
         private Vector2 positionToStrike;
         private int projectileCount = 0;
-        private int width;
-        private int height;
 
         private int ticksToBurn = 0;
 
@@ -106,10 +104,8 @@ namespace StardewRoguelike.Bosses
             setTileLocation(SpawnLocation);
             Difficulty = difficulty;
 
-            width = 16;
-            height = 16;
-            Sprite.SpriteWidth = width;
-            Sprite.SpriteHeight = height;
+            Sprite.SpriteWidth = 16;
+            Sprite.SpriteHeight = 16;
             Sprite.LoadTexture(TextureName);
 
             Scale = 4f;
@@ -354,8 +350,8 @@ namespace StardewRoguelike.Bosses
         }
         public override void drawAboveAllLayers(SpriteBatch b)
         {
-            b.Draw(Sprite.Texture, getLocalPosition(Game1.viewport) + new Vector2(width * 2, (float)(21 + yOffset)), new Rectangle?(Sprite.SourceRect), Color.White, 0f, new Vector2(width / 2, height), scale * 4f, flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, drawOnTop ? 0.991f : ((float)getStandingY() / 10000f)));
-            b.Draw(Game1.shadowTexture, getLocalPosition(Game1.viewport) + new Vector2(width * 2, height * 4), new Rectangle?(Game1.shadowTexture.Bounds), Color.White, 0f, new Vector2((float)Game1.shadowTexture.Bounds.Center.X, (float)Game1.shadowTexture.Bounds.Center.Y), 3f + (float)yOffset / 20f, SpriteEffects.None, (float)(getStandingY() - 1) / 10000f);
+            b.Draw(Sprite.Texture, getLocalPosition(Game1.viewport) + new Vector2(Sprite.SpriteWidth * 2, (float)(21 + yOffset)), new Rectangle?(Sprite.SourceRect), Color.White, 0f, new Vector2(Sprite.SpriteWidth / 2, Sprite.SpriteHeight), scale * 4f, flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, drawOnTop ? 0.991f : (getStandingY() / 10000f)));
+            b.Draw(Game1.shadowTexture, getLocalPosition(Game1.viewport) + new Vector2(Sprite.SpriteWidth * 2, Sprite.SpriteHeight * 4), new Rectangle?(Game1.shadowTexture.Bounds), Color.White, 0f, new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y), 3f + yOffset / 20f, SpriteEffects.None, (getStandingY() - 1) / 10000f);
         }
 
         public override int takeDamage(int damage, int xTrajectory, int yTrajectory, bool isBomb, double addedPrecision, Farmer who)
