@@ -117,7 +117,12 @@ namespace StardewRoguelike
 
         private readonly Dictionary<int, string> modifiedObjectInformation = new()
         {
-            { 896, "Galaxy Soul/2000/-300/Crafting -2/Galaxy Soul/Forge 3 of these into a Galaxy weapon to unleash its final form." }
+            { 896, "Galaxy Soul/2000/-300/Crafting -2/Galaxy Soul/Forge 3 of these into a Galaxy weapon to unleash its final form." },
+            { 472, "Parsnip Seeds/10/-300/Seeds -74/Parsnip Seeds/Takes 6 floors to mature." },
+            { 479, "Melon Seeds/40/-300/Seeds -74/Melon Seeds/Takes 12 floors to mature." },
+            { 490, "Pumpkin Seeds/50/-300/Seeds -74/Pumpkin Seeds/Takes 18 floors to mature." },
+            { 486, "Starfruit Seeds/200/-300/Seeds -74/Starfruit Seeds/Takes 24 floors to mature." },
+            { 347, "Rare Seed/200/-300/Seeds -74/Rare Seed/Takes 36 floors to mature." }
         };
 
         /// <summary>
