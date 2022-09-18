@@ -126,14 +126,19 @@ namespace StardewRoguelike.Bosses
             healthBarTexture = new Texture2D(Game1.graphics.GraphicsDevice, 1000.ToUIScale(), 30.ToUIScale());
             Color[] data = new Color[healthBarTexture.Width * healthBarTexture.Height];
             healthBarTexture.GetData(data);
+
+            Color healthColor;
+            if (Health > MaxHealth * 0.33f)
+                healthColor = Color.Green;
+            else if (Health > MaxHealth * 0.15f)
+                healthColor = Color.Gold;
+            else
+                healthColor = Color.DarkRed;
+
             for (int i = 0; i < data.Length; i++)
             {
-                if (i <= healthBarTexture.Width || i % healthBarTexture.Width == healthBarTexture.Width - 1)
-                    data[i] = new Color(1f, 0.5f, 0.5f);
-                else if (data.Length - i < healthBarTexture.Width || i % healthBarTexture.Width == 0)
-                    data[i] = new Color(0.5f, 0, 0);
-                else if (i % healthBarTexture.Width / (float)healthBarTexture.Width < (float)Health / MaxHealth)
-                    data[i] = Color.DarkRed;
+                if (i % healthBarTexture.Width / (float)healthBarTexture.Width < (float)Health / MaxHealth)
+                    data[i] = healthColor;
                 else
                     data[i] = Color.Black;
             }
