@@ -40,7 +40,7 @@ namespace StardewRoguelike
         /// </summary>
         /// <param name="level">The level.</param>
         /// <returns>The found MineShaft, if it exists. Otherwise null.</returns>
-        private static MineShaft GetMineFromLevel(int level)
+        public static MineShaft GetMineFromLevel(int level)
         {
             foreach (MineShaft mine in MineShaft.activeMines)
             {

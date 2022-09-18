@@ -22,9 +22,18 @@ namespace StardewRoguelike
     {
         public static readonly List<MerchantFloor> MerchantFloors = PopulateMerchantFloors();
 
-        public static ShopMenu CurrentShop = null;
+        public static readonly List<Vector2> GardenPotTiles = new()
+        {
+            new(13, 15),
+            new(14, 15),
+            new(15, 15),
+            new(16, 15),
+            new(17, 15)
+        };
 
-        internal static CurseType? CurseToAdd = null;
+        public static ShopMenu CurrentShop { get; set; } = null;
+
+        internal static CurseType? CurseToAdd { get; set; } = null;
 
         public static string GetMapPath(MineShaft mine)
         {
@@ -50,6 +59,108 @@ namespace StardewRoguelike
         public static bool IsMerchantFloor(int level)
         {
             return level != 0 && (level % 6 == 0 || level == 1);
+        }
+
+        public static void Initialize(MineShaft mine)
+        {
+            SpawnMarlon(mine);
+
+            int level = Roguelike.GetLevelFromMineshaft(mine);
+
+            if (level == 1 && !Roguelike.HardMode)
+            {
+                Vector2 signTile = new(38, 14);
+                Sign sign = new(signTile, 38);
+                sign.displayItem.Value = new StardewValley.Object(773, 1);
+                sign.displayType.Value = 1;
+                mine.Objects.Add(signTile, sign);
+            }
+
+            foreach (Vector2 potTile in GardenPotTiles)
+            {
+                var gardenPot = new IndoorPot(potTile);
+                mine.Objects.Add(potTile, gardenPot);
+            }
+
+            GrowCrops(mine);
+        }
+
+        public static void GrowCrop(Crop crop, Vector2 tile)
+        {
+            int plantedAgo = crop.get_CropMerchantsPlantedAgo();
+
+            if (plantedAgo == 0)
+                throw new Exception("Crop tried to grow but it was just planted!");
+
+            switch (crop.netSeedIndex.Value)
+            {
+                case 472:  // Parsnips
+                    crop.currentPhase.Value = crop.phaseDays.Count - 1;
+                    break;
+                case 479:  // Melons
+                    if (plantedAgo == 1)
+                        crop.currentPhase.Value = 2;
+                    else
+                        crop.currentPhase.Value = crop.phaseDays.Count - 1;
+                    break;
+                case 490:  // Pumpkins
+                    if (plantedAgo == 1)
+                        crop.currentPhase.Value = 1;
+                    else if (plantedAgo == 2)
+                        crop.currentPhase.Value = 3;
+                    else
+                        crop.currentPhase.Value = crop.phaseDays.Count - 1;
+                    break;
+                case 486:  // Starfruit
+                    if (plantedAgo == 1)
+                        crop.currentPhase.Value = 1;
+                    else if (plantedAgo == 2)
+                        crop.currentPhase.Value = 3;
+                    else if (plantedAgo == 3)
+                        crop.currentPhase.Value = 4;
+                    else
+                        crop.currentPhase.Value = crop.phaseDays.Count - 1;
+                    break;
+                case 347:  // Sweet Gem Berry
+                    if (plantedAgo == 1)
+                        crop.currentPhase.Value = 1;
+                    else if (plantedAgo == 2)
+                        crop.currentPhase.Value = 1;
+                    else if (plantedAgo == 3)
+                        crop.currentPhase.Value = 3;
+                    else if (plantedAgo == 4)
+                        crop.currentPhase.Value = 4;
+                    else if (plantedAgo == 5)
+                        crop.currentPhase.Value = 5;
+                    else
+                        crop.currentPhase.Value = crop.phaseDays.Count - 1;
+                    break;
+            }
+        }
+
+        public static void GrowCrops(MineShaft mine)
+        {
+            int level = Roguelike.GetLevelFromMineshaft(mine);
+
+            int previousMerchantLevel = level > 6 ? level - 6 : 1;
+            MineShaft previousMerchant = ChallengeFloor.GetMineFromLevel(previousMerchantLevel);
+            if (previousMerchant is null)
+                return;
+
+            foreach (Vector2 tile in GardenPotTiles)
+            {
+                IndoorPot currentPot = mine.Objects[tile] as IndoorPot;
+                IndoorPot previousPot = previousMerchant.Objects[tile] as IndoorPot;
+                Crop previousCrop = previousPot.hoeDirt.Value.crop;
+                if (previousCrop is null)
+                    continue;
+
+                Crop currentCrop = new(previousCrop.netSeedIndex.Value, (int)tile.X, (int)tile.Y);
+                currentCrop.set_CropMerchantsPlantedAgo(previousCrop.get_CropMerchantsPlantedAgo() + 1);
+
+                GrowCrop(currentCrop, tile);
+                currentPot.hoeDirt.Value.crop = currentCrop;
+            }
         }
 
         public static void PlayerWarped(object sender, WarpedEventArgs e)
@@ -82,15 +193,6 @@ namespace StardewRoguelike
                     dialogueLocation.X += 32;
                     dialogueLocation.Y -= 16;
                     mine.DrawSpeechBubble(dialogueLocation, "Welcome to The Abyss", 400);
-
-                    if (!Roguelike.HardMode && Context.IsMainPlayer)
-                    {
-                        Vector2 signTile = new(38, 14);
-                        Sign sign = new(signTile, 38);
-                        sign.displayItem.Value = new StardewValley.Object(773, 1);
-                        sign.displayType.Value = 1;
-                        mine.Objects.Add(signTile, sign);
-                    }
                 }
                 else if (level == Roguelike.ScalingOrder[0])
                 {

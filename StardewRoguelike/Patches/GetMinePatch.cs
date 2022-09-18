@@ -36,7 +36,7 @@ namespace StardewRoguelike.Patches
             newMine.get_MineShaftEntryTime().Value = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
 
             if (Merchant.IsMerchantFloor(requestedLevel))
-                Merchant.SpawnMarlon(newMine);
+                Merchant.Initialize(newMine);
             else if (BossFloor.IsBossFloor(requestedLevel))
                 BossFloor.SpawnBoss(newMine);
             else if (ForgeFloor.ShouldDoForgeFloor(requestedLevel))
