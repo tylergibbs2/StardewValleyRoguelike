@@ -24,11 +24,11 @@ namespace StardewRoguelike
 
         public static readonly List<Vector2> GardenPotTiles = new()
         {
-            new(13, 15),
-            new(14, 15),
-            new(15, 15),
-            new(16, 15),
-            new(17, 15)
+            new(3, 5),
+            new(3, 6),
+            new(3, 7),
+            new(3, 8),
+            new(3, 9)
         };
 
         public static ShopMenu CurrentShop { get; set; } = null;
@@ -69,7 +69,7 @@ namespace StardewRoguelike
 
             if (level == 1 && !Roguelike.HardMode)
             {
-                Vector2 signTile = new(38, 14);
+                Vector2 signTile = new(17, 16);
                 Sign sign = new(signTile, 38);
                 sign.displayItem.Value = new StardewValley.Object(773, 1);
                 sign.displayType.Value = 1;
@@ -79,7 +79,15 @@ namespace StardewRoguelike
             foreach (Vector2 potTile in GardenPotTiles)
             {
                 var gardenPot = new IndoorPot(potTile);
+                gardenPot.hoeDirt.Value.state.Value = 1;
+                gardenPot.showNextIndex.Value = true;
                 mine.Objects.Add(potTile, gardenPot);
+                Vector2 sprinklerTile = new(potTile.X - 1, potTile.Y);
+                var sprinkler = new StardewValley.Object(599, 1)
+                {
+                    TileLocation = sprinklerTile
+                };
+                mine.Objects.Add(sprinklerTile, sprinkler);
             }
 
             GrowCrops(mine);
@@ -178,9 +186,15 @@ namespace StardewRoguelike
                 menu.setUpStoreForContext();
                 CurrentShop = menu;
 
+                foreach (Vector2 potTile in GardenPotTiles)
+                {
+                    Vector2 sprinklerTile = new(potTile.X - 1, potTile.Y);
+                    mine.objects[sprinklerTile].ApplySprinklerAnimation(mine);
+                }
+
                 if (Perks.HasPerk(Perks.PerkType.Deconstructor))
                 {
-                    Vector2 deconstructorTile = new(17, 13);
+                    Vector2 deconstructorTile = new(26, 7);
                     mine.Objects[deconstructorTile] = new StardewValley.Object(deconstructorTile, 265);
                 }
 
@@ -189,14 +203,14 @@ namespace StardewRoguelike
 
                 if (level == 1)
                 {
-                    dialogueLocation = new Vector2(14, 9) * 64f;
+                    dialogueLocation = new Vector2(23, 3) * 64f;
                     dialogueLocation.X += 32;
                     dialogueLocation.Y -= 16;
                     mine.DrawSpeechBubble(dialogueLocation, "Welcome to The Abyss", 400);
                 }
                 else if (level == Roguelike.ScalingOrder[0])
                 {
-                    dialogueLocation = new Vector2(19, 9) * 64f;
+                    dialogueLocation = new Vector2(18, 3) * 64f;
                     dialogueLocation.X -= 16;
                     dialogueLocation.Y -= 16;
                     mine.DrawSpeechBubble(dialogueLocation, "Looking to level up?", 400);
@@ -204,7 +218,7 @@ namespace StardewRoguelike
                 }
                 else if (level == Roguelike.ScalingOrder[1])
                 {
-                    dialogueLocation = new Vector2(23, 9) * 64f;
+                    dialogueLocation = new Vector2(13, 3) * 64f;
                     dialogueLocation.X -= 16;
                     dialogueLocation.Y -= 16;
                     mine.DrawSpeechBubble(dialogueLocation, "Care for a little boost?", 400);
@@ -242,8 +256,8 @@ namespace StardewRoguelike
             if (qi is null)
             {
                 qi = Game1.getCharacterFromName("Mister Qi");
-                qi = qi.ShallowClone();
-                qi.setTileLocation(new(9, 11));
+                qi.setTileLocation(new(17, 11));
+                qi.faceDirection(3);
                 mine.addCharacter(qi);
             }
         }
@@ -251,27 +265,27 @@ namespace StardewRoguelike
         public static void SpawnMarlon(MineShaft mine)
         {
             NPC marlon = Game1.getCharacterFromName("Marlon");
-            marlon.setTileLocation(new(14, 11));
+            marlon.setTileLocation(new(23, 5));
             mine.addCharacter(marlon);
         }
 
         public static void DespawnGil(MineShaft mine)
         {
-            mine.removeTileProperty(18, 10, "Buildings", "Action");
-            mine.removeTileProperty(19, 10, "Buildings", "Action");
-            mine.removeTileProperty(18, 11, "Buildings", "Action");
-            mine.removeTileProperty(19, 11, "Buildings", "Action");
+            mine.removeTileProperty(17, 4, "Buildings", "Action");
+            mine.removeTileProperty(18, 4, "Buildings", "Action");
+            mine.removeTileProperty(17, 5, "Buildings", "Action");
+            mine.removeTileProperty(18, 5, "Buildings", "Action");
 
-            mine.removeTile(18, 10, "Front");
-            mine.removeTile(19, 10, "Front");
-            mine.removeTile(18, 11, "Buildings");
-            mine.removeTile(19, 11, "Buildings");
+            mine.removeTile(17, 4, "Front");
+            mine.removeTile(18, 4, "Front");
+            mine.removeTile(17, 5, "Buildings");
+            mine.removeTile(18, 5, "Buildings");
         }
 
         public static void SpawnBackpack(MineShaft mine)
         {
-            mine.setTileProperty(10, 11, "Buildings", "Action", "RoguelikeBackpack");
-            mine.setTileProperty(10, 12, "Buildings", "Action", "RoguelikeBackpack");
+            mine.setTileProperty(19, 5, "Buildings", "Action", "RoguelikeBackpack");
+            mine.setTileProperty(19, 6, "Buildings", "Action", "RoguelikeBackpack");
         }
 
         public static bool ShouldSpawnBackpack(MineShaft mine)
@@ -365,8 +379,8 @@ namespace StardewRoguelike
                     }
 
                     Game1.player.holdUpItemThenMessage(new SpecialItem(99, Game1.content.LoadString("Strings\\StringsFromCSFiles:GameLocation.cs.8708")));
-                    mine.removeTileProperty(10, 11, "Buildings", "Action");
-                    mine.removeTileProperty(10, 12, "Buildings", "Action");
+                    mine.removeTileProperty(19, 5, "Buildings", "Action");
+                    mine.removeTileProperty(19, 6, "Buildings", "Action");
                 }
             }
 
@@ -414,7 +428,7 @@ namespace StardewRoguelike
         public static void Draw(MineShaft mine, SpriteBatch b)
         {
             if (ShouldSpawnBackpack(mine))
-                b.Draw(Game1.mouseCursors, Game1.GlobalToLocal(new Vector2(647, 704)), new Microsoft.Xna.Framework.Rectangle(255, 1436, 12, 14), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.01232f);
+                b.Draw(Game1.mouseCursors, Game1.GlobalToLocal(new Vector2(1224, 320)), new Microsoft.Xna.Framework.Rectangle(255, 1436, 12, 14), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.01232f);
         }
 
         public static Dictionary<ISalable, int[]> GetMerchantStock(float priceAdjustment = 1f, Random random = null)
