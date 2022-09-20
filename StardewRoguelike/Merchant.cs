@@ -33,6 +33,8 @@ namespace StardewRoguelike
 
         public static ShopMenu CurrentShop { get; set; } = null;
 
+        public static ShopMenu CurrentSeedShop { get; set; } = null;
+
         internal static CurseType? CurseToAdd { get; set; } = null;
 
         public static string GetMapPath(MineShaft mine)
@@ -185,6 +187,7 @@ namespace StardewRoguelike
                     menu = new(GetMerchantStock(random: Roguelike.FloorRng), context: "Blacksmith", on_purchase: OpenShopPatch.OnPurchase);
                 menu.setUpStoreForContext();
                 CurrentShop = menu;
+                CurrentSeedShop = new(GetSeedStock(), context: "SeedShop");
 
                 foreach (Vector2 potTile in GardenPotTiles)
                 {
@@ -429,6 +432,19 @@ namespace StardewRoguelike
         {
             if (ShouldSpawnBackpack(mine))
                 b.Draw(Game1.mouseCursors, Game1.GlobalToLocal(new Vector2(1224, 320)), new Microsoft.Xna.Framework.Rectangle(255, 1436, 12, 14), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.01232f);
+        }
+
+        public static Dictionary<ISalable, int[]> GetSeedStock()
+        {
+            Dictionary<ISalable, int[]> stock = new();
+
+            Utility.AddStock(stock, new StardewValley.Object(472, 5), 100, 5);  // Parsnip Seeds
+            Utility.AddStock(stock, new StardewValley.Object(479, 5), 100, 5);  // Melon Seeds
+            Utility.AddStock(stock, new StardewValley.Object(490, 5), 100, 5);  // Pumpkin Seeds
+            Utility.AddStock(stock, new StardewValley.Object(486, 5), 100, 5);  // Starfruit Seeds
+            Utility.AddStock(stock, new StardewValley.Object(347, 5), 100, 5);  // Rare Seeds
+
+            return stock;
         }
 
         public static Dictionary<ISalable, int[]> GetMerchantStock(float priceAdjustment = 1f, Random random = null)

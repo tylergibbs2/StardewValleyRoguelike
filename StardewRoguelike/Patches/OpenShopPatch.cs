@@ -63,6 +63,13 @@ namespace StardewRoguelike.Patches
                 __result = true;
                 return false;
             }
+            else if (which.Equals("Seeds"))
+            {
+                Game1.activeClickableMenu = Merchant.CurrentSeedShop;
+
+                __result = true;
+                return false;
+            }
 
             return true;
         }

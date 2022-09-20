@@ -123,7 +123,12 @@ namespace StardewRoguelike
             { 479, "Melon Seeds/40/-300/Seeds -74/Melon Seeds/Takes 12 floors to mature." },
             { 490, "Pumpkin Seeds/50/-300/Seeds -74/Pumpkin Seeds/Takes 18 floors to mature." },
             { 486, "Starfruit Seeds/200/-300/Seeds -74/Starfruit Seeds/Takes 24 floors to mature." },
-            { 347, "Rare Seed/200/-300/Seeds -74/Rare Seed/Takes 36 floors to mature." }
+            { 347, "Rare Seed/200/-300/Seeds -74/Rare Seed/Takes 36 floors to mature." },
+            { 24,  "Parsnip/35/10/Basic -75/Parsnip/A spring tuber closely related to the carrot. It has an earthy taste and is full of nutrients." },
+            { 254, "Melon/250/45/Basic -79/Melon/A cool, sweet summer treat." },
+            { 276, "Pumpkin/320/-300/Basic -75/Pumpkin/A fall favorite, grown for its crunchy seeds and delicately flavored flesh." },
+            { 268, "Starfruit/750/50/Basic -79/Starfruit/An extremely juicy fruit that grows in hot, humid weather. Slightly sweet with a sour undertone." },
+            { 417, "Sweet Gem Berry/3000/-300/Basic -17/Sweet Gem Berry/It's by far the sweetest thing you've ever smelled." }
         };
 
         /// <summary>
