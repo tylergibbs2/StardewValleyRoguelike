@@ -44,7 +44,8 @@ namespace StardewRoguelike
             Indecisive       = 23,
             Fisherman        = 24,
             Deconstructor    = 25,
-            Gamer            = 26
+            Gamer            = 26,
+            Tiller           = 27
         }
         #pragma warning restore format
 
@@ -113,6 +114,7 @@ namespace StardewRoguelike
                 PerkType.Fisherman => "Fisherman",
                 PerkType.Deconstructor => "Deconstructor",
                 PerkType.Gamer => "Gamer",
+                PerkType.Tiller => "Tiller",
                 _ => "Not Implemented"
             };
         }
@@ -148,6 +150,7 @@ namespace StardewRoguelike
                 PerkType.Fisherman => "Your fishing rods have +2 uses",
                 PerkType.Deconstructor => "You can deconstruct your items on merchant floors",
                 PerkType.Gamer => "Good scores in arcade machines award gold",
+                PerkType.Tiller => "Crops are worth 10% more",
                 _ => "Not Implemented"
             };
         }
@@ -258,6 +261,9 @@ namespace StardewRoguelike
                 case PerkType.RabbitsFoot:
                     Game1.player.addedLuckLevel.Value += 3;
                     break;
+                case PerkType.Tiller:
+                    Game1.player.professions.Add(1);
+                    break;
             }
 
             ActivePerks.Add(perkType);
@@ -309,6 +315,9 @@ namespace StardewRoguelike
                     break;
                 case PerkType.RabbitsFoot:
                     Game1.player.addedLuckLevel.Value -= 3;
+                    break;
+                case PerkType.Tiller:
+                    Game1.player.professions.Remove(1);
                     break;
             }
 
