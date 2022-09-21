@@ -54,7 +54,7 @@ namespace StardewRoguelike
             PerkType.Fighter, PerkType.Scout, PerkType.Gemologist,
             PerkType.SpecialCharm, PerkType.Reflect, PerkType.Swift,
             PerkType.Shield, PerkType.Immunity, PerkType.Precision,
-            PerkType.Discount
+            PerkType.Discount, PerkType.Gamer, PerkType.Tiller
         };
 
         public static readonly List<PerkType> UncommonPerks = new()
@@ -62,7 +62,7 @@ namespace StardewRoguelike
             PerkType.Miner, PerkType.Brute, PerkType.Defender,
             PerkType.BarrelEnthusiast, PerkType.FoodEnjoyer,
             PerkType.Geologist, PerkType.Scavenger, PerkType.Sturdy,
-            PerkType.Indecisive
+            PerkType.Indecisive, PerkType.Deconstructor, PerkType.Fisherman
         };
 
         public static readonly List<PerkType> RarePerks = new()
