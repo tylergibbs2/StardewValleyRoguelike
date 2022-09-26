@@ -163,6 +163,7 @@ namespace StardewRoguelike
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
+            I18n.Init(helper.Translation);
             Config = helper.ReadConfig<ModConfig>();
             Patch.PatchAll("tylergibbs2.StardewRoguelike");
 
