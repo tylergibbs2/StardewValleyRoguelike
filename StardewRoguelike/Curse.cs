@@ -40,27 +40,48 @@ namespace StardewRoguelike
 
     internal class Curse : Buff
     {
-        /// <summary>
-        /// Key is the type of curse. Value is a tuple of two strings.
-        /// The first string is the display name, the second string is the description.
-        /// </summary>
-        private static readonly Dictionary<CurseType, (string, string)> CurseData = new()
+        private static string GetCurseDisplayName(CurseType curseType)
         {
-            { CurseType.GlassCannon, ("Glass Cannon", "You deal double damage but have half health.") },
-            { CurseType.DamageOverTime, ("Damage Over Time", "Damage you take is applied over time but you take 1.5x more.") },
-            { CurseType.PlayerKnockback, ("More Knockback", "Your knockback is doubled but you also take knockback.") },
-            { CurseType.BrittleCrown, ("Brittle Crown", "You gain money on hit but also lose money when taking damage.") },
-            { CurseType.MoreEnemiesLessHealth, ("More Enemies", "More enemies spawn but they have less health.") },
-            //{ CurseType.GestureOfTheDrowned, ("Gesture of the Drowned", "Your weapon specials automatically activate but have a lower cooldown.") },
-            { CurseType.BombsAroundPlayer, ("Player Bombing", "Cherry bombs occasionally spawn around you.") },
-            { CurseType.DoubleSpeedEveryone, ("Double Speed", "You move twice as fast but so do enemies.") },
-            { CurseType.HealOverTime, ("Heal Over Time", "Healing you receive is applied over time but heals you 1.5x more.") },
-            { CurseType.BuffsMorePotent, ("Potent Buffs", "Food buffs are more potent but have limited duration.") },
-            { CurseType.BootsBetterImmunity, ("Boot Immunity", "All boots have +10 immunity and -10 defense.") },
-            { CurseType.BootsBetterDefense, ("Boot Defense", "All boots have +10 defense and -10 immunity.") },
-            { CurseType.MoreCritsLessDamage, ("More Crits", "Higher chance for a crit but crits do less damage.") },
-            { CurseType.CheaperMerchant, ("Cheaper Merchant", "The merchant sells items for cheaper but has less items.") },
-        };
+            return curseType switch
+            {
+                CurseType.GlassCannon => I18n.CurseTypeName_GlassCannon(),
+                CurseType.DamageOverTime => I18n.CurseTypeName_DamageOverTime(),
+                CurseType.PlayerKnockback => I18n.CurseTypeName_PlayerKnockback(),
+                CurseType.BrittleCrown => I18n.CurseTypeName_BrittleCrown(),
+                CurseType.MoreEnemiesLessHealth => I18n.CurseTypeName_MoreEnemiesLessHealth(),
+                //CurseType.GestureOfTheDrowned => I18n.CurseTypeName_GestureOfTheDrowned()
+                CurseType.BombsAroundPlayer => I18n.CurseTypeName_BombsAroundPlayer(),
+                CurseType.DoubleSpeedEveryone => I18n.CurseTypeName_DoubleSpeedEveryone(),
+                CurseType.HealOverTime => I18n.CurseTypeName_HealOverTime(),
+                CurseType.BuffsMorePotent => I18n.CurseTypeName_BuffsMorePotent(),
+                CurseType.BootsBetterImmunity => I18n.CurseTypeName_BootsBetterImmunity(),
+                CurseType.BootsBetterDefense => I18n.CurseTypeName_BootsBetterDefense(),
+                CurseType.MoreCritsLessDamage => I18n.CurseTypeName_MoreCritsLessDamage(),
+                CurseType.CheaperMerchant => I18n.CurseTypeName_CheaperMerchant(),
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        private static string GetCurseDescription(CurseType curseType)
+        {
+            return curseType switch {
+                CurseType.GlassCannon => I18n.CurseTypeDesc_GlassCannon(),
+                CurseType.DamageOverTime => I18n.CurseTypeDesc_DamageOverTime(),
+                CurseType.PlayerKnockback => I18n.CurseTypeDesc_PlayerKnockback(),
+                CurseType.BrittleCrown => I18n.CurseTypeDesc_BrittleCrown(),
+                CurseType.MoreEnemiesLessHealth => I18n.CurseTypeDesc_MoreEnemiesLessHealth(),
+                //CurseType.GestureOfTheDrowned => I18n.CurseTypeDesc_GestureOfTheDrowned()
+                CurseType.BombsAroundPlayer => I18n.CurseTypeDesc_BombsAroundPlayer(),
+                CurseType.DoubleSpeedEveryone => I18n.CurseTypeDesc_DoubleSpeedEveryone(),
+                CurseType.HealOverTime => I18n.CurseTypeDesc_HealOverTime(),
+                CurseType.BuffsMorePotent => I18n.CurseTypeDesc_BuffsMorePotent(),
+                CurseType.BootsBetterImmunity => I18n.CurseTypeDesc_BootsBetterImmunity(),
+                CurseType.BootsBetterDefense => I18n.CurseTypeDesc_BootsBetterDefense(),
+                CurseType.MoreCritsLessDamage => I18n.CurseTypeDesc_MoreCritsLessDamage(),
+                CurseType.CheaperMerchant => I18n.CurseTypeDesc_CheaperMerchant(),
+                _ => throw new NotImplementedException(),
+            };
+        }
 
         /// <summary>
         /// The description of the Curse instance.
@@ -98,7 +119,7 @@ namespace StardewRoguelike
 
         public Curse(CurseType curseType) : base(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, minutesDuration: 1, "Roguelike", "Roguelike")
         {
-            Description = $"{CurseData[curseType].Item1}\n{CurseData[curseType].Item2}";
+            Description = $"{GetCurseDisplayName(curseType)}\n{GetCurseDescription(curseType)}";
 
             if (curseType == CurseType.DoubleSpeedEveryone)
                 buffAttributes[9] = 1;
@@ -366,9 +387,9 @@ namespace StardewRoguelike
                     GlassCannonEnchantment toRemove = null;
                     foreach (BaseEnchantment enchantment in Game1.player.enchantments)
                     {
-                        if (enchantment is GlassCannonEnchantment)
+                        if (enchantment is GlassCannonEnchantment glassCannon)
                         {
-                            toRemove = (GlassCannonEnchantment)enchantment;
+                            toRemove = glassCannon;
                             break;
                         }
                     }
