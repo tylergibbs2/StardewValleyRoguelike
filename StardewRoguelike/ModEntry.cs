@@ -70,38 +70,6 @@ namespace StardewRoguelike
         private readonly Dictionary<string, string> modifiedAssets = new()
         {
             { "Maps/Mine", "assets/Maps/custom-lobby.tmx" },
-            { "Maps/Mines/custom-merchant", "assets/Maps/custom-merchant.tmx" },
-            { "Maps/Mines/custom-merchant-curses", "assets/Maps/custom-merchant-curses.tmx" },
-            { "Maps/Mines/custom-merchant-hard", "assets/Maps/custom-merchant-hard.tmx" },
-            { "Maps/Mines/custom-merchant-curses-hard", "assets/Maps/custom-merchant-curses-hard.tmx" },
-            { "Maps/Mines/custom-forge", "assets/Maps/custom-forge.tmx" },
-            { "Maps/Mines/custom-defend", "assets/Maps/custom-defend.tmx" },
-            { "Maps/Mines/custom-defend2", "assets/Maps/custom-defend2.tmx" },
-            { "Maps/Mines/custom-egg", "assets/Maps/custom-egg.tmx" },
-            { "Maps/Mines/custom-hotspring", "assets/Maps/custom-hotspring.tmx" },
-            { "Maps/Mines/custom-jotpk", "assets/Maps/custom-jotpk.tmx" },
-            { "Maps/Mines/custom-dwarf", "assets/Maps/custom-dwarf.tmx" },
-            { "Maps/Mines/custom-lavalurk", "assets/Maps/custom-lavalurk.tmx" },
-            { "Maps/Mines/custom-slingshot", "assets/Maps/custom-slingshot.tmx" },
-            { "Maps/Mines/custom-pickapath", "assets/Maps/custom-pickapath.tmx" },
-            { "Maps/Mines/custom-speedrun", "assets/Maps/custom-speedrun.tmx" },
-            { "Maps/Mines/custom-1", "assets/Maps/custom-1.tmx" },
-            { "Maps/Mines/custom-2", "assets/Maps/custom-2.tmx" },
-            { "Maps/Mines/custom-3", "assets/Maps/custom-3.tmx" },
-            { "Maps/Mines/custom-4", "assets/Maps/custom-4.tmx" },
-            { "Maps/Mines/custom-5", "assets/Maps/custom-5.tmx" },
-            { "Maps/Mines/custom-6", "assets/Maps/custom-6.tmx" },
-            { "Maps/Mines/custom-7", "assets/Maps/custom-7.tmx" },
-            { "Maps/Mines/custom-8", "assets/Maps/custom-8.tmx" },
-            { "Maps/Mines/custom-9", "assets/Maps/custom-9.tmx" },
-            { "Maps/Mines/boss-dragon", "assets/Maps/boss-dragon.tmx" },
-            { "Maps/Mines/boss-bug", "assets/Maps/boss-bug.tmx" },
-            { "Maps/Mines/boss-slime", "assets/Maps/boss-slime.tmx" },
-            { "Maps/Mines/boss-thunderkid", "assets/Maps/boss-thunderkid.tmx" },
-            { "Maps/Mines/boss-shadowking", "assets/Maps/boss-shadowking.tmx" },
-            { "Maps/Mines/boss-skeleton", "assets/Maps/boss-skeleton.tmx" },
-            { "Maps/Mines/boss-queenbee", "assets/Maps/boss-queenbee.tmx" },
-            { "Maps/Mines/boss-modulosaurus", "assets/Maps/boss-modulosaurus.tmx" },
             { "Maps/Festivals", "assets/Maps/Festivals.png" },
             { "TileSheets/Projectiles", "assets/TileSheets/Projectiles.png" },
             { "LooseSprites/Cursors", "assets/TileSheets/Cursors.png" },
@@ -415,12 +383,24 @@ namespace StardewRoguelike
                 {
                     case ".tmx":
                         e.LoadFromModFile<xTile.Map>(fromPath, AssetLoadPriority.High);
-                        break;
+                        return;
                     case ".png":
                         e.LoadFromModFile<Texture2D>(fromPath, AssetLoadPriority.High);
-                        break;
+                        return;
                     default:
                         throw new NotImplementedException();
+                }
+            }
+
+            // Fallback to load all custom maps
+            if (e.Name.BaseName.StartsWith("Maps/"))
+            {
+                string map = e.Name.BaseName.Split("/").Last();
+                string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), $@"assets/Maps/{map}.tmx");
+                if (File.Exists(path))
+                {
+                    e.LoadFromModFile<xTile.Map>($"assets/Maps/{map}.tmx", AssetLoadPriority.High);
+                    return;
                 }
             }
 
