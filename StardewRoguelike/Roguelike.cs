@@ -63,8 +63,8 @@ namespace StardewRoguelike
         public static readonly int StartingHP = 50;
         public static readonly int MaxHP = 150;
 
-        public static int TrueMaxHP = Game1.player.maxHealth;
-        public static int MilksBought = 0;
+        public static int TrueMaxHP { get; set; } = Game1.player.maxHealth;
+        public static int MilksBought { get; set; } = 0;
 
         public static bool HardMode
         {
