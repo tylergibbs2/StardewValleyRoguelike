@@ -174,5 +174,16 @@
   "CurseTypeDesc.BootsBetterImmunity": "All boots have +10 immunity and -10 defense.",
   "CurseTypeDesc.BootsBetterDefense": "All boots have +10 defense and -10 immunity.",
   "CurseTypeDesc.MoreCritsLessDamage": "Higher chance for a crit but crits do less damage.",
-  "CurseTypeDesc.CheaperMerchant": "The merchant sells items for cheaper but has less items."
+  "CurseTypeDesc.CheaperMerchant": "The merchant sells items for cheaper but has less items.",
+
+  "ChallengeFloor.Shared.TimeLeft": "Time Left: {{seconds}}",
+  "ChallengeFloor.Shared.WavesKilled": "Waves Killed: {{amount}}",
+  "ChallengeFloor.EggHunt.WelcomeMessage": "Pick up the golden egg in the middle to start the egg hunt!",
+  "ChallengeFloor.EggHunt.EggsFound": "Eggs Found: {{amount}}",
+  "ChallengeFloor.JOTPK.WelcomeMessage": "Survive and kill all the monsters!",
+  "ChallengeFloor.KOTH.WelcomeMessage": "Reclaim the areas that the monsters have taken over!",
+  "ChallengeFloor.Race.WelcomeMessage": "Kill as many monsters as you can! The more you kill, the better your reward.",
+  "ChallengeFloor.SlingshotAim.WelcomeMessage": "Hit as many monsters as you can with the slingshot! The more you hit, the better your reward.",
+  "ChallengeFloor.Speedrun.WelcomeMessage": "Get to the end as fast as you can!",
+  "ChallengeFloor.TimedKills.WelcomeMessage": "Kill all the monsters within the time limit!"
 }

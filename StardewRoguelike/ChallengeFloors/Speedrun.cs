@@ -175,7 +175,7 @@ namespace StardewRoguelike.ChallengeFloors
         public override void PlayerEntered(MineShaft mine)
         {
             base.PlayerEntered(mine);
-            Game1.chatBox.addMessage("Get to the end as fast as you can!", Color.Gold);
+            Game1.chatBox.addMessage(I18n.ChallengeFloor_Speedrun_WelcomeMessage(), Color.Gold);
 
             ModEntry.Events.Display.RenderedHud += RenderTimer;
         }

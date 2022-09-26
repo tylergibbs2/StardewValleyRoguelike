@@ -86,7 +86,7 @@ namespace StardewRoguelike.ChallengeFloors
                     alreadyUsed.Add(Game1.player.uniqueMultiplayerID);
                 }
                 else
-                    Game1.drawObjectDialogue("You do not have enough HP.");
+                    Game1.drawObjectDialogue(I18n.Merchant_NotEnoughHP());
             }
 
             return false;
@@ -124,10 +124,10 @@ namespace StardewRoguelike.ChallengeFloors
 
         public NetCollection<NetLong> GetUsedFarmers()
         {
-            if (currentLocation is not MineShaft)
+            if (currentLocation is not MineShaft mine)
                 throw new Exception("ChestDwarf is not in a MineShaft.");
 
-            DwarfChests challenge = (DwarfChests)((MineShaft)currentLocation).get_MineShaftChallengeFloor().Value;
+            DwarfChests challenge = (DwarfChests)mine.get_MineShaftChallengeFloor().Value;
             return challenge.alreadyUsed;
         }
 

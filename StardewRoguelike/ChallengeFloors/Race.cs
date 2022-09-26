@@ -88,8 +88,8 @@ namespace StardewRoguelike.ChallengeFloors
 
             List<Item> chestItems = new()
             {
-                new StardewValley.Object(gemReward, 1),
-                new StardewValley.Object(384, goldAmount)
+                new Object(gemReward, 1),
+                new Object(384, goldAmount)
             };
 
             mine.SpawnLocalChest(chestSpot, chestItems);
@@ -102,7 +102,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public void RenderHud(object sender, RenderedHudEventArgs e)
         {
-            string timeText = $"Time Left: {floorSecondsLeft.Value}";
+            string timeText = I18n.ChallengeFloor_Shared_TimeLeft(seconds: floorSecondsLeft.Value);
             Vector2 textSize = Game1.smallFont.MeasureString(timeText);
 
             Point timerDrawPos = new(100, 16);
@@ -124,7 +124,7 @@ namespace StardewRoguelike.ChallengeFloors
                 Color.Black
             );
 
-            string wavesText = $"Waves Killed: {wavesKilled.Value}";
+            string wavesText = I18n.ChallengeFloor_Shared_WavesKilled(amount: wavesKilled.Value);
             Vector2 wavesSize = Game1.smallFont.MeasureString(wavesText);
 
             Point wavesDrawPos = new(100, 40 + (int)textSize.Y);
@@ -150,7 +150,7 @@ namespace StardewRoguelike.ChallengeFloors
         public override void PlayerEntered(MineShaft mine)
         {
             base.PlayerEntered(mine);
-            Game1.chatBox.addMessage("Kill as many monsters as you can! The more you kill, the better your reward.", Color.Gold);
+            Game1.chatBox.addMessage(I18n.ChallengeFloor_Race_WelcomeMessage(), Color.Gold);
 
             ModEntry.Events.Display.RenderedHud += RenderHud;
         }

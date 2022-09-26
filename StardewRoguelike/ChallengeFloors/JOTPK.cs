@@ -83,7 +83,7 @@ namespace StardewRoguelike.ChallengeFloors
             base.PlayerEntered(mine);
             mine.forceViewportPlayerFollow = false;
 
-            Game1.chatBox.addMessage("Survive and kill all the monsters!", Color.Gold);
+            Game1.chatBox.addMessage(I18n.ChallengeFloor_JOTPK_WelcomeMessage(), Color.Gold);
 
             ModEntry.Events.Display.RenderedHud += RenderHud;
         }

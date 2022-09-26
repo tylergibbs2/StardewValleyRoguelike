@@ -109,7 +109,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public void RenderTimer(object sender, RenderedHudEventArgs e)
         {
-            string timeText = $"Time Left: {floorSecondsLeft.Value}";
+            string timeText = I18n.ChallengeFloor_Shared_TimeLeft(seconds: floorSecondsLeft.Value);
             Vector2 textSize = Game1.smallFont.MeasureString(timeText);
 
             Point timerDrawPos = new(100, 16);
@@ -135,7 +135,7 @@ namespace StardewRoguelike.ChallengeFloors
         public override void PlayerEntered(MineShaft mine)
         {
             base.PlayerEntered(mine);
-            Game1.chatBox.addMessage("Kill all the monsters within the time limit!", Color.Gold);
+            Game1.chatBox.addMessage(I18n.ChallengeFloor_TimedKills_WelcomeMessage(), Color.Gold);
 
             ModEntry.Events.Display.RenderedHud += RenderTimer;
         }

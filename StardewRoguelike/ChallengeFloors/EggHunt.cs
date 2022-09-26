@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using xTile.Dimensions;
 using StardewModdingAPI.Events;
 using StardewValley.Menus;
-using StardewValley.Objects;
 using System;
 using StardewRoguelike.Extensions;
 
@@ -121,7 +120,7 @@ namespace StardewRoguelike.ChallengeFloors
 
         public void RenderHud(object sender, RenderedHudEventArgs e)
         {
-            string timeText = $"Time Left: {floorSecondsLeft.Value}";
+            string timeText = I18n.ChallengeFloor_Shared_TimeLeft(seconds: floorSecondsLeft.Value);
             Vector2 textSize = Game1.smallFont.MeasureString(timeText);
 
             Point timerDrawPos = new(100, 16);
@@ -144,7 +143,7 @@ namespace StardewRoguelike.ChallengeFloors
             );
 
             int totalEggsFound = eggsFound.Value <= 3 ? 0 : eggsFound.Value - 3;  // don't count the first gold egg
-            string eggsText = $"Eggs Found: {totalEggsFound}";
+            string eggsText = I18n.ChallengeFloor_EggHunt_EggsFound(amount: totalEggsFound);
             Vector2 eggsSize = Game1.smallFont.MeasureString(eggsText);
 
             Point wavesDrawPos = new(100, 40 + (int)textSize.Y);
@@ -172,7 +171,7 @@ namespace StardewRoguelike.ChallengeFloors
             base.PlayerEntered(mine);
             mine.forceViewportPlayerFollow = false;
 
-            Game1.chatBox.addMessage("Pick up the golden egg in the middle to start the egg hunt!", Color.Gold);
+            Game1.chatBox.addMessage(I18n.ChallengeFloor_EggHunt_WelcomeMessage(), Color.Gold);
 
             ModEntry.Events.Display.RenderedHud += RenderHud;
         }

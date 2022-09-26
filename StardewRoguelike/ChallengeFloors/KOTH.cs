@@ -247,7 +247,6 @@ namespace StardewRoguelike.ChallengeFloors
             if (kothBox.Value == Rectangle.Empty)
                 return;
 
-            float difficulty = BossFloor.GetLevelDifficulty(mine);
             int level = Roguelike.GetLevelFromMineshaft(mine);
 
             int enemiesToSpawn = Game1.random.Next(enemiesToSpawnMin * Game1.getOnlineFarmers().Count, enemiesToSpawnMax * Game1.getOnlineFarmers().Count);
@@ -279,7 +278,7 @@ namespace StardewRoguelike.ChallengeFloors
         public override void PlayerEntered(MineShaft mine)
         {
             base.PlayerEntered(mine);
-            Game1.chatBox.addMessage("Reclaim the areas that the monsters have taken over!", Color.Gold);
+            Game1.chatBox.addMessage(I18n.ChallengeFloor_KOTH_WelcomeMessage(), Color.Gold);
 
             if (state.Value != "over")
             {
