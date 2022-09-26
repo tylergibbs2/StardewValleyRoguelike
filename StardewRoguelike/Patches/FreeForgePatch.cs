@@ -77,7 +77,7 @@ namespace StardewRoguelike.Patches
 
             Utility.drawBoldText(
                 b,
-                "Uses Left",
+                I18n.UI_LimitedForgeMenu_UsesLeft(),
                 Game1.smallFont,
                 new Vector2(limitedForgeMenu.xPositionOnScreen + 292, limitedForgeMenu.yPositionOnScreen + 310),
                 Game1.textColor

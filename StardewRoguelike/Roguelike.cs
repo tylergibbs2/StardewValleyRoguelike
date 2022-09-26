@@ -255,7 +255,7 @@ namespace StardewRoguelike
                 qi = qi.ShallowClone();
             }
 
-            qi.showTextAboveHead("Hey there!", duration: 15000);
+            qi.showTextAboveHead(I18n.Lobby_QiIntroduction(), duration: 15000);
 
             if (Context.IsMainPlayer)
             {

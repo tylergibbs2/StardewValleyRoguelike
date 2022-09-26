@@ -99,37 +99,37 @@ namespace StardewRoguelike
             if (EndTime is not null && StartTime is not null)
             {
                 TimeSpan span = (TimeSpan)(EndTime - StartTime);
-                lines.Add($"Duration:{span:hh\\h\\ mm\\m\\ ss\\s}");
+                lines.Add($"{I18n.Stats_Duration()}:{span:hh\\h\\ mm\\m\\ ss\\s}");
             }
             else if (EndTime is null && StartTime is not null)
             {
                 TimeSpan span = (TimeSpan)(DateTime.UtcNow - StartTime);
-                lines.Add($"Duration:{span:hh\\h\\ mm\\m\\ ss\\s}");
+                lines.Add($"{I18n.Stats_Duration()}:{span:hh\\h\\ mm\\m\\ ss\\s}");
             }
             else
-                lines.Add("Duration:Not Started");
+                lines.Add($"{I18n.Stats_Duration()}:{I18n.Stats_NotStarted()}");
 
             if (DinoKillEndTime is not null && StartTime is not null)
             {
                 TimeSpan span = (TimeSpan)(DinoKillEndTime - StartTime);
-                lines.Add($"Completion Time:{span:hh\\h\\ mm\\m\\ ss\\s}");
+                lines.Add($"{I18n.Stats_CompletionTime()}:{span:hh\\h\\ mm\\m\\ ss\\s}");
             }
             else if (DinoKillEndTime is null && StartTime is not null && EndTime is null)
             {
                 TimeSpan span = (TimeSpan)(DateTime.UtcNow - StartTime);
-                lines.Add($"Completion Time:{span:hh\\h\\ mm\\m\\ ss\\s}");
+                lines.Add($"{I18n.Stats_CompletionTime()}:{span:hh\\h\\ mm\\m\\ ss\\s}");
             }
             else
-                lines.Add("Completion Time:Not Started");
+                lines.Add($"{I18n.Stats_CompletionTime()}:{I18n.Stats_NotStarted()}");
 
-            lines.Add($"Floors Descended:{FloorsDescended}");
-            lines.Add($"Monsters Killed:{MonstersKilled}");
-            lines.Add($"Bosses Defeated:{BossesDefeated}");
-            lines.Add($"Damage Dealt:{DamageDealt}");
-            lines.Add($"Damage Taken:{DamageTaken}");
-            lines.Add($"Total Healing:{TotalHealing}");
-            lines.Add($"Gold Earned:{GoldEarned}");
-            lines.Add($"Gold Spent:{GoldSpent}");
+            lines.Add($"{I18n.Stats_FloorsDescended()}:{FloorsDescended}");
+            lines.Add($"{I18n.Stats_MonstersKilled()}:{MonstersKilled}");
+            lines.Add($"{I18n.Stats_BossesDefeated()}:{BossesDefeated}");
+            lines.Add($"{I18n.Stats_DamageDealt()}:{DamageDealt}");
+            lines.Add($"{I18n.Stats_DamageTaken()}:{DamageTaken}");
+            lines.Add($"{I18n.Stats_TotalHealing()}:{TotalHealing}");
+            lines.Add($"{I18n.Stats_GoldEarned()}:{GoldEarned}");
+            lines.Add($"{I18n.Stats_GoldSpent()}:{GoldSpent}");
 
             return lines;
         }

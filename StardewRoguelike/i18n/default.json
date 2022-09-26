@@ -2,6 +2,7 @@
   "Roguelike.Adrenaline": "Adrenaline",
   "Roguelike.YouSurvived": "You survived {{floors}} floors!",
   "Roguelike.WillBeRevived": "You will be revived at the next merchant.",
+  "Roguelike.InvalidClientMods": "Run can not be uploaded due to a client connecting with {{count}} illegal mods. The server has to be re-created in order to upload runs.",
 
   "Lobby.QiIntroduction": "Hey there!",
   "Lobby.QiDialogue": "Welcome to The Abyss! This will be your final challenge before you're ready to reach the summit.#$b#You must defeat all the bosses that lie beneath. Killing enemies will reward you with gold that you can use as currency at the shops.#$b#Below, you will also find vendors for perks and curses. View your active perks by pressing {{perkKey}}.#$b#Your tracking chip will keep note of all your statistics. You can view them by typing /stats. You can reset your journey at any time with the /reset command.#$b#At any time, if you get stuck with nowhere to go, use /stuck for a helping hand.#$b#If you're up for it, check out that statue over there for a more difficult time.#$b#Good luck, kid.",
@@ -10,14 +11,63 @@
   "Lobby.DidEnterHardMode": "Your journey has begun.",
   "Lobby.DidExitHardMode": "Couldn't handle the heat?'",
 
+  "UI.NewUpdate": "New Update: {{version}}",
+
+  "UI.BossKillAnnounceMenu.Defeated": "Defeated",
+
   "UI.DisclaimerMenu.Title": "Hey there!",
   "UI.DisclaimerMenu.Explanation": "We noticed that you're playing with some illegal mods. For the sake of fairness, we can't allow you to upload your runs to the online leaderboard with these mods installed. You are more than welcome to continue playing without the ability to upload your run so long as these mods are installed.",
   "UI.DisclaimerMenu.IllegalModsAll": "Illegal Mods: {{mods}}",
   "UI.DisclaimerMenu.IllegalModsSample": "IllegalMods: {{modsSample}} + {{extraCount}} others",
   "UI.DisclaimerMenu.Understand": "I Understand",
 
+  "UI.GambaMenu.Result.Gold": "Free Gold!",
+  "UI.GambaMenu.Result.Respin": "Respin!",
+  "UI.GambaMenu.Result.Monsters": "Monsters!",
+  "UI.GambaMenu.Result.Sword": "Free Sword!",
+  "UI.GambaMenu.Result.Boots": "Free Boots!",
+  "UI.GambaMenu.Result.Food": "Free Food!",
+  "UI.GambaMenu.Result.Ring": "Free Ring!",
+  "UI.GambaMenu.Result.Death": "Death!",
+  "UI.GambaMenu.Spin": "Spin",
+  "UI.GambaMenu.SpinsLeft": "Spins Left: {{amount}}",
+
+  "UI.LimitedForgeMenu.UsesLeft": "Uses Left",
+
+  "UI.PerkDisplayMenu.Title": "Perks",
+  "UI.PerkDisplayMenu.NoPerks": "You do not currently have any perks.",
+
+  "UI.StatsMenu.Title": "Statistics",
+  "UI.StatsMenu.Errors.Mods": "Cannot upload due to mods.",
+  "UI.StatsMenu.Errors.NotHost": "Only the host can upload stats in multiplayer.",
+  "UI.StatsMenu.Errors.MidRun": "Cannot upload mid-run.",
+  "UI.StatsMenu.Errors.AlreadyUploaded": "Run has already been uploaded",
+  "UI.StatsMenu.Errors.NotStarted": "Run has not started",
+  "UI.StatsMenu.Errors.Generic": "There was an error uploading.",
+  "UI.StatsMenu.Upload": "Upload",
+  "UI.StatsMenu.UploadSuccess": "Run successfully uploaded.",
+
   "UI.SeedMenu.Title": "Seed",
   "UI.SeedMenu.RerollEveryRun": "Regenerate Seed Every Run",
+
+  "Stats.NotStarted": "Not Started",
+  "Stats.Duration": "Duration",
+  "Stats.CompletionTime": "Completion Time",
+  "Stats.FloorsDescended": "Floors Descended",
+  "Stats.MonstersKilled": "Monsters Killed",
+  "Stats.BossesDefeated": "Bosses Defeated",
+  "Stats.DamageDealt": "Damage Dealt",
+  "Stats.DamageTaken": "Damage Taken",
+  "Stats.TotalHealing": "Total Healing",
+  "Stats.GoldEarned": "Gold Earned",
+  "Stats.GoldSpent": "Gold Spent",
+
+  "Config.SkipDisclaimer.Name": "Skip Mod Disclaimer",
+  "Config.SkipDisclaimer.Tooltip": "Skips the disclaimer for invalid mods",
+  "Config.SkipCharacter.Name": "Skip Character Creation",
+  "Config.SkipCharacter.Tooltip": "Skips the character creation screen in single player",
+  "Config.BossSplits.Name": "Disable Boss Splits",
+  "Config.BossSplits.Tooltip": "Disables the timer splits on boss kill",
 
   "Merchant.MarlonIntroduction": "Welcome to The Abyss",
   "Merchant.GilIntroduction": "Looking to level up?",

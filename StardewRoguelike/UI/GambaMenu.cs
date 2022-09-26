@@ -95,14 +95,14 @@ namespace StardewValley.Menus
 
         private void SetUpPositions()
         {
-            string spinText = "Spin";
+            string spinText = I18n.UI_GambaMenu_Spin();
             Vector2 spinTextSize = Game1.smallFont.MeasureString(spinText);
             spinButton = new(new(xPositionOnScreen + (width / 2) - (int)(spinTextSize.X / 2), yPositionOnScreen + height - 32, (int)spinTextSize.X, (int)spinTextSize.Y), "spinButton", spinText)
             {
                 myID = 101
             };
 
-            string spinsLeftText = $"Spins Left: {spinsLeft}";
+            string spinsLeftText = I18n.UI_GambaMenu_SpinsLeft(amount: spinsLeft);
             Vector2 spinsLeftTextSize = Game1.smallFont.MeasureString(spinsLeftText);
             spinsLeftBox = new(new(xPositionOnScreen + (width / 2) - (int)(spinsLeftTextSize.X / 2), yPositionOnScreen + height + 32, (int)spinsLeftTextSize.X, (int)spinsLeftTextSize.Y), "spinsLeft", spinsLeftText);
         }
@@ -196,7 +196,7 @@ namespace StardewValley.Menus
                     {
                         result = SpinResult.Gold;
                         Game1.playSound("reward");
-                        resultText = new SparklingText(Game1.dialogueFont, "Free Gold!", Color.Lime, Color.White);
+                        resultText = new SparklingText(Game1.dialogueFont, I18n.UI_GambaMenu_Result_Gold(), Color.Lime, Color.White);
                     }
                     else if (degrees > 270)
                     {
@@ -206,43 +206,43 @@ namespace StardewValley.Menus
 
                         result = SpinResult.Respin;
                         Game1.playSound("reward");
-                        resultText = new SparklingText(Game1.dialogueFont, "Respin!", Color.Lime, Color.White);
+                        resultText = new SparklingText(Game1.dialogueFont, I18n.UI_GambaMenu_Result_Respin(), Color.Lime, Color.White);
                         return;
                     }
                     else if (degrees > 225)
                     {
                         result = SpinResult.Monsters;
-                        resultText = new SparklingText(Game1.dialogueFont, "Monsters!", Color.Red, Color.Transparent);
+                        resultText = new SparklingText(Game1.dialogueFont, I18n.UI_GambaMenu_Result_Monsters(), Color.Red, Color.Transparent);
                         Game1.playSound("fishEscape");
                     }
                     else if (degrees > 180)
                     {
                         result = SpinResult.Sword;
                         Game1.playSound("reward");
-                        resultText = new SparklingText(Game1.dialogueFont, "Free Sword!", Color.Lime, Color.White);
+                        resultText = new SparklingText(Game1.dialogueFont, I18n.UI_GambaMenu_Result_Sword(), Color.Lime, Color.White);
                     }
                     else if (degrees > 135)
                     {
                         result = SpinResult.Boots;
                         Game1.playSound("reward");
-                        resultText = new SparklingText(Game1.dialogueFont, "Free Boots!", Color.Lime, Color.White);
+                        resultText = new SparklingText(Game1.dialogueFont, I18n.UI_GambaMenu_Result_Boots(), Color.Lime, Color.White);
                     }
                     else if (degrees > 90)
                     {
                         result = SpinResult.Food;
                         Game1.playSound("reward");
-                        resultText = new SparklingText(Game1.dialogueFont, "Free Food!", Color.Lime, Color.White);
+                        resultText = new SparklingText(Game1.dialogueFont, I18n.UI_GambaMenu_Result_Food(), Color.Lime, Color.White);
                     }
                     else if (degrees > 45)
                     {
                         result = SpinResult.Ring;
                         Game1.playSound("reward");
-                        resultText = new SparklingText(Game1.dialogueFont, "Free Ring!", Color.Lime, Color.White);
+                        resultText = new SparklingText(Game1.dialogueFont, I18n.UI_GambaMenu_Result_Ring(), Color.Lime, Color.White);
                     }
                     else
                     {
                         result = SpinResult.Death;
-                        resultText = new SparklingText(Game1.dialogueFont, "Death!", Color.Red, Color.Transparent);
+                        resultText = new SparklingText(Game1.dialogueFont, I18n.UI_GambaMenu_Result_Death(), Color.Red, Color.Transparent);
                         Game1.playSound("fishEscape");
                     }
 

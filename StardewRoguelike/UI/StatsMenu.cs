@@ -33,7 +33,7 @@ namespace StardewRoguelike.UI
 
         public StatsMenu()
         {
-            string uploadText = "Upload";
+            string uploadText = I18n.UI_StatsMenu_Upload();
             textSize = Game1.smallFont.MeasureString(uploadText);
             uploadButton = new(new(0, 0, (int)textSize.X, (int)textSize.Y), "uploadButton", uploadText)
             {
@@ -118,27 +118,27 @@ namespace StardewRoguelike.UI
                 Game1.playSound("bigSelect");
                 if (ModEntry.GetInvalidMods().Count > 0 || ModEntry.DisableUpload)
                 {
-                    Game1.addHUDMessage(new HUDMessage("Cannot upload due to mods.", 3));
+                    Game1.addHUDMessage(new HUDMessage(I18n.UI_StatsMenu_Errors_Mods(), 3));
                     return;
                 }
                 if (!Context.IsMainPlayer)
                 {
-                    Game1.addHUDMessage(new HUDMessage("Only the host can upload stats in multiplayer.", 3));
+                    Game1.addHUDMessage(new HUDMessage(I18n.UI_StatsMenu_Errors_NotHost(), 3));
                     return;
                 }
                 else if (ModEntry.Stats.EndTime is null)
                 {
-                    Game1.addHUDMessage(new HUDMessage("Cannot upload mid-run.", 3));
+                    Game1.addHUDMessage(new HUDMessage(I18n.UI_StatsMenu_Errors_MidRun(), 3));
                     return;
                 }
                 else if (AlreadyUploaded)
                 {
-                    Game1.addHUDMessage(new HUDMessage("Run has already been uploaded.", 3));
+                    Game1.addHUDMessage(new HUDMessage(I18n.UI_StatsMenu_Errors_AlreadyUploaded(), 3));
                     return;
                 }
                 else if (ModEntry.Stats.StartTime is null)
                 {
-                    Game1.addHUDMessage(new HUDMessage("Run has not started.", 3));
+                    Game1.addHUDMessage(new HUDMessage(I18n.UI_StatsMenu_Errors_NotStarted(), 3));
                     return;
                 }
 
@@ -146,10 +146,10 @@ namespace StardewRoguelike.UI
                 if (result)
                 {
                     AlreadyUploaded = true;
-                    Game1.addHUDMessage(new HUDMessage("Run successfully uploaded.", 1));
+                    Game1.addHUDMessage(new HUDMessage(I18n.UI_StatsMenu_UploadSuccess(), 1));
                 }
                 else
-                    Game1.addHUDMessage(new HUDMessage("There was an error uploading.", 3));
+                    Game1.addHUDMessage(new HUDMessage(I18n.UI_StatsMenu_Errors_Generic(), 3));
             }
         }
 
@@ -177,11 +177,11 @@ namespace StardewRoguelike.UI
 
         public void DrawTitle(SpriteBatch spriteBatch)
         {
-            Vector2 textSize = Game1.dialogueFont.MeasureString("Statistics");
+            Vector2 textSize = Game1.dialogueFont.MeasureString(I18n.UI_StatsMenu_Title());
 
             Utility.drawTextWithShadow(
                 spriteBatch,
-                "Statistics",
+                I18n.UI_StatsMenu_Title(),
                 Game1.dialogueFont,
                 new Vector2(
                     xPositionOnScreen + (width / 2) - (textSize.X / 2),

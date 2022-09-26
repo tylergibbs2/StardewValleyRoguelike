@@ -206,9 +206,11 @@ namespace StardewRoguelike
             helper.Events.Player.Warped += BossManager.PlayerWarped;
             helper.Events.Player.Warped += SpectatorMode.RespawnPlayers;
 
-            helper.ConsoleCommands.Add("rdebug", "Debugging command suite for the Roguelike.", DebugCommands.Parse);
             if (DebugMode)
+            {
+                helper.ConsoleCommands.Add("rdebug", "Debugging command suite for the Roguelike.", DebugCommands.Parse);
                 helper.Events.Input.ButtonPressed += DebugCommands.ButtonPressed;
+            }
         }
 
         public void CheckForUpdate(object sender, GameLaunchedEventArgs e)
@@ -231,7 +233,7 @@ namespace StardewRoguelike
 
             if (NewUpdateVersion is not null)
             {
-                string newVersionText = $"New Update: {NewUpdateVersion}";
+                string newVersionText = I18n.UI_NewUpdate(version: NewUpdateVersion);
                 Vector2 newVersionTextSize = Game1.smallFont.MeasureString(newVersionText);
 
                 Point drawPos = new((int)(Game1.uiViewport.Width - newVersionTextSize.X - 40), 140);
@@ -374,24 +376,24 @@ namespace StardewRoguelike
 
             configMenu.AddBoolOption(
                 mod: ModManifest,
-                name: () => "Skip Mod Disclaimer",
-                tooltip: () => "Skips the disclaimer for invalid mods",
+                name: () => I18n.Config_SkipDisclaimer_Name(),
+                tooltip: () => I18n.Config_SkipDisclaimer_Tooltip(),
                 getValue: () => Config.SkipModDisclaimer,
                 setValue: value => Config.SkipModDisclaimer = value
             );
 
             configMenu.AddBoolOption(
                 mod: ModManifest,
-                name: () => "Skip Character Creation",
-                tooltip: () => "Skips the character creation screen in single player",
+                name: () => I18n.Config_SkipCharacter_Name(),
+                tooltip: () => I18n.Config_SkipCharacter_Tooltip(),
                 getValue: () => Config.SkipCharacterCreation,
                 setValue: value => Config.SkipCharacterCreation = value
             );
 
             configMenu.AddBoolOption(
                 mod: ModManifest,
-                name: () => "Disable Boss Splits",
-                tooltip: () => "Disables the timer splits on boss kill",
+                name: () => I18n.Config_BossSplits_Name(),
+                tooltip: () => I18n.Config_BossSplits_Tooltip(),
                 getValue: () => Config.DisableBossSplits,
                 setValue: value => Config.DisableBossSplits = value
             );
@@ -457,7 +459,7 @@ namespace StardewRoguelike
             if (invalidMods.Count == 0)
                 return;
 
-            string error = $"Run can not be uploaded due to a client connecting with {invalidMods.Count} illegal mods. The server has to be re-created in order to upload runs.";
+            string error = I18n.Roguelike_InvalidClientMods(count: invalidMods.Count);
             Game1.chatBox.addErrorMessage(error);
 
             DisableUpload = true;

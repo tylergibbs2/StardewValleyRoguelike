@@ -10,7 +10,7 @@ namespace StardewRoguelike.UI
     {
         private static readonly float DisplayDuration = 7500;
 
-        private static readonly string DefeatedText = "Defeated";
+        private static readonly string DefeatedText = I18n.UI_BossKillAnnounceMenu_Defeated();
 
         private static readonly Vector2 DefeatedTextSize = Game1.smallFont.MeasureString(DefeatedText);
 
@@ -64,7 +64,7 @@ namespace StardewRoguelike.UI
                 destroy = true;
         }
 
-        private bool IsToolbarOnTop()
+        private static bool IsToolbarOnTop()
         {
             foreach (var menu in Game1.onScreenMenus)
             {

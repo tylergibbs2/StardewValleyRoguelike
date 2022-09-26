@@ -116,11 +116,11 @@ namespace StardewRoguelike.UI
 
         public void DrawTitle(SpriteBatch b)
         {
-            Vector2 textSize = Game1.dialogueFont.MeasureString("Perks");
+            Vector2 textSize = Game1.dialogueFont.MeasureString(I18n.UI_PerkDisplayMenu_Title());
 
             Utility.drawTextWithShadow(
                 b,
-                "Perks",
+                I18n.UI_PerkDisplayMenu_Title(),
                 Game1.dialogueFont,
                 new Vector2(
                     xPositionOnScreen + (width / 2) - (textSize.X / 2),
@@ -137,7 +137,7 @@ namespace StardewRoguelike.UI
 
         public void DrawNoPerksText(SpriteBatch b)
         {
-            string noPerks = "You do not currently have any perks.";
+            string noPerks = I18n.UI_PerkDisplayMenu_NoPerks();
             b.DrawString(Game1.smallFont, noPerks, new Vector2(xPositionOnScreen + width / 2 - Game1.smallFont.MeasureString(noPerks).X / 2f, yPositionOnScreen + 200 + spaceToClearTopBorder), Game1.textColor);
         }
 
