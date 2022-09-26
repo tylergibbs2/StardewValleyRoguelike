@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using StardewRoguelike.Extensions;
 using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;

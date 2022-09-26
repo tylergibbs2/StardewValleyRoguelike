@@ -13,17 +13,12 @@ namespace StardewRoguelike.UI
 {
     public class DisclaimerMenu : IClickableMenu
     {
-        private readonly float percentOfViewportWide = 0.33f;
+        private readonly float percentOfViewportWide = 0.5f;
         private readonly float percentOfViewportTall = 0.66f;
 
         private readonly int borderSize = 20;
 
         private readonly int modsToShow = 5;
-
-        private readonly string disclaimerText =
-            "We noticed that you're playing with some illegal mods. For the sake of fairness, we can't allow you " +
-            "to upload your runs to the online leaderboard with these mods installed. You are more than " +
-            "welcome to continue playing without the ability to upload your run so long as these mods are installed.";
 
         private float understandScale = 1f;
         private float understandBaseScale = 1f;
@@ -39,7 +34,7 @@ namespace StardewRoguelike.UI
 
         public DisclaimerMenu()
         {
-            string understandText = "I Understand";
+            string understandText = I18n.UI_DisclaimerMenu_Understand();
             textSize = Game1.smallFont.MeasureString(understandText);
             understandButton = new(new(0, 0, (int)textSize.X, (int)textSize.Y), "understandButton", understandText)
             {
@@ -113,11 +108,11 @@ namespace StardewRoguelike.UI
 
         public void DrawTitle(SpriteBatch spriteBatch)
         {
-            Vector2 textSize = Game1.dialogueFont.MeasureString("Hey there!");
+            Vector2 textSize = Game1.dialogueFont.MeasureString(I18n.UI_DisclaimerMenu_Title());
 
             Utility.drawTextWithShadow(
                 spriteBatch,
-                "Hey there!",
+                I18n.UI_DisclaimerMenu_Title(),
                 Game1.dialogueFont,
                 new Vector2(
                     xPositionOnScreen + (width / 2) - (textSize.X / 2),
@@ -131,7 +126,7 @@ namespace StardewRoguelike.UI
 
         public void DrawWarning(SpriteBatch spriteBatch)
         {
-            string parsedText = Game1.parseText(disclaimerText, Game1.smallFont, width - (borderSize * 2));
+            string parsedText = Game1.parseText(I18n.UI_DisclaimerMenu_Explanation(), Game1.smallFont, width - (borderSize * 2));
             Vector2 textSize = Game1.smallFont.MeasureString(parsedText);
 
             Utility.drawTextWithShadow(
@@ -147,8 +142,13 @@ namespace StardewRoguelike.UI
 
             currentDrawHeight += (int)textSize.Y + 16;
 
-            string illegalModsString = "Illegal Mods: " + string.Join(", ", invalidMods.Select(m => m.Manifest.Name).Take(modsToShow)) +
-                ((invalidMods.Count - modsToShow > 0) ? $" + {invalidMods.Count - modsToShow} others" : "");
+            string illegalModsString;
+            string mods = string.Join(", ", invalidMods.Select(m => m.Manifest.Name).Take(modsToShow));
+            if (invalidMods.Count - modsToShow > 0)
+                illegalModsString = I18n.UI_DisclaimerMenu_IllegalModsSample(modsSample: mods, extraCount: invalidMods.Count - modsToShow);
+            else
+                illegalModsString = I18n.UI_DisclaimerMenu_IllegalModsAll(mods: mods);
+
             string parsedMods = Game1.parseText(illegalModsString, Game1.smallFont, width - (borderSize * 2));
             textSize = Game1.smallFont.MeasureString(parsedMods);
 

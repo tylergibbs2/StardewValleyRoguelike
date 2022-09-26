@@ -154,7 +154,7 @@ namespace StardewRoguelike
             if (buff == null)
             {
                 Game1.buffsDisplay.addOtherBuff(
-                    buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: 1, 0, 0, minutesDuration: 1, source: "Roguelike", displaySource: "Adrenaline") { which = buffId }
+                    buff = new Buff(0, 0, 0, 0, 0, 0, 0, 0, 0, speed: 1, 0, 0, minutesDuration: 1, source: "Roguelike", displaySource: I18n.Roguelike_Adrenaline()) { which = buffId }
                 );
             }
             buff.millisecondsDuration = 50;
@@ -471,8 +471,6 @@ namespace StardewRoguelike
 
         public static void HandleLocalDeath()
         {
-            Game1.showGlobalMessage($"You survived {CurrentLevel - 1} floors!");
-
             ModEntry.Invincible = true;
             Game1.player.temporarilyInvincible = true;
             Game1.player.maxHealth = StartingHP;
@@ -507,7 +505,7 @@ namespace StardewRoguelike
                 {
                     // The run lives!
                     SpectatorMode.EnterSpectatorMode();
-                    Game1.showGlobalMessage($"You will be revived at the next merchant.");
+                    Game1.showGlobalMessage(I18n.Roguelike_WillBeRevived());
                 }
             }, 7000);
 
@@ -518,7 +516,7 @@ namespace StardewRoguelike
             if (Game1.player.get_FarmerIsSpectating().Value)
                 SpectatorMode.ExitSpectatorMode();
 
-            Game1.showGlobalMessage($"You survived {ModEntry.Stats.FloorsDescended} floors!");
+            Game1.showGlobalMessage(I18n.Roguelike_YouSurvived(floors: ModEntry.Stats.FloorsDescended));
 
             WarpLocalPlayerToStart();
             Game1.player.temporarilyInvincible = false;
@@ -637,17 +635,7 @@ namespace StardewRoguelike
             qi.CurrentDialogue.Clear();
 
             string perkKey = string.Join('+', Game1.options.journalButton);
-            qi.setNewDialogue(
-                "Welcome to The Abyss! This will be your final challenge before you're " +
-                "ready to reach the summit.#$b#You must defeat all the bosses that lie beneath. Killing enemies will " +
-                "reward you with gold that you can use as currency at the shops.#$b#" +
-                $"Below, you will also find vendors for perks and curses. View your active perks by pressing {perkKey}.#$b#" +
-                "Your tracking chip will keep note of all your statistics. You can view them by typing /stats. " +
-                "You can reset your journey at any time with the /reset command.#$b#" +
-                "At any time, if you get stuck with nowhere to go, use /stuck for a helping hand.#$b#" +
-                "If you're up for it, check out that statue over there for a more difficult time.#$b#" +
-                "Good luck, kid."
-            );
+            qi.setNewDialogue(I18n.Lobby_QiDialogue(perkKey: perkKey));
         }
 
         public static bool PerformAction(GameLocation location, string action, Farmer who, Location tileLocation)
@@ -656,9 +644,9 @@ namespace StardewRoguelike
             {
                 var responses = location.createYesNoResponses();
                 if (HardMode)
-                    location.createQuestionDialogue("Exit hard mode?", responses, "hardMode");
+                    location.createQuestionDialogue(I18n.Lobby_ExitHardMode(), responses, "hardMode");
                 else
-                    location.createQuestionDialogue("Enter hard mode?", responses, "hardMode");
+                    location.createQuestionDialogue(I18n.Lobby_EnterHardMode(), responses, "hardMode");
                 return true;
             }
 
@@ -673,12 +661,12 @@ namespace StardewRoguelike
             if (HardMode)
             {
                 HardMode = false;
-                Game1.drawObjectDialogue("Couldn't handle the heat?");
+                Game1.drawObjectDialogue(I18n.Lobby_DidExitHardMode());
             }
             else
             {
                 HardMode = true;
-                Game1.drawObjectDialogue("Your journey has begun.");
+                Game1.drawObjectDialogue(I18n.Lobby_DidEnterHardMode());
             }
 
             ModEntry.Stats.Reset();

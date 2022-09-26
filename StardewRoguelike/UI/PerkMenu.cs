@@ -63,7 +63,7 @@ namespace StardewRoguelike.UI
 
         private Rectangle sourceRectForLevelIcon;
 
-        private string title { get => I18n.PerkMenu_Title(); }
+        private string title { get => I18n.UI_PerkMenu_Title(); }
 
         private readonly List<TemporaryAnimatedSprite> littleStars = new();
 
@@ -166,9 +166,9 @@ namespace StardewRoguelike.UI
         {
             return perkRarity switch
             {
-                Perks.PerkRarity.Common => I18n.PerkMenu_Rarity_Common(),
-                Perks.PerkRarity.Uncommon => I18n.PerkMenu_Rarity_Uncommon(),
-                _ => I18n.PerkMenu_Rarity_Rare()
+                Perks.PerkRarity.Common => I18n.UI_PerkMenu_Rarity_Common(),
+                Perks.PerkRarity.Uncommon => I18n.UI_PerkMenu_Rarity_Uncommon(),
+                _ => I18n.UI_PerkMenu_Rarity_Rare()
             };
         }
 
@@ -291,7 +291,7 @@ namespace StardewRoguelike.UI
                 Utility.drawWithShadow(b, Game1.buffsIcons, new Vector2(xPositionOnScreen + spaceToClearSideBorder + borderWidth, yPositionOnScreen + spaceToClearTopBorder + 16), sourceRectForLevelIcon, Color.White, 0f, Vector2.Zero, 4f, flipped: false, 0.88f);
                 b.DrawString(Game1.dialogueFont, title, new Vector2(xPositionOnScreen + width / 2 - Game1.dialogueFont.MeasureString(title).X / 2f, yPositionOnScreen + spaceToClearTopBorder + 16), Game1.textColor);
                 Utility.drawWithShadow(b, Game1.buffsIcons, new Vector2(xPositionOnScreen + width - spaceToClearSideBorder - borderWidth - 64, yPositionOnScreen + spaceToClearTopBorder + 16), sourceRectForLevelIcon, Color.White, 0f, Vector2.Zero, 4f, flipped: false, 0.88f);
-                string chooseProfession = I18n.PerkMenu_DoPick();
+                string chooseProfession = I18n.UI_PerkMenu_DoPick();
                 b.DrawString(Game1.smallFont, chooseProfession, new Vector2(xPositionOnScreen + width / 2 - Game1.smallFont.MeasureString(chooseProfession).X / 2f, yPositionOnScreen + 64 + spaceToClearTopBorder), Game1.textColor);
 
                 // left perk
@@ -316,12 +316,12 @@ namespace StardewRoguelike.UI
 
                 if (!leftPerk.HasValue && !rightPerk.HasValue)
                 {
-                    string allUnlocked = I18n.PerkMenu_HasAllPerks();
+                    string allUnlocked = I18n.UI_PerkMenu_HasAllPerks();
                     b.DrawString(Game1.smallFont, allUnlocked, new Vector2(xPositionOnScreen + width / 2 - Game1.smallFont.MeasureString(allUnlocked).X / 2f, yPositionOnScreen + 232 + spaceToClearTopBorder), Game1.textColor);
                 }
                 else if (alreadyUsed)
                 {
-                    string alreadyUsedText = I18n.PerkMenu_AlreadyClaimed();
+                    string alreadyUsedText = I18n.UI_PerkMenu_AlreadyClaimed();
                     b.DrawString(Game1.smallFont, alreadyUsedText, new Vector2(xPositionOnScreen + width / 2 - Game1.smallFont.MeasureString(alreadyUsedText).X / 2f, yPositionOnScreen + 232 + spaceToClearTopBorder), Game1.textColor);
                 }
 

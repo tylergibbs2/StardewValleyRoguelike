@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
-using StardewValley.Locations;
 using StardewValley.Menus;
 using System;
 
@@ -165,7 +164,7 @@ namespace StardewRoguelike.UI
         {
             b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, Color.Black * 0.75f);
 
-            SpriteText.drawStringWithScrollCenteredAt(b, "Seed", Game1.uiViewport.Width / 2, yPositionOnScreen - 70, "Seed");
+            SpriteText.drawStringWithScrollCenteredAt(b, I18n.UI_SeedMenu_Title(), Game1.uiViewport.Width / 2, yPositionOnScreen - 70, I18n.UI_SeedMenu_Title());
 
             drawTextureBox(
                 b,
@@ -181,7 +180,7 @@ namespace StardewRoguelike.UI
 
             Utility.drawTextWithShadow(
                 b,
-                "Regenerate Seed Every Run",
+                I18n.UI_SeedMenu_RerollEveryRun(),
                 Game1.smallFont,
                 new(
                     doRerollButton.bounds.X + doRerollButton.bounds.Width + 8,
