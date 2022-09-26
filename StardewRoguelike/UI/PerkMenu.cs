@@ -27,10 +27,6 @@ namespace StardewRoguelike.UI
 
         public bool hasUpdatedProfessions;
 
-        private int currentLevel;
-
-        private int currentSkill;
-
         private bool alreadyUsed = false;
 
         private Color leftPerkColor = Game1.textColor;
