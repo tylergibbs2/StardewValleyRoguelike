@@ -6,7 +6,6 @@ using StardewRoguelike.VirtualProperties;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
