@@ -63,7 +63,7 @@ namespace StardewRoguelike.UI
 
         private Rectangle sourceRectForLevelIcon;
 
-        private string title;
+        private string title { get => I18n.PerkMenu_Title(); }
 
         private readonly List<TemporaryAnimatedSprite> littleStars = new();
 
@@ -81,8 +81,6 @@ namespace StardewRoguelike.UI
             };
             Game1.player.completelyStopAnimatingOrDoingAction();
             informationUp = true;
-
-            title = "Gil's Gallery";
 
             sourceRectForLevelIcon = new Rectangle(128, 16, 16, 16);
 
@@ -140,37 +138,7 @@ namespace StardewRoguelike.UI
             if (okButton.bounds.Bottom > Game1.uiViewport.Height)
                 okButton.bounds.Y = Game1.uiViewport.Height - 64;
         }
-        public static List<string> GetExtraInfoForLevel(int whichSkill, int whichLevel)
-        {
-            List<string> extraInfo = new();
-            switch (whichSkill)
-            {
-                case 0:
-                    extraInfo.Add(Game1.content.LoadString("Strings\\UI:LevelUp_ExtraInfo_Farming1"));
-                    extraInfo.Add(Game1.content.LoadString("Strings\\UI:LevelUp_ExtraInfo_Farming2"));
-                    break;
-                case 3:
-                    extraInfo.Add(Game1.content.LoadString("Strings\\UI:LevelUp_ExtraInfo_Mining"));
-                    break;
-                case 1:
-                    extraInfo.Add(Game1.content.LoadString("Strings\\UI:LevelUp_ExtraInfo_Fishing"));
-                    break;
-                case 2:
-                    extraInfo.Add(Game1.content.LoadString("Strings\\UI:LevelUp_ExtraInfo_Foraging1"));
-                    if (whichLevel == 1)
-                        extraInfo.Add(Game1.content.LoadString("Strings\\UI:LevelUp_ExtraInfo_Foraging2"));
-                    if (whichLevel == 4 || whichLevel == 8)
-                        extraInfo.Add(Game1.content.LoadString("Strings\\UI:LevelUp_ExtraInfo_Foraging3"));
-                    break;
-                case 4:
-                    extraInfo.Add(Game1.content.LoadString("Strings\\UI:LevelUp_ExtraInfo_Combat"));
-                    break;
-                case 5:
-                    extraInfo.Add(Game1.content.LoadString("Strings\\UI:LevelUp_ExtraInfo_Luck"));
-                    break;
-            }
-            return extraInfo;
-        }
+
 
         public static List<string> GetPerkDescription(Perks.PerkType? perkType)
         {
@@ -198,9 +166,9 @@ namespace StardewRoguelike.UI
         {
             return perkRarity switch
             {
-                Perks.PerkRarity.Common => "Common",
-                Perks.PerkRarity.Uncommon => "Uncommon",
-                _ => "Rare"
+                Perks.PerkRarity.Common => I18n.PerkMenu_Rarity_Common(),
+                Perks.PerkRarity.Uncommon => I18n.PerkMenu_Rarity_Uncommon(),
+                _ => I18n.PerkMenu_Rarity_Rare()
             };
         }
 
@@ -220,7 +188,7 @@ namespace StardewRoguelike.UI
 
             if (Game1.random.NextDouble() < 0.03)
             {
-                Vector2 position = new Vector2(0f, Game1.random.Next(yPositionOnScreen - 128, yPositionOnScreen - 4) / 20 * 4 * 5 + 32);
+                Vector2 position = new(0f, Game1.random.Next(yPositionOnScreen - 128, yPositionOnScreen - 4) / 20 * 4 * 5 + 32);
                 if (Game1.random.NextDouble() < 0.5)
                     position.X = Game1.random.Next(xPositionOnScreen + width / 2 - 228, xPositionOnScreen + width / 2 - 132);
                 else
@@ -278,42 +246,6 @@ namespace StardewRoguelike.UI
                     starIcon.sourceRect.X = 310;
             }
 
-            if (isActive && starIcon is not null && !informationUp && (oldMouseState.LeftButton == ButtonState.Pressed || Game1.options.gamepadControls && Game1.oldPadState.IsButtonDown(Buttons.A)) && starIcon.containsPoint(oldMouseState.X, oldMouseState.Y))
-            {
-                extraInfoForLevel.Clear();
-                Game1.player.completelyStopAnimatingOrDoingAction();
-                Game1.playSound("bigSelect");
-                informationUp = true;
-                currentLevel = Game1.player.newLevels.First().Y;
-                currentSkill = Game1.player.newLevels.First().X;
-                title = Game1.content.LoadString("Strings\\UI:LevelUp_Title", currentLevel, Farmer.getSkillDisplayNameFromIndex(currentSkill));
-                extraInfoForLevel = GetExtraInfoForLevel(currentSkill, currentLevel);
-                switch (currentSkill)
-                {
-                    case 0:
-                        sourceRectForLevelIcon = new Rectangle(0, 0, 16, 16);
-                        break;
-                    case 1:
-                        sourceRectForLevelIcon = new Rectangle(16, 0, 16, 16);
-                        break;
-                    case 3:
-                        sourceRectForLevelIcon = new Rectangle(32, 0, 16, 16);
-                        break;
-                    case 2:
-                        sourceRectForLevelIcon = new Rectangle(80, 0, 16, 16);
-                        break;
-                    case 4:
-                        sourceRectForLevelIcon = new Rectangle(128, 16, 16, 16);
-                        break;
-                    case 5:
-                        sourceRectForLevelIcon = new Rectangle(64, 0, 16, 16);
-                        break;
-                }
-
-                int newHeight = 0;
-
-                height = newHeight + 256 + extraInfoForLevel.Count * 64 * 3 / 4;
-            }
             if (!isActive || !informationUp)
                 return;
 
@@ -359,7 +291,7 @@ namespace StardewRoguelike.UI
                 Utility.drawWithShadow(b, Game1.buffsIcons, new Vector2(xPositionOnScreen + spaceToClearSideBorder + borderWidth, yPositionOnScreen + spaceToClearTopBorder + 16), sourceRectForLevelIcon, Color.White, 0f, Vector2.Zero, 4f, flipped: false, 0.88f);
                 b.DrawString(Game1.dialogueFont, title, new Vector2(xPositionOnScreen + width / 2 - Game1.dialogueFont.MeasureString(title).X / 2f, yPositionOnScreen + spaceToClearTopBorder + 16), Game1.textColor);
                 Utility.drawWithShadow(b, Game1.buffsIcons, new Vector2(xPositionOnScreen + width - spaceToClearSideBorder - borderWidth - 64, yPositionOnScreen + spaceToClearTopBorder + 16), sourceRectForLevelIcon, Color.White, 0f, Vector2.Zero, 4f, flipped: false, 0.88f);
-                string chooseProfession = "Pick a perk...";
+                string chooseProfession = I18n.PerkMenu_DoPick();
                 b.DrawString(Game1.smallFont, chooseProfession, new Vector2(xPositionOnScreen + width / 2 - Game1.smallFont.MeasureString(chooseProfession).X / 2f, yPositionOnScreen + 64 + spaceToClearTopBorder), Game1.textColor);
 
                 // left perk
@@ -384,12 +316,12 @@ namespace StardewRoguelike.UI
 
                 if (!leftPerk.HasValue && !rightPerk.HasValue)
                 {
-                    string allUnlocked = "All perks have been unlocked.";
+                    string allUnlocked = I18n.PerkMenu_HasAllPerks();
                     b.DrawString(Game1.smallFont, allUnlocked, new Vector2(xPositionOnScreen + width / 2 - Game1.smallFont.MeasureString(allUnlocked).X / 2f, yPositionOnScreen + 232 + spaceToClearTopBorder), Game1.textColor);
                 }
                 else if (alreadyUsed)
                 {
-                    string alreadyUsedText = "You have already claimed a perk here.";
+                    string alreadyUsedText = I18n.PerkMenu_AlreadyClaimed();
                     b.DrawString(Game1.smallFont, alreadyUsedText, new Vector2(xPositionOnScreen + width / 2 - Game1.smallFont.MeasureString(alreadyUsedText).X / 2f, yPositionOnScreen + 232 + spaceToClearTopBorder), Game1.textColor);
                 }
 

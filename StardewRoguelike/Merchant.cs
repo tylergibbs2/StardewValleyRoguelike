@@ -209,14 +209,14 @@ namespace StardewRoguelike
                     dialogueLocation = new Vector2(23, 3) * 64f;
                     dialogueLocation.X += 32;
                     dialogueLocation.Y -= 16;
-                    mine.DrawSpeechBubble(dialogueLocation, "Welcome to The Abyss", 400);
+                    mine.DrawSpeechBubble(dialogueLocation, I18n.Merchant_MarlonIntroduction(), 400);
                 }
                 else if (level == Roguelike.ScalingOrder[0])
                 {
                     dialogueLocation = new Vector2(18, 3) * 64f;
                     dialogueLocation.X -= 16;
                     dialogueLocation.Y -= 16;
-                    mine.DrawSpeechBubble(dialogueLocation, "Looking to level up?", 400);
+                    mine.DrawSpeechBubble(dialogueLocation, I18n.Merchant_GilIntroduction(), 400);
 
                 }
                 else if (level == Roguelike.ScalingOrder[1])
@@ -224,7 +224,7 @@ namespace StardewRoguelike
                     dialogueLocation = new Vector2(13, 3) * 64f;
                     dialogueLocation.X -= 16;
                     dialogueLocation.Y -= 16;
-                    mine.DrawSpeechBubble(dialogueLocation, "Care for a little boost?", 400);
+                    mine.DrawSpeechBubble(dialogueLocation, I18n.Merchant_FortuneIntroduction(), 400);
                 }
                 else if (level == Roguelike.ScalingOrder[^1])
                 {
@@ -247,10 +247,7 @@ namespace StardewRoguelike
 
             qi.CurrentDialogue.Clear();
 
-            qi.setNewDialogue(
-                "Congratulations on beating Nadith! With this accomplishment, I feel that you're finally ready to see the summit.#$b#" +
-                "Interested in seeing how far down you can go? Continue on into the unknown, only a ladder away."
-            );
+            qi.setNewDialogue(I18n.Merchant_QiVictory());
         }
 
         public static void SpawnQi(MineShaft mine)
@@ -343,7 +340,7 @@ namespace StardewRoguelike
                         paid = true;
                     }
                     else
-                        Game1.drawObjectDialogue("You do not have enough HP.");
+                        Game1.drawObjectDialogue(I18n.Merchant_NotEnoughHP());
                 }
                 else if (questionAndAnswer == "cursePurchase_YesGold")
                 {
@@ -353,7 +350,7 @@ namespace StardewRoguelike
                         paid = true;
                     }
                     else
-                        Game1.drawObjectDialogue("You do not have enough money.");
+                        Game1.drawObjectDialogue(I18n.Merchant_NotEnoughGold());
                 }
 
                 if (paid)
@@ -368,9 +365,9 @@ namespace StardewRoguelike
                 int goldNeeded = 2000;
 
                 if (Game1.player.Money < goldNeeded)
-                    Game1.drawObjectDialogue("You do not have enough money.");
+                    Game1.drawObjectDialogue(I18n.Merchant_NotEnoughGold());
                 else if (Game1.player.MaxItems > 12)
-                    Game1.drawObjectDialogue("You already have the backpack upgrade.");
+                    Game1.drawObjectDialogue(I18n.Merchant_AlreadyHaveBackpack());
                 else
                 {
                     Game1.player.Money -= goldNeeded;
@@ -396,7 +393,7 @@ namespace StardewRoguelike
             {
                 if (Curse.HasAllCurses() || !CurseToAdd.HasValue)
                 {
-                    Game1.drawObjectDialogue("You have every otherworldly power known to mankind.");
+                    Game1.drawObjectDialogue(I18n.Merchant_HasAllCurses());
                     return true;
                 }
 
@@ -405,18 +402,18 @@ namespace StardewRoguelike
 
                 var responses = new Response[3]
                 {
-                    new Response("YesGold", $"Yes [{goldNeeded}G]"),
-                    new Response("YesHP", $"Yes [{hpNeeded} Max HP]"),
+                    new Response("YesGold", I18n.Merchant_YesGold(goldNeeded: goldNeeded)),
+                    new Response("YesHP", I18n.Merchant_YesHP(hpNeeded: hpNeeded)),
                     new Response("No", Game1.content.LoadString("Strings\\Lexicon:QuestionDialogue_No"))
                 };
 
-                mine.createQuestionDialogue("Would you like me to grant you an otherworldly ability for a low price?", responses, "cursePurchase");
+                mine.createQuestionDialogue(I18n.Merchant_DoCurse(), responses, "cursePurchase");
                 return true;
             }
             else if (action == "RoguelikeBackpack")
             {
                 var responses = mine.createYesNoResponses();
-                mine.createQuestionDialogue("Upgrade backpack for 2000g?", responses, "roguelikeBackpackPurchase");
+                mine.createQuestionDialogue(I18n.Merchant_DoBackpackUpgrade(), responses, "roguelikeBackpackPurchase");
                 return true;
             }
             else if (action == "Arcade_Minecart")
