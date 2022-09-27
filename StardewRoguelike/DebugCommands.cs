@@ -42,9 +42,6 @@ namespace StardewRoguelike
 
         public static void Parse(string command, string[] args)
         {
-            if (!ModEntry.DebugMode)
-                return;
-
             if (args.Length == 0)
             {
                 PrintHelp();

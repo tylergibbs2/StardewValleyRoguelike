@@ -46,8 +46,6 @@ namespace StardewRoguelike
         /// </summary>
         public static readonly Stats Stats = new();
 
-        public static readonly bool DebugMode = false;
-
         public static bool Invincible = false;
 
         public static bool ShouldShowModDisclaimer = false;
@@ -174,7 +172,8 @@ namespace StardewRoguelike
             helper.Events.Player.Warped += BossManager.PlayerWarped;
             helper.Events.Player.Warped += SpectatorMode.RespawnPlayers;
 
-            if (DebugMode)
+            var assemblyConfiguration = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyConfigurationAttribute>();
+            if (assemblyConfiguration?.Configuration == "Debug")
             {
                 helper.ConsoleCommands.Add("rdebug", "Debugging command suite for the Roguelike.", DebugCommands.Parse);
                 helper.Events.Input.ButtonPressed += DebugCommands.ButtonPressed;
