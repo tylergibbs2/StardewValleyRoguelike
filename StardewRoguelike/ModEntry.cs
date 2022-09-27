@@ -172,6 +172,8 @@ namespace StardewRoguelike
             helper.Events.Player.Warped += BossManager.PlayerWarped;
             helper.Events.Player.Warped += SpectatorMode.RespawnPlayers;
 
+            helper.Events.Input.ButtonPressed += Roguelike.ButtonPressed;
+
             var assemblyConfiguration = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyConfigurationAttribute>();
             if (assemblyConfiguration?.Configuration == "Debug")
             {
@@ -363,6 +365,14 @@ namespace StardewRoguelike
                 tooltip: () => I18n.Config_BossSplits_Tooltip(),
                 getValue: () => Config.DisableBossSplits,
                 setValue: value => Config.DisableBossSplits = value
+            );
+
+            configMenu.AddBoolOption(
+                mod: ModManifest,
+                name: () => I18n.Config_AutomaticallyFaceMouse_Name(),
+                tooltip: () => I18n.Config_AutomaticallyFaceMouse_Tooltip(),
+                getValue: () => Config.AutomaticallyFaceMouse,
+                setValue: value => Config.AutomaticallyFaceMouse = value
             );
         }
 

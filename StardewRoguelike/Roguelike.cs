@@ -208,6 +208,36 @@ namespace StardewRoguelike
             }
         }
 
+        public static void ButtonPressed(object sender, ButtonPressedEventArgs e)
+        {
+            if (!Context.IsWorldReady || !ModEntry.Config.AutomaticallyFaceMouse || Game1.player.CurrentTool is not MeleeWeapon weapon)
+                return;
+
+            bool isDagger = weapon.type.Value == MeleeWeapon.dagger;
+            if (SButtonExtensions.IsUseToolButton(e.Button) || (SButtonExtensions.IsActionButton(e.Button) && isDagger))
+            {
+                var playerPos = Game1.player.GetBoundingBox().Center;
+
+                float mouseX = e.Cursor.AbsolutePixels.X - playerPos.X;
+                float mouseY = e.Cursor.AbsolutePixels.Y - playerPos.Y;
+
+                if (Math.Abs(mouseX) > Math.Abs(mouseY))
+                {
+                    if (mouseX > 0f)
+                        Game1.player.FacingDirection = Game1.right;
+                    else
+                        Game1.player.FacingDirection = Game1.left;
+                }
+                else
+                {
+                    if (mouseY > 0f)
+                        Game1.player.FacingDirection = Game1.down;
+                    else
+                        Game1.player.FacingDirection = Game1.up;
+                }
+            }
+        }
+
         public static void PlayerWarped(object sender, WarpedEventArgs e)
         {
             if (e.Player != Game1.player)

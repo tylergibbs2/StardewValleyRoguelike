@@ -68,6 +68,8 @@
   "Config.SkipCharacter.Tooltip": "Skips the character creation screen in single player",
   "Config.BossSplits.Name": "Disable Boss Splits",
   "Config.BossSplits.Tooltip": "Disables the timer splits on boss kill",
+  "Config.AutomaticallyFaceMouse.Name": "Face Mouse Direction",
+  "Config.AutomaticallyFaceMouse.Tooltip": "Your player will face the direction in which you click",
 
   "Merchant.MarlonIntroduction": "Welcome to The Abyss",
   "Merchant.GilIntroduction": "Looking to level up?",
