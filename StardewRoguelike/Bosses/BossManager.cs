@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -10,6 +10,7 @@ using StardewValley.Menus;
 using StardewValley.Locations;
 using StardewRoguelike.UI;
 using StardewRoguelike.VirtualProperties;
+using StardewRoguelike.Patches;
 
 namespace StardewRoguelike.Bosses
 {
@@ -216,6 +217,7 @@ namespace StardewRoguelike.Bosses
 
         public static void StartRenderHealthBar()
         {
+            MineShaftCheckForMusicPatch.ShouldAnnounceMusic = true;
             ModEntry.Events.Display.RenderedHud += RenderHealthBar;
             ModEntry.Events.Display.WindowResized += WindowResized;
         }

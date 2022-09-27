@@ -379,6 +379,23 @@ namespace StardewRoguelike
             return tracks[Game1.random.Next(tracks.Count)];
         }
 
+        public static string GetMusicCredits(string track)
+        {
+            return track switch
+            {
+                "junimoKart_slimeMusic" => "Slomp's Stomp - ConcernedApe",
+                "junimoKart_whaleMusic" => "The Gem Sea Giant - ConcernedApe",
+                "megalovania" => "MEGALOVANIA - Toby Fox",
+                "wofl" => "Boss 2 - Scott Lloyd Shelly",
+                "hold_your_ground" => "Hold Your Ground - Therm",
+                "bee_boss" => "Bee Boss - ConcernedApe",
+                "cowboy_boss" => "JOTPK Final Boss - ConcernedApe",
+                "VolcanoMines1" => "Molten Jelly - ConcernedApe",
+                "VolcanoMines2" => "Forgotten World - ConcernedApe",
+                _ => ""
+            };
+        }
+
         public static int GetFloorDepth(MineShaft mine, int floor)
         {
             int level = GetLevelFromMineshaft(mine);

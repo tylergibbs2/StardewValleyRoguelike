@@ -64,7 +64,7 @@ namespace StardewRoguelike.UI
                 destroy = true;
         }
 
-        private static bool IsToolbarOnTop()
+        internal static bool IsToolbarOnTop()
         {
             foreach (var menu in Game1.onScreenMenus)
             {

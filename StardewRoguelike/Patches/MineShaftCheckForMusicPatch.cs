@@ -1,12 +1,14 @@
-﻿using StardewValley;
+﻿using StardewRoguelike.UI;
+using StardewValley;
 using StardewValley.Locations;
 using System;
-using System.Collections.Generic;
 
 namespace StardewRoguelike.Patches
 {
     internal class MineShaftCheckForMusicPatch : Patch
     {
+        internal static bool ShouldAnnounceMusic { get; set; } = false;
+
         protected override PatchDescriptor GetPatchDescriptor() => new(typeof(MineShaft), "checkForMusic");
 
         public static bool Prefix(MineShaft __instance)
@@ -47,7 +49,20 @@ namespace StardewRoguelike.Patches
                 Game1.changeMusicTrack("none");
 
             if (targetTrack != Game1.getMusicTrackName() || Game1.getMusicTrackName().EndsWith("_Ambient"))
+            {
                 Game1.changeMusicTrack(targetTrack);
+                if (ShouldAnnounceMusic)
+                {
+                    string credits = Roguelike.GetMusicCredits(Game1.getMusicTrackName());
+                    if (credits.Length > 0)
+                    {
+                        Game1.onScreenMenus.Add(
+                            new MusicAnnounceMenu(credits)
+                        );
+                        ShouldAnnounceMusic = false;
+                    }
+                }
+            }
 
             return false;
         }
