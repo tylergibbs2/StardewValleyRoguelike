@@ -122,6 +122,15 @@ namespace StardewRoguelike.Bosses
                 throw new Exception("Invalid boss passed.");
         }
 
+        private static Color GetColorGradient(Color from, Color to, float gradient)
+        {
+            return new(
+                (int)(from.R > to.R ? from.R - (from.R - to.R) * gradient : from.R + (to.R - from.R) * gradient),
+                (int)(from.G > to.G ? from.G - (from.G - to.G) * gradient : from.G + (to.G - from.G) * gradient),
+                (int)(from.B > to.B ? from.B - (from.B - to.B) * gradient : from.B + (to.B - from.B) * gradient)
+            );
+        }
+
         public static void MakeBossHealthBar(int Health, int MaxHealth)
         {
             healthBarTexture = new Texture2D(Game1.graphics.GraphicsDevice, 1000.ToUIScale(), 30.ToUIScale());
@@ -130,11 +139,15 @@ namespace StardewRoguelike.Bosses
 
             Color healthColor;
             if (Health > MaxHealth * 0.33f)
-                healthColor = Color.Green;
-            else if (Health > MaxHealth * 0.15f)
-                healthColor = Color.Gold;
+            {
+                float gradient = 1 - (Health - MaxHealth * 0.33f) / (MaxHealth * 0.66f);
+                healthColor = GetColorGradient(Color.Green, Color.Gold, gradient);
+            }
             else
-                healthColor = Color.DarkRed;
+            {
+                float gradient = 1 - (Health / (MaxHealth * 0.33f));
+                healthColor = GetColorGradient(Color.Gold, Color.DarkRed, gradient);
+            }
 
             for (int i = 0; i < data.Length; i++)
             {
