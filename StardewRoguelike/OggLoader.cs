@@ -23,10 +23,12 @@ namespace StardewRoguelike
             using var reader = new VorbisReader(stream, true);
 
             // At the moment, we're loading everything in. If the number of samples is greater than int.MaxValue, bail.
-            if (reader.TotalSamples > int.MaxValue)
+            if (reader.TotalSamples * reader.Channels > int.MaxValue)
+            {
                 throw new Exception("TotalSample overflow");
+            }
 
-            int totalSamples = (int)reader.TotalSamples * 2;
+            int totalSamples = (int)reader.TotalSamples * reader.Channels;
             int sampleRate = reader.SampleRate;
 
             // SoundEffect.SampleSizeInBytes has a fault within it. In conjunction with a small amount of percision loss,
