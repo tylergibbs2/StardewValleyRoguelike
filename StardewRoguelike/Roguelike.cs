@@ -315,18 +315,35 @@ namespace StardewRoguelike
             ResetLocalPlayer();
         }
 
+        /// <summary>
+        /// Event handler for when the player returns to title.
+        /// Used for multiplayer, so players can't keep going up by
+        /// disconnecting and reconnecting.
+        /// </summary>
+        /// <param name="sender">always null in SMAPI</param>
+        /// <param name="e">The event's arguments</param>
         public static void ReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
         {
             if (CurrentLevel != 0)
                 CurrentLevel--;
         }
 
+        /// <summary>
+        /// Event handler for when the in-game time changes.
+        /// After 11pm, reset the time to 6am so the player never sleeps
+        /// </summary>
+        /// <param name="sender">always null in SMAPI</param>
+        /// <param name="e">The event's arguments</param>
         public static void TimeChanged(object sender, TimeChangedEventArgs e)
         {
             if (e.NewTime >= 2300)
                 Game1.timeOfDay = 600;
         }
 
+        /// <summary>
+        /// Method called when the player goes down a ladder.
+        /// Performs some resets and increments the level counter
+        /// </summary>
         public static void NextFloor()
         {
             if (CurrentLevel == 0)
@@ -356,7 +373,12 @@ namespace StardewRoguelike
                 ClearInactiveMines();
         }
 
-        // This method is a bandaid until SMAPI merges my pull request
+        /// <summary>
+        /// Removes mines from memory if they are no longer needed
+        /// </summary>
+        /// <remarks>
+        /// This method is a bandaid until SMAPI merges my pull request
+        /// </remarks>
         public static void ClearInactiveMines()
         {
             int instancesToKeep = 10;
@@ -409,6 +431,11 @@ namespace StardewRoguelike
             return tracks[Game1.random.Next(tracks.Count)];
         }
 
+        /// <summary>
+        /// Retrieves the song artist and song name for a given track.
+        /// </summary>
+        /// <param name="track">The technical name of the music track</param>
+        /// <returns></returns>
         public static string GetMusicCredits(string track)
         {
             return track switch
@@ -426,6 +453,12 @@ namespace StardewRoguelike
             };
         }
 
+        /// <summary>
+        /// Retrieves the depth (monsters to spawn, music, etc) for a given Roguelike level.
+        /// </summary>
+        /// <param name="mine">The mine to retrieve depth for</param>
+        /// <param name="floor">The roguelike level</param>
+        /// <returns></returns>
         public static int GetFloorDepth(MineShaft mine, int floor)
         {
             int level = GetLevelFromMineshaft(mine);
@@ -461,6 +494,14 @@ namespace StardewRoguelike
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the map to load for a specific MineShaft. Optionally avoiding
+        /// picking maps that contain water due to issues with dark floors not having
+        /// water textures.
+        /// </summary>
+        /// <param name="mine">The mine to retrieve the map for</param>
+        /// <param name="avoidWater">Whether or not to avoid picking maps with water</param>
+        /// <returns></returns>
         public static string GetMapPath(MineShaft mine, bool avoidWater = false)
         {
             if (Merchant.IsMerchantFloor(mine))
@@ -492,6 +533,9 @@ namespace StardewRoguelike
             return chosenLayout;
         }
 
+        /// <summary>
+        /// Adds the default starting items to the player's inventory.
+        /// </summary>
         public static void AddDefaultItemsToInventory()
         {
             Pickaxe pick = new()
@@ -505,6 +549,10 @@ namespace StardewRoguelike
             Game1.player.addItemToInventory(new StardewValley.Object(194, eggStack));  // Fried Egg
         }
 
+        /// <summary>
+        /// Handles death when it occurs. Respective functions will be called
+        /// depending on if the game is singleplayer or multiplayer.
+        /// </summary>
         public static void HandleDeath()
         {
             Game1.killScreen = false;
@@ -516,6 +564,9 @@ namespace StardewRoguelike
                 HandleLocalDeath();
         }
 
+        /// <summary>
+        /// Handles death when the game is in singleplayer.
+        /// </summary>
         public static void HandleLocalDeath()
         {
             ModEntry.Invincible = true;
@@ -527,6 +578,12 @@ namespace StardewRoguelike
             DelayedAction.functionAfterDelay(GameOver, 7000);
         }
 
+        /// <summary>
+        /// Handles death when the game is in multiplayer.
+        ///
+        /// Puts the player in a "ghost" state where they can still move around.
+        /// If all players are dead, the game ends.
+        /// </summary>
         public static void HandleMultiplayerDeath()
         {
             ModEntry.Invincible = true;
@@ -558,6 +615,11 @@ namespace StardewRoguelike
 
         }
 
+        /// <summary>
+        /// Performs the game end mechanics.
+        ///
+        /// Shows a game over message and resets the game for the next play.
+        /// </summary>
         public static void GameOver()
         {
             if (Game1.player.get_FarmerIsSpectating().Value)
@@ -577,6 +639,9 @@ namespace StardewRoguelike
             StatsMenu.Show();
         }
 
+        /// <summary>
+        /// Resets the game's state for a new play.
+        /// </summary>
         public static void ResetLocalGameState()
         {
             CurrentLevel = 0;
@@ -590,6 +655,9 @@ namespace StardewRoguelike
                 FloorRngSeed = Guid.NewGuid().GetHashCode();
         }
 
+        /// <summary>
+        /// Resets the player's state for a new play.
+        /// </summary>
         public static void ResetLocalPlayer()
         {
             Curse.RemoveAllCurses();
@@ -657,11 +725,20 @@ namespace StardewRoguelike
             AddDefaultItemsToInventory();
         }
 
+        /// <summary>
+        /// Warps the local player to the start of the game.
+        /// </summary>
         public static void WarpLocalPlayerToStart()
         {
             Game1.warpFarmer("Mine", 17, 15, 2);
         }
 
+        /// <summary>
+        /// Event handler for when the game's menu changes.
+        ///
+        /// This handler refreshes the dialogue for Mister Qi.
+        /// </summary>
+        /// <param name="e">The event's arguments</param>
         public static void MenuChanged(object sender, MenuChangedEventArgs e)
         {
             if (e.OldMenu is not DialogueBox dialogue || (dialogue.characterDialogue is not null && dialogue.characterDialogue.speaker is null))
@@ -673,6 +750,10 @@ namespace StardewRoguelike
                 PopulateQiDialogue(Game1.currentLocation);
         }
 
+        /// <summary>
+        /// Populate Mister Qi's dialogue.
+        /// </summary>
+        /// <param name="lobby">The map Mister Qi is in</param>
         public static void PopulateQiDialogue(GameLocation lobby)
         {
             NPC qi = lobby.getCharacterFromName("Mister Qi");
@@ -685,6 +766,14 @@ namespace StardewRoguelike
             qi.setNewDialogue(I18n.Lobby_QiDialogue(perkKey: perkKey));
         }
 
+        /// <summary>
+        /// Event handler for when the player attempts to perform an action (right click)
+        /// </summary>
+        /// <param name="location">The location of the attempt</param>
+        /// <param name="action">The attempted action</param>
+        /// <param name="who">Which player attempted</param>
+        /// <param name="tileLocation">The tile location of the attempt</param>
+        /// <returns>If the action was a success</returns>
         public static bool PerformAction(GameLocation location, string action, Farmer who, Location tileLocation)
         {
             if (action == "HardMode" && Context.IsMainPlayer)
@@ -700,6 +789,13 @@ namespace StardewRoguelike
             return false;
         }
 
+        /// <summary>
+        /// Event handler for when the players answers a dialogue pop-up.
+        /// </summary>
+        /// <param name="mine">The location of the player</param>
+        /// <param name="questionAndAnswer">The question that was answered</param>
+        /// <param name="questionParams">Optional parameters for the question</param>
+        /// <returns>If the answer was a success</returns>
         public static bool AnswerDialogueAction(GameLocation mine, string questionAndAnswer, string[] questionParams)
         {
             if (questionAndAnswer != "hardMode_Yes")
@@ -722,6 +818,10 @@ namespace StardewRoguelike
             return true;
         }
 
+        /// <summary>
+        /// Finds the highest roguelike level achieved in the current run
+        /// </summary>
+        /// <returns>The highest level reached</returns>
         public static int GetHighestMineShaftLevel()
         {
             int highestFloor = 0;
@@ -735,6 +835,13 @@ namespace StardewRoguelike
             return highestFloor;
         }
 
+        /// <summary>
+        /// Finds the lowest roguelike level achieved in the current run
+        /// </summary>
+        /// <remarks>
+        /// The lowest level stored in memory
+        /// </remarks>
+        /// <returns>The lowest level reached</returns>
         public static int GetLowestMineShaftLevel()
         {
             int lowestFloor = GetHighestMineShaftLevel();
@@ -753,6 +860,13 @@ namespace StardewRoguelike
             return mine.get_MineShaftLevel().Value;
         }
 
+        /// <summary>
+        /// Method called when a user successfully fishes on a level.
+        /// Determines the result of the fishing.
+        /// </summary>
+        /// <param name="mine">Where the fishing happened</param>
+        /// <param name="who">Who did the fishing</param>
+        /// <returns>An item to give the player</returns>
         public static StardewValley.Object GetFish(MineShaft mine, Farmer who)
         {
             double roll = Game1.random.NextDouble();
@@ -812,6 +926,11 @@ namespace StardewRoguelike
             return new StardewValley.Object(itemId, 1, quality: quality);
         }
 
+        /// <summary>
+        /// Method that determines the drops of a broken barrel/crate
+        /// </summary>
+        /// <param name="mine">Where the barrel/crate was broken</param>
+        /// <returns>Tuple of (item id, quantity) for barrel drops</returns>
         public static (int, int) GetBarrelDrops(MineShaft mine)
         {
             int itemId;
