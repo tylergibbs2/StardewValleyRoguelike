@@ -13,6 +13,7 @@ using System.Text.Json;
 using StardewValley.Menus;
 using StardewModdingAPI.Events;
 using StardewRoguelike.Extensions;
+using StardewValley.TerrainFeatures;
 
 namespace StardewRoguelike
 {
@@ -256,6 +257,22 @@ namespace StardewRoguelike
                     ModEntry.ModMonitor.Log($"food: {Game1.buffsDisplay.food}", LogLevel.Info);
                     ModEntry.ModMonitor.Log($"drink: {Game1.buffsDisplay.drink}", LogLevel.Info);
                     break;
+                case "boulder":
+                    MineShaft mine = Game1.player.currentLocation as MineShaft;
+                    int whichClump = (Game1.random.NextDouble() < 0.5) ? 752 : 754;
+                    if (mine.getMineArea() == 40)
+                    {
+                        if (mine.GetAdditionalDifficulty() > 0)
+                        {
+                            whichClump = 600;
+                            if (Roguelike.FloorRng.NextDouble() < 0.1)
+                                whichClump = 602;
+                        }
+                        else
+                            whichClump = ((Roguelike.FloorRng.NextDouble() < 0.5) ? 756 : 758);
+                    }
+                    mine.resourceClumps.Add(new ResourceClump(whichClump, 2, 2, Game1.currentCursorTile));
+                    break;
                 default:
                     ModEntry.ModMonitor.Log("Invalid command.", LogLevel.Error);
                     break;
@@ -298,6 +315,8 @@ namespace StardewRoguelike
             help.AppendLine("genmines <int:amount> : generates amount mines and stores in memory");
             help.AppendLine("gamba : opens the gamba wheel menu");
             help.AppendLine("skills : displays the player's luck and speed skills");
+            help.AppendLine("food : displays active food and drink buffs");
+            help.AppendLine("boulder : spawns a resource clump (boulder/log) at cursor tile");
 
             ModEntry.ModMonitor.Log(help.ToString(), LogLevel.Info);
         }
