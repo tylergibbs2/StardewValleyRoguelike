@@ -12,6 +12,7 @@ using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Minigames;
 using StardewValley.Objects;
+using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
 using xTile.Dimensions;
@@ -81,7 +82,7 @@ namespace StardewRoguelike
             foreach (Vector2 potTile in GardenPotTiles)
             {
                 var gardenPot = new IndoorPot(potTile);
-                gardenPot.hoeDirt.Value.state.Value = 1;
+                gardenPot.hoeDirt.Value.state.Value = HoeDirt.watered;
                 gardenPot.showNextIndex.Value = true;
                 mine.Objects.Add(potTile, gardenPot);
                 Vector2 sprinklerTile = new(potTile.X - 1, potTile.Y);
@@ -95,7 +96,7 @@ namespace StardewRoguelike
             GrowCrops(mine);
         }
 
-        public static void GrowCrop(Crop crop, Vector2 tile)
+        public static void GrowCrop(Crop crop)
         {
             int plantedAgo = crop.get_CropMerchantsPlantedAgo();
 
@@ -168,7 +169,7 @@ namespace StardewRoguelike
                 Crop currentCrop = new(previousCrop.netSeedIndex.Value, (int)tile.X, (int)tile.Y);
                 currentCrop.set_CropMerchantsPlantedAgo(previousCrop.get_CropMerchantsPlantedAgo() + 1);
 
-                GrowCrop(currentCrop, tile);
+                GrowCrop(currentCrop);
                 currentPot.hoeDirt.Value.crop = currentCrop;
             }
         }
@@ -290,7 +291,6 @@ namespace StardewRoguelike
 
         public static bool ShouldSpawnBackpack(MineShaft mine)
         {
-            int level = Roguelike.GetLevelFromMineshaft(mine);
             return Game1.player.MaxItems == 12;
         }
 
