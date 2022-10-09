@@ -160,7 +160,42 @@ namespace StardewRoguelike
                     Game1.chatBox.addInfoMessage("Spawned ladder.");
                 }
                 else
-                    Game1.chatBox.addInfoMessage("All monsters have been detected to be on the map.");
+                {
+                    // monsters reachable?
+                    bool allMonstersReachable = true;
+                    foreach (Character character in mine.characters)
+                    {
+                        if (character is not Monster monster)
+                            continue;
+
+                        Stack<Point> path;
+                        try
+                        {
+                            path = PathFindController.findPath(monster.getTileLocationPoint(), Game1.player.getTileLocationPoint(), PathFindController.isAtEndPoint, mine, monster, 10_000);
+                        }
+                        catch (Exception)  // interlock
+                        {
+                            allMonstersReachable = false;
+                            break;
+                        }
+
+                        // no path
+                        if (path is null)
+                        {
+                            allMonstersReachable = false;
+                            break;
+                        }
+                    }
+
+                    if (allMonstersReachable)
+                        Game1.chatBox.addInfoMessage("All monsters have been detected to be on the map and reachable.");
+                    else
+                    {
+                        mine.resourceClumps.Clear();
+                        mine.playSound("boulderBreak");
+                        Game1.chatBox.addInfoMessage("Cleared map obstacles.");
+                    }
+                }
             }
             else
                 Game1.chatBox.addInfoMessage($"Found {monstersOffMap} off the map, they have been repositioned.");
