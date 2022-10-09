@@ -38,7 +38,7 @@ namespace StardewRoguelike.Patches
             if (Merchant.IsMerchantFloor(requestedLevel))
                 Merchant.Initialize(newMine);
             else if (BossFloor.IsBossFloor(requestedLevel))
-                BossFloor.SpawnBoss(newMine);
+                BossFloor.Setup(newMine);
             else if (ForgeFloor.ShouldDoForgeFloor(requestedLevel))
                 newMine.get_MineShaftForgeFloor().Value = true;
             else if (ChestFloor.ShouldDoChestFloor(requestedLevel))

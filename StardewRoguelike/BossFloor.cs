@@ -1,4 +1,4 @@
-﻿using StardewRoguelike.Bosses;
+using StardewRoguelike.Bosses;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
@@ -77,12 +77,17 @@ namespace StardewRoguelike
             return difficulty;
         }
 
+        public static void Setup(MineShaft mine)
+        {
+            var spawnedBoss = SpawnBoss(mine);
+        }
+
         /// <summary>
         /// Spawns a boss in a specified MineShaft.
         /// The boss is instantiated with the proper difficulty.
         /// </summary>
         /// <param name="mine">The mine.</param>
-        public static void SpawnBoss(MineShaft mine)
+        public static Type SpawnBoss(MineShaft mine)
         {
             Type bossType;
             int level = Roguelike.GetLevelFromMineshaft(mine);
@@ -110,6 +115,8 @@ namespace StardewRoguelike
             boss.Health = boss.MaxHealth;
             boss.DamageToFarmer = (int)(BossManager.GetBaseDamageToFarmer(mine, bossType) * difficulty);
             mine.characters.Add(boss);
+
+            return bossType;
         }
 
         /// <summary>
