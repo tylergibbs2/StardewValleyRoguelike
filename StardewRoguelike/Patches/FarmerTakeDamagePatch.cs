@@ -141,6 +141,28 @@ namespace StardewRoguelike.Patches
                     __instance.setTrajectory((int)trajectory.X, (int)trajectory.Y);
                 }
 
+                if (Curse.AnyFarmerHasCurse(CurseType.MonsterBuffs) && Game1.random.NextDouble() < 0.5)
+                {
+                    int duration = 5000;
+
+                    // Apply random buff/debuff
+                    if (Game1.random.Next(11) >= __instance.immunity)
+                    {
+                        int[] sourceArray = Game1.random.NextDouble() < 0.5 && !__instance.hasBuff(28) ? Roguelike.RandomDebuffIds : Roguelike.RandomBuffIds;
+                        int buffId = sourceArray[Game1.random.Next(sourceArray.Length)];
+                        Buff buff = new(buffId)
+                        {
+                            millisecondsDuration = duration
+                        };
+                        Game1.buffsDisplay.addOtherBuff(buff);
+
+                        if (buffId == 19)
+                            __instance.currentLocation.playSound("frozen");
+                        else
+                            __instance.currentLocation.playSound("debuffHit");
+                    }
+                }
+
                 __instance.temporarilyInvincible = true;
                 __instance.temporaryInvincibilityTimer = 0;
                 __instance.currentTemporaryInvincibilityDuration = 1200 + __instance.GetEffectsOfRingMultiplier(861) * 400;

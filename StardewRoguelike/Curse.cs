@@ -33,7 +33,8 @@ namespace StardewRoguelike
         BootsBetterImmunity   = 89010,
         BootsBetterDefense    = 89011,
         MoreCritsLessDamage   = 89012,
-        CheaperMerchant       = 89013
+        CheaperMerchant       = 89013,
+        MonsterBuffs          = 89014
     }
     #pragma warning restore format
 
@@ -57,6 +58,7 @@ namespace StardewRoguelike
                 CurseType.BootsBetterDefense => I18n.CurseTypeName_BootsBetterDefense(),
                 CurseType.MoreCritsLessDamage => I18n.CurseTypeName_MoreCritsLessDamage(),
                 CurseType.CheaperMerchant => I18n.CurseTypeName_CheaperMerchant(),
+                CurseType.MonsterBuffs => I18n.CurseTypeName_MonsterBuffs(),
                 _ => throw new NotImplementedException(),
             };
         }
@@ -78,6 +80,7 @@ namespace StardewRoguelike
                 CurseType.BootsBetterDefense => I18n.CurseTypeDesc_BootsBetterDefense(),
                 CurseType.MoreCritsLessDamage => I18n.CurseTypeDesc_MoreCritsLessDamage(),
                 CurseType.CheaperMerchant => I18n.CurseTypeDesc_CheaperMerchant(),
+                CurseType.MonsterBuffs => I18n.CurseTypeDesc_MonsterBuffs(),
                 _ => throw new NotImplementedException(),
             };
         }

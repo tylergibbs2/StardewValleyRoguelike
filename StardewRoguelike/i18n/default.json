@@ -163,6 +163,7 @@
   "CurseTypeName.BootsBetterDefense": "Boot Defense",
   "CurseTypeName.MoreCritsLessDamage": "More Crits",
   "CurseTypeName.CheaperMerchant": "Cheaper Merchant",
+  "CurseTypeName.MonsterBuffs": "(De)Buff Monsters",
 
   "CurseTypeDesc.GlassCannon": "You deal double damage but have half health.",
   "CurseTypeDesc.DamageOverTime": "Damage you take is applied over time but you take 1.5x more.",
@@ -177,6 +178,7 @@
   "CurseTypeDesc.BootsBetterDefense": "All boots have +10 defense and -10 immunity.",
   "CurseTypeDesc.MoreCritsLessDamage": "Higher chance for a crit but crits do less damage.",
   "CurseTypeDesc.CheaperMerchant": "The merchant sells items for cheaper but has less items.",
+  "CurseTypeDesc.MonsterBuffs": "Monsters have a 50% chance to apply a random buff or debuff on hit.",
 
   "ChallengeFloor.Shared.TimeLeft": "Time Left: {{seconds}}",
   "ChallengeFloor.Shared.WavesKilled": "Waves Killed: {{amount}}",

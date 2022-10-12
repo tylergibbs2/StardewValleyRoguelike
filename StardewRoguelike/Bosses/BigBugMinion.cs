@@ -16,13 +16,6 @@ namespace StardewRoguelike.Bosses
 
         private Color? CurrentColor = null;
 
-        private int[] debuffList = new int[]
-        {
-            12, 17, 13,
-            18, 14, 19,
-            25, 26, 27
-        };
-
         private int originalResilience;
 
         private int originalDamage;
@@ -114,8 +107,8 @@ namespace StardewRoguelike.Bosses
 
         private int GetRandomDebuff()
         {
-            int index = Game1.random.Next(debuffList.Length);
-            return debuffList[index];
+            int index = Game1.random.Next(Roguelike.RandomDebuffIds.Length);
+            return Roguelike.RandomDebuffIds[index];
         }
 
         public override void drawAboveAllLayers(SpriteBatch b)

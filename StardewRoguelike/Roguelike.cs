@@ -85,6 +85,19 @@ namespace StardewRoguelike
 
         public static IMinigame ActiveMinigame = null;
 
+        internal readonly static int[] RandomDebuffIds = new int[]
+        {
+            12, 17, 13,
+            18, 14, 19,
+            25, 26, 27
+        };
+
+        internal readonly static int[] RandomBuffIds = new int[]
+        {
+            20, 21, 22,
+            28
+        };
+
         public static void AdjustMonster(MineShaft mine, ref Monster monster)
         {
             int level = GetLevelFromMineshaft(mine);
