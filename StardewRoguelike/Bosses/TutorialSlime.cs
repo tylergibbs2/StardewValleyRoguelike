@@ -28,7 +28,7 @@ namespace StardewRoguelike.Bosses
 
         public List<string> MusicTracks
         {
-            get { return new() { "junimoKart_slimeMusic" }; }
+            get { return new() { "jelly_junktion" }; }
         }
 
         public bool InitializeWithHealthbar

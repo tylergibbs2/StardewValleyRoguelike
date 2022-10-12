@@ -34,7 +34,7 @@ namespace StardewRoguelike.Bosses
 
         public List<string> MusicTracks
         {
-            get { return new() { "wofl" }; }
+            get { return new() { "photophobia" }; }
         }
 
         public bool InitializeWithHealthbar

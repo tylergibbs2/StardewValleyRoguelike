@@ -106,8 +106,9 @@ namespace StardewRoguelike
         {
             ("bee_boss", "Music", "bee_boss.ogg", true),
             ("megalovania", "Music", "megalovania.ogg", true),
-            ("wofl", "Music", "wofl.ogg", true),
-            ("hold_your_ground", "Music", "hold_your_ground.ogg", true)
+            ("hold_your_ground", "Music", "hold_your_ground.ogg", true),
+            ("jelly_junktion", "Music", "jelly_junktion.ogg", true),
+            ("photophobia", "Music", "photophobia.ogg", true)
         };
 
         /// <summary>
