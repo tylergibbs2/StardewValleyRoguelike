@@ -11,6 +11,7 @@
   "Lobby.DidEnterHardMode": "Your journey has begun.",
   "Lobby.DidExitHardMode": "Couldn't handle the heat?'",
 
+  "Enchantments.SlimeKiller": "Slime Killer",
   "UI.NewUpdate": "New Update: {{version}}",
 
   "UI.BossKillAnnounceMenu.Defeated": "Defeated",

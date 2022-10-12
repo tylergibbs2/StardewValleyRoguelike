@@ -13,7 +13,7 @@ namespace StardewRoguelike.Enchantments
 
         public override string GetName()
         {
-            return "Slime Killer";
+            return I18n.Enchantments_SlimeKiller();
         }
     }
 }
