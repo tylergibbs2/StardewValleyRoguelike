@@ -1,7 +1,5 @@
-using Force.DeepCloner;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewRoguelike.Extensions;
 using StardewRoguelike.Patches;
@@ -16,6 +14,7 @@ using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
 using xTile.Dimensions;
+using xTile.Tiles;
 
 namespace StardewRoguelike
 {
@@ -44,7 +43,7 @@ namespace StardewRoguelike
             int level = Roguelike.GetLevelFromMineshaft(mine);
             if (DebugCommands.ForcedFortuneTeller)
                 result = "custom-merchant-curses";
-            else if (level == 1 || level == Roguelike.ScalingOrder[0])
+            else if (level == 1 || level == Roguelike.ScalingOrder[0] || level == Roguelike.ScalingOrder[2])
                 result = "custom-merchant";
             else if (level == Roguelike.ScalingOrder[1])
                 result = "custom-merchant-curses";
@@ -207,6 +206,7 @@ namespace StardewRoguelike
 
                 if (level == 1)
                 {
+                    // Do Marlon introduction
                     dialogueLocation = new Vector2(23, 3) * 64f;
                     dialogueLocation.X += 32;
                     dialogueLocation.Y -= 16;
@@ -214,6 +214,7 @@ namespace StardewRoguelike
                 }
                 else if (level == Roguelike.ScalingOrder[0])
                 {
+                    // Do Gil introduction
                     dialogueLocation = new Vector2(18, 3) * 64f;
                     dialogueLocation.X -= 16;
                     dialogueLocation.Y -= 16;
@@ -222,13 +223,32 @@ namespace StardewRoguelike
                 }
                 else if (level == Roguelike.ScalingOrder[1])
                 {
+                    // Do fortune teller introduction
                     dialogueLocation = new Vector2(13, 3) * 64f;
                     dialogueLocation.X -= 16;
                     dialogueLocation.Y -= 16;
                     mine.DrawSpeechBubble(dialogueLocation, I18n.Merchant_FortuneIntroduction(), 400);
                 }
+                else if (level == Roguelike.ScalingOrder[2])
+                {
+                    // Spawn hat board
+                    TileSheet town_tilesheet = mine.map.GetTileSheet("z_Town");
+                    int tilesheet_index = mine.map.TileSheets.IndexOf(town_tilesheet);
+
+                    mine.setMapTileIndex(11, 5, 2045, "Buildings", tilesheet_index);
+                    mine.setMapTileIndex(12, 5, 2046, "Buildings", tilesheet_index);
+                    mine.setMapTileIndex(13, 5, 2047, "Buildings", tilesheet_index);
+                    mine.setTileProperty(11, 5, "Buildings", "Action", "HatBoard");
+                    mine.setTileProperty(12, 5, "Buildings", "Action", "HatBoard");
+                    mine.setTileProperty(13, 5, "Buildings", "Action", "HatBoard");
+                    mine.setMapTileIndex(11, 4, 2013, "Front", tilesheet_index);
+                    mine.setMapTileIndex(12, 4, 2014, "Front", tilesheet_index);
+                    mine.setMapTileIndex(13, 4, 2015, "Front", tilesheet_index);
+                }
+
                 else if (level == Roguelike.ScalingOrder[^1])
                 {
+                    // Spawn Qi when victory
                     SpawnQi(mine);
                     PopulateQiDialogue(mine);
                 }
@@ -419,6 +439,13 @@ namespace StardewRoguelike
             else if (action == "Arcade_Minecart")
             {
                 Game1.currentMinigame = new MineCart(0, 2);
+                return true;
+            }
+            else if (action == "HatBoard")
+            {
+                Game1.activeClickableMenu = new HatBoard();
+                Game1.playSound("bigSelect");
+
                 return true;
             }
 

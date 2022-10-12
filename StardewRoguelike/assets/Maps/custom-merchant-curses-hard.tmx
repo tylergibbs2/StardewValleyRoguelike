@@ -720,6 +720,9 @@
  <tileset firstgid="3729" name="z_volcano_dungeon" tilewidth="16" tileheight="16" tilecount="576" columns="16">
   <image source="volcano_dungeon.png" width="256" height="576"/>
  </tileset>
+ <tileset firstgid="4305" name="z_Town" tilewidth="16" tileheight="16" tilecount="2304" columns="32">
+  <image source="spring_town.png" width="512" height="1152"/>
+ </tileset>
  <layer id="12" name="BackBackBack" width="50" height="26">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
