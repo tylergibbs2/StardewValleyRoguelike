@@ -7,10 +7,10 @@ using System.Collections.Generic;
 
 namespace StardewRoguelike.Patches
 {
-    [HarmonyPatch(typeof(StardewValley.Object), "performObjectDropInAction")]
+    [HarmonyPatch(typeof(SObject), "performObjectDropInAction")]
     internal class ObjectDropInPatch
     {
-        public static bool Prefix(StardewValley.Object __instance, ref bool __result, Item dropInItem, bool probe, Farmer who)
+        public static bool Prefix(SObject __instance, ref bool __result, Item dropInItem, bool probe, Farmer who)
         {
             if (__instance.Name != "Deconstructor")
                 return true;
@@ -26,10 +26,10 @@ namespace StardewRoguelike.Patches
 
             if (dropInItem is not null)
             {
-                StardewValley.Object deconstructor_output = __instance.GetDeconstructorOutput(dropInItem);
+                SObject deconstructor_output = __instance.GetDeconstructorOutput(dropInItem);
                 if (deconstructor_output != null)
                 {
-                    __instance.heldObject.Value = new StardewValley.Object(dropInItem.ParentSheetIndex, 1);
+                    __instance.heldObject.Value = new SObject(dropInItem.ParentSheetIndex, 1);
                     if (!probe)
                     {
                         __instance.heldObject.Value = deconstructor_output;
@@ -43,7 +43,7 @@ namespace StardewRoguelike.Patches
                 }
                 if (!probe)
                 {
-                    if (StardewValley.Object.autoLoadChest == null)
+                    if (SObject.autoLoadChest == null)
                         Game1.showRedMessage(Game1.content.LoadString("Strings\\StringsFromCSFiles:Deconstructor_fail"));
 
                     return false;
@@ -54,7 +54,7 @@ namespace StardewRoguelike.Patches
         }
     }
 
-    [HarmonyPatch(typeof(StardewValley.Object), "GetDeconstructorOutput")]
+    [HarmonyPatch(typeof(SObject), "GetDeconstructorOutput")]
     internal class DeconstructorOutputPatch
     {
         public static readonly List<int> InvalidItemIndices = new()
@@ -64,7 +64,7 @@ namespace StardewRoguelike.Patches
             322   // Wood Fence
         };
 
-        public static bool Prefix(ref StardewValley.Object __result, Item item)
+        public static bool Prefix(ref SObject __result, Item item)
         {
             if (InvalidItemIndices.Contains(item.ParentSheetIndex) || item is Pickaxe)
             {

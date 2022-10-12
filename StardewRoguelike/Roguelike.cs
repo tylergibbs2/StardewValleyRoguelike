@@ -149,7 +149,7 @@ namespace StardewRoguelike
             }
             else if (!HardMode && DidHardModeDowngrade)
             {
-                Game1.player.addItemToInventory(new StardewValley.Object(194, 1));
+                Game1.player.addItemToInventory(new SObject(194, 1));
                 DelayedAction.playSoundAfterDelay("clank", 250);
                 DidHardModeDowngrade = false;
             }
@@ -310,7 +310,7 @@ namespace StardewRoguelike
                 mine.addCharacter(qi);
 
                 Vector2 computerTile = new(19, 7);
-                mine.Objects[computerTile] = new StardewValley.Object(computerTile, 239);
+                mine.Objects[computerTile] = new SObject(computerTile, 239);
 
                 Game1.player.Name = "";
                 Game1.player.favoriteThing.Value = "";
@@ -560,7 +560,7 @@ namespace StardewRoguelike
             Game1.player.addItemToInventory(new MeleeWeapon(0));  // Rusty Sword
 
             int eggStack = HardMode ? 2 : 3;
-            Game1.player.addItemToInventory(new StardewValley.Object(194, eggStack));  // Fried Egg
+            Game1.player.addItemToInventory(new SObject(194, eggStack));  // Fried Egg
         }
 
         /// <summary>
@@ -881,7 +881,7 @@ namespace StardewRoguelike
         /// <param name="mine">Where the fishing happened</param>
         /// <param name="who">Who did the fishing</param>
         /// <returns>An item to give the player</returns>
-        public static StardewValley.Object GetFish(MineShaft mine, Farmer who)
+        public static SObject GetFish(MineShaft mine, Farmer who)
         {
             double roll = Game1.random.NextDouble();
             double qualityRoll = Game1.random.NextDouble();
@@ -937,7 +937,7 @@ namespace StardewRoguelike
             }
 
 
-            return new StardewValley.Object(itemId, 1, quality: quality);
+            return new SObject(itemId, 1, quality: quality);
         }
 
         /// <summary>

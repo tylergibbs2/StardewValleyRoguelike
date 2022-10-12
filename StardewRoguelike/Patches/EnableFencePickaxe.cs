@@ -27,10 +27,10 @@ namespace StardewRoguelike.Patches
                     switch (__instance.whichType.Value)
                     {
                         case 1:
-                            location.debris.Add(new Debris(new Object(322, 1), __instance.tileLocation.Value * 64f + new Vector2(32f, 32f)));
+                            location.debris.Add(new Debris(new SObject(322, 1), __instance.tileLocation.Value * 64f + new Vector2(32f, 32f)));
                             break;
                         case 5:
-                            location.debris.Add(new Debris(new Object(298, 1), __instance.tileLocation.Value * 64f + new Vector2(32f, 32f)));
+                            location.debris.Add(new Debris(new SObject(298, 1), __instance.tileLocation.Value * 64f + new Vector2(32f, 32f)));
                             break;
                     }
                 }

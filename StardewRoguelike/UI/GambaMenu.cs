@@ -123,7 +123,7 @@ namespace StardewValley.Menus
             switch (result)
             {
                 case SpinResult.Gold:
-                    Game1.player.addItemByMenuIfNecessary(new Object(384, 15));
+                    Game1.player.addItemByMenuIfNecessary(new SObject(384, 15));
                     break;
                 case SpinResult.Monsters:
 
@@ -160,7 +160,7 @@ namespace StardewValley.Menus
                     Game1.player.addItemByMenuIfNecessary(boots);
                     break;
                 case SpinResult.Food:
-                    Object food = merchantFloor.PickAnyFood();
+                    SObject food = merchantFloor.PickAnyFood();
                     Game1.player.addItemByMenuIfNecessary(food);
                     break;
                 case SpinResult.Ring:

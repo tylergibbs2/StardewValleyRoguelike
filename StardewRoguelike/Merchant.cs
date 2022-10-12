@@ -73,7 +73,7 @@ namespace StardewRoguelike
             {
                 Vector2 signTile = new(17, 16);
                 Sign sign = new(signTile, 38);
-                sign.displayItem.Value = new StardewValley.Object(773, 1);
+                sign.displayItem.Value = new SObject(773, 1);
                 sign.displayType.Value = 1;
                 mine.Objects.Add(signTile, sign);
             }
@@ -85,7 +85,7 @@ namespace StardewRoguelike
                 gardenPot.showNextIndex.Value = true;
                 mine.Objects.Add(potTile, gardenPot);
                 Vector2 sprinklerTile = new(potTile.X - 1, potTile.Y);
-                var sprinkler = new StardewValley.Object(599, 1)
+                var sprinkler = new SObject(599, 1)
                 {
                     TileLocation = sprinklerTile
                 };
@@ -198,7 +198,7 @@ namespace StardewRoguelike
                 if (Perks.HasPerk(Perks.PerkType.Deconstructor))
                 {
                     Vector2 deconstructorTile = new(26, 7);
-                    mine.Objects[deconstructorTile] = new StardewValley.Object(deconstructorTile, 265);
+                    mine.Objects[deconstructorTile] = new SObject(deconstructorTile, 265);
                 }
 
                 int level = Roguelike.GetLevelFromMineshaft(mine);
@@ -462,11 +462,11 @@ namespace StardewRoguelike
         {
             Dictionary<ISalable, int[]> stock = new();
 
-            Utility.AddStock(stock, new StardewValley.Object(472, 5), 100, 5);  // Parsnip Seeds
-            Utility.AddStock(stock, new StardewValley.Object(479, 5), 100, 5);  // Melon Seeds
-            Utility.AddStock(stock, new StardewValley.Object(490, 5), 100, 5);  // Pumpkin Seeds
-            Utility.AddStock(stock, new StardewValley.Object(486, 5), 100, 5);  // Starfruit Seeds
-            Utility.AddStock(stock, new StardewValley.Object(347, 5), 100, 5);  // Rare Seeds
+            Utility.AddStock(stock, new SObject(472, 5), 100, 5);  // Parsnip Seeds
+            Utility.AddStock(stock, new SObject(479, 5), 100, 5);  // Melon Seeds
+            Utility.AddStock(stock, new SObject(490, 5), 100, 5);  // Pumpkin Seeds
+            Utility.AddStock(stock, new SObject(486, 5), 100, 5);  // Starfruit Seeds
+            Utility.AddStock(stock, new SObject(347, 5), 100, 5);  // Rare Seeds
 
             return stock;
         }
@@ -502,14 +502,14 @@ namespace StardewRoguelike
             int foodQuantity = Curse.HasCurse(CurseType.CheaperMerchant) ? 1 : 3;
             int foodPriceOffset = Curse.HasCurse(CurseType.CheaperMerchant) ? -100 : 0;
 
-            Utility.AddStock(stock, new StardewValley.Object(194, foodQuantity), buyPrice: (int)((200 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Fried Egg
-            Utility.AddStock(stock, new StardewValley.Object(196, foodQuantity), buyPrice: (int)((300 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Salad
-            Utility.AddStock(stock, new StardewValley.Object(773, foodQuantity), buyPrice: (int)((500 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Life Elixir
+            Utility.AddStock(stock, new SObject(194, foodQuantity), buyPrice: (int)((200 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Fried Egg
+            Utility.AddStock(stock, new SObject(196, foodQuantity), buyPrice: (int)((300 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Salad
+            Utility.AddStock(stock, new SObject(773, foodQuantity), buyPrice: (int)((500 + foodPriceOffset) * priceAdjustment), limitedQuantity: foodQuantity);  // Life Elixir
 
             int totalMilksInGame = (Roguelike.MaxHP - Roguelike.StartingHP) / 25;
             int milkQuantity = totalMilksInGame - Roguelike.MilksBought;
             if (milkQuantity > 0)
-                Utility.AddStock(stock, new StardewValley.Object(803, milkQuantity), buyPrice: (int)(500 * priceAdjustment), limitedQuantity: milkQuantity);  // Iridium Milk
+                Utility.AddStock(stock, new SObject(803, milkQuantity), buyPrice: (int)(500 * priceAdjustment), limitedQuantity: milkQuantity);  // Iridium Milk
 
             return stock;
         }

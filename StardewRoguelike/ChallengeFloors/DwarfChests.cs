@@ -95,7 +95,7 @@ namespace StardewRoguelike.ChallengeFloors
         public override void Update(MineShaft mine, GameTime time)
         {
             int chestCount = 0;
-            foreach (StardewValley.Object obj in mine.overlayObjects.Values)
+            foreach (SObject obj in mine.overlayObjects.Values)
             {
                 if (obj is Chest)
                     chestCount++;

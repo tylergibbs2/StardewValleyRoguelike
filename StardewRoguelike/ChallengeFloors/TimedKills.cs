@@ -99,7 +99,7 @@ namespace StardewRoguelike.ChallengeFloors
                 }
             }
 
-            mine.SpawnLocalChest(chestSpot, new Object(384, 20));
+            mine.SpawnLocalChest(chestSpot, new SObject(384, 20));
         }
 
         public override bool ShouldSpawnLadder(MineShaft mine)

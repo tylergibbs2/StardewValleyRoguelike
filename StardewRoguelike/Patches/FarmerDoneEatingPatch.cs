@@ -19,7 +19,7 @@ namespace StardewRoguelike.Patches
             if (__instance != Game1.player)
                 return true;
 
-            StardewValley.Object consumed = __instance.itemToEat as StardewValley.Object;
+            SObject consumed = __instance.itemToEat as SObject;
             if (consumed != null && consumed.HasContextTag("ginger_item") && __instance.hasBuff(25))
             {
                 Game1.buffsDisplay.removeOtherBuff(25);

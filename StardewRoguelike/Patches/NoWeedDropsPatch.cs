@@ -8,9 +8,9 @@ namespace StardewRoguelike.Patches
 {
     internal class NoWeedDropsPatch : Patch
     {
-        protected override PatchDescriptor GetPatchDescriptor() => new(typeof(StardewValley.Object), "cutWeed");
+        protected override PatchDescriptor GetPatchDescriptor() => new(typeof(SObject), "cutWeed");
 
-        public static bool Prefix(StardewValley.Object __instance, Farmer who, GameLocation location = null)
+        public static bool Prefix(SObject __instance, Farmer who, GameLocation location = null)
         {
             if (location is null && who is not null)
                 location = who.currentLocation;

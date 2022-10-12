@@ -97,7 +97,7 @@ namespace StardewRoguelike
                 validItems.Add(new Boots(bootId));
 
             foreach (int specialFoodId in SpecialFood.Keys)
-                validItems.Add(new StardewValley.Object(specialFoodId, 1));
+                validItems.Add(new SObject(specialFoodId, 1));
 
             return Utility.GetRandom(validItems, random);
         }
@@ -121,7 +121,7 @@ namespace StardewRoguelike
                 validItems.Add(new Boots(bootId));
 
             foreach (int specialFoodId in SpecialFood.Keys)
-                validItems.Add(new StardewValley.Object(specialFoodId, 1));
+                validItems.Add(new SObject(specialFoodId, 1));
 
             while (toAvoid.Count >= validItems.Count)
                 toAvoid.RemoveAt(Game1.random.Next(toAvoid.Count));
@@ -153,7 +153,7 @@ namespace StardewRoguelike
             return new(bootId);
         }
 
-        public StardewValley.Object PickAnyFood(Random random = null)
+        public SObject PickAnyFood(Random random = null)
         {
             random ??= Game1.random;
             List<int> regularFoodIds = new() { 194, 196, 773 };
@@ -219,7 +219,7 @@ namespace StardewRoguelike
                 Utility.AddStock(stock, new Boots(bootId), buyPrice: CalculateBuyPrice(Boots[bootId].Item1, Boots[bootId].Item2, priceAdjustment, random), limitedQuantity: Boots[bootId].Item3);
 
             foreach (int specialFoodId in chosenSpecialFood)
-                Utility.AddStock(stock, new StardewValley.Object(specialFoodId, SpecialFood[specialFoodId].Item3), buyPrice: CalculateBuyPrice(SpecialFood[specialFoodId].Item1, SpecialFood[specialFoodId].Item2, random: random), limitedQuantity: SpecialFood[specialFoodId].Item3);
+                Utility.AddStock(stock, new SObject(specialFoodId, SpecialFood[specialFoodId].Item3), buyPrice: CalculateBuyPrice(SpecialFood[specialFoodId].Item1, SpecialFood[specialFoodId].Item2, random: random), limitedQuantity: SpecialFood[specialFoodId].Item3);
         }
     }
 }

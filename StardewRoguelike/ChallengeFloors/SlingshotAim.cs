@@ -188,8 +188,8 @@ namespace StardewRoguelike.ChallengeFloors
 
             List<Item> chestItems = new()
             {
-                new Object(gemReward, 1),
-                new Object(384, goldAmount)
+                new SObject(gemReward, 1),
+                new SObject(384, goldAmount)
             };
 
             mine.SpawnLocalChest(new(28, 24), chestItems);

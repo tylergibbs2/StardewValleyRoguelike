@@ -16,7 +16,7 @@ namespace StardewRoguelike.Patches
 				price = obj.salePrice();
 			}
 			int stack = int.MaxValue;
-			if (obj is StardewValley.Object && (obj as StardewValley.Object).IsRecipe)
+			if (obj is SObject && (obj as SObject).IsRecipe)
 			{
 				stack = 1;
 			}

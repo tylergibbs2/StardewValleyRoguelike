@@ -1,9 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-	<EnableHarmony>true</EnableHarmony>
+	  <EnableHarmony>true</EnableHarmony>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Using Alias="SObject" Include="StardewValley.Object"/>
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />

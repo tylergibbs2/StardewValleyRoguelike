@@ -141,7 +141,7 @@ namespace StardewRoguelike.Patches
                             if (__instance.Objects.ContainsKey(objectPos4))
                                 continue;
 
-                            StardewValley.Object stone = null;
+                            SObject stone = null;
                             if (gemStoneChance != 0.0 && mineRandom.NextDouble() < gemStoneChance + gemStoneChance + __instance.mineLevel / 24000.0)
                             {
                                 stone = new(objectPos4, __instance.getRandomGemRichStoneForThisLevel(__instance.mineLevel), "Stone", canBeSetDown: true, canBeGrabbed: false, isHoedirt: false, isSpawnedObject: false)

@@ -5,10 +5,10 @@ using StardewValley;
 
 namespace StardewRoguelike.Patches
 {
-    [HarmonyPatch(typeof(StardewValley.Object), "checkForAction")]
+    [HarmonyPatch(typeof(SObject), "checkForAction")]
     internal class ObjectCheckForActionPatch
     {
-        public static bool Prefix(StardewValley.Object __instance, ref bool __result, Farmer who, bool justCheckingForActivity = false)
+        public static bool Prefix(SObject __instance, ref bool __result, Farmer who, bool justCheckingForActivity = false)
         {
             if (__instance.bigCraftable.Value)
             {
