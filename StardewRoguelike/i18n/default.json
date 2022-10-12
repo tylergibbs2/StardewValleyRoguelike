@@ -12,6 +12,8 @@
   "Lobby.DidExitHardMode": "Couldn't handle the heat?'",
 
   "Enchantments.SlimeKiller": "Slime Killer",
+  "Enchantments.StarShooter": "Star Shooter",
+
   "UI.NewUpdate": "New Update: {{version}}",
 
   "UI.BossKillAnnounceMenu.Defeated": "Defeated",

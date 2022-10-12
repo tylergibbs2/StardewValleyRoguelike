@@ -108,7 +108,8 @@ namespace StardewRoguelike
             ("megalovania", "Music", "megalovania.ogg", true),
             ("hold_your_ground", "Music", "hold_your_ground.ogg", true),
             ("jelly_junktion", "Music", "jelly_junktion.ogg", true),
-            ("photophobia", "Music", "photophobia.ogg", true)
+            ("photophobia", "Music", "photophobia.ogg", true),
+            ("fallenstar", "Sound", "star.ogg", false)
         };
 
         /// <summary>

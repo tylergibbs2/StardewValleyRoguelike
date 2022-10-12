@@ -42,7 +42,7 @@ namespace StardewRoguelike.Patches
     [HarmonyPatch(typeof(BaseEnchantment), "GetAvailableEnchantments")]
     internal class GetAvailableEnchantmentsPatch
     {
-        private static List<BaseEnchantment> _enchantments = new();
+        private readonly static List<BaseEnchantment> _enchantments = new();
 
         public static bool Prefix(ref List<BaseEnchantment> __result)
         {
@@ -53,6 +53,7 @@ namespace StardewRoguelike.Patches
                 _enchantments.Add(new CrusaderEnchantment());
                 _enchantments.Add(new CustomBugKillerEnchantment());
                 _enchantments.Add(new SlimeKillerEnchantment());
+                _enchantments.Add(new StarShooterEnchantment());
             }
 
             __result = _enchantments;
