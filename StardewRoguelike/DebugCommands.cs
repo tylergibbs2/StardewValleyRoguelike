@@ -14,6 +14,8 @@ using StardewValley.Menus;
 using StardewModdingAPI.Events;
 using StardewRoguelike.Extensions;
 using StardewValley.TerrainFeatures;
+using System.Linq;
+using System.IO;
 
 namespace StardewRoguelike
 {
@@ -273,6 +275,9 @@ namespace StardewRoguelike
                     }
                     mine.resourceClumps.Add(new ResourceClump(whichClump, 2, 2, Game1.currentCursorTile));
                     break;
+                case "exportmap":
+                    ExportMap();
+                    break;
                 default:
                     ModEntry.ModMonitor.Log("Invalid command.", LogLevel.Error);
                     break;
@@ -317,6 +322,7 @@ namespace StardewRoguelike
             help.AppendLine("skills : displays the player's luck and speed skills");
             help.AppendLine("food : displays active food and drink buffs");
             help.AppendLine("boulder : spawns a resource clump (boulder/log) at cursor tile");
+            help.AppendLine("exportmap : exports the current location to a tmx file");
 
             ModEntry.ModMonitor.Log(help.ToString(), LogLevel.Info);
         }
@@ -352,6 +358,33 @@ namespace StardewRoguelike
 
             NetVector2Dictionary<bool, NetBool> createLadderEvent = (NetVector2Dictionary<bool, NetBool>)mine.GetType().GetField("createLadderAtEvent", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mine);
             createLadderEvent[new Vector2(x, y)] = true;
+        }
+
+        public static void ExportMap()
+        {
+            xTile.Map map = Game1.player.currentLocation.Map;
+
+            TMXTile.TMXFormat Format = new(Game1.tileSize / Game1.pixelZoom, Game1.tileSize / Game1.pixelZoom, Game1.pixelZoom, Game1.pixelZoom);
+            TMXTile.TMXMap tmxMap = Format.Store(map);
+
+            foreach (var objectGroup in tmxMap.Objectgroups)
+            {
+                for (int i = 0; i < objectGroup.Objects.Count; i++)
+                {
+                    var tmxObject = objectGroup.Objects[i];
+                    tmxObject.Properties = tmxObject.Properties.Skip(2).ToArray();
+                    if (tmxObject.Properties.Length == 0)
+                        objectGroup.Objects[i] = null;
+                }
+            }
+
+            foreach (var tileset in tmxMap.Tilesets)
+                tileset.Image.Source = Path.GetFileName(tileset.Image.Source);
+
+            var parser = new TMXTile.TMXParser();
+            parser.Export(tmxMap, "_map.tmx", TMXTile.DataEncodingType.XML);
+
+            Console.WriteLine("Map successfully exported.");
         }
     }
 }
